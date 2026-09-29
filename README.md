@@ -115,7 +115,8 @@ URL : `/blog/AAAA/MM/<titre>/`.
 ### Brouillons
 
 `published: false` dans le front matter : le contenu n'est pas publié mais reste visible
-avec `--unpublished`. Les contenus d'exemple du dépôt sont dans cet état.
+avec `--unpublished`. Les skills `nouveau-post`, `nouveau-log` et `nouveau-projet` créent leurs
+fichiers dans cet état.
 
 ## Langues
 
