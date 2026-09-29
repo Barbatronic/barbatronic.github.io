@@ -1,9 +1,8 @@
 ---
-# Fiche remplie à partir des dépôts GitHub. Relire, puis passer published à true.
-published: false
+published: true
 title: "Robot RC"
 code: P-05
-description: "Robot radiocommandé : structure imprimée en 3D et carte d'interprétation iBus."
+description: "Robot radiocommandé : structure en profilé 2020, carters imprimés en 3D et carte d'interprétation iBus."
 status: en-cours
 updated: 2026-09-18   # tri de /projets/ : dernier commit
 tags: [robotique, electronique, impression-3d]

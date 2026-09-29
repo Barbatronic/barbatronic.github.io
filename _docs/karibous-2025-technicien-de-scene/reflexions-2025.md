@@ -1,6 +1,5 @@
 ---
-# Repris du site des Karibous (leskaribous.fr/docs/2025/visionBoard). Notes de travail : relire, puis passer published à true.
-published: false
+published: true
 title: "Réflexions et idées 2025"
 project: karibous-2025-technicien-de-scene
 order: 2

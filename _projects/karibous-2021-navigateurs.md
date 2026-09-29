@@ -1,6 +1,5 @@
 ---
-# Fiche remplie à partir du site des Karibous (leskaribous.fr/robots/). Relire, puis passer published à true.
-published: false
+published: true
 title: "Les Navigateurs"
 code: P-20
 description: "Robots des Karibous pour la Coupe de France de Robotique 2021, dont le premier robot holonome de l'équipe."
@@ -10,7 +9,7 @@ tags: [robotique, karibous]
 stack: []
 featured: false
 featured_order: 99
-repo: "https://github.com/LesKaribous/Karibous-2021"
+repo: ""
 image: "/assets/img/projets/karibous-2021-navigateurs/cover.jpg"
 image_caption: "Les Navigateurs, 2021"
 links:

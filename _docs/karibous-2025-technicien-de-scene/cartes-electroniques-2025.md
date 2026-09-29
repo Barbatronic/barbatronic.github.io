@@ -1,6 +1,5 @@
 ---
-# Repris de la doc du site des Karibous (leskaribous.fr, docs/2025/pcb). Relire, puis passer published à true.
-published: false
+published: true
 title: "Robot 2025 : cartes électroniques"
 project: karibous-2025-technicien-de-scene
 order: 1

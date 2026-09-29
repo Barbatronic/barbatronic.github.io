@@ -145,7 +145,7 @@ J'ai mesuré le carton au mètre ruban, à l'extérieur : il fait environ 32 cm 
 
 | Source                                   | Dimensions          | Écart avec l'élément de jeu |
 |------------------------------------------|---------------------|-----------------------------|
-| Élément de jeu attendu                   | 32 × 11 × 11 cm     | –                           |
+| Élément de jeu attendu                   | 32 × 11 × 11 cm     | -                           |
 | Annonce du lien d'achat                  | 30 × 10 × 10 cm     | −2 × −1 × −1 cm             |
 | Marquage du carton (Raja BLFA01)         | 31 × 10,5 × 10,5 cm | −1 × −0,5 × −0,5 cm         |
 | Mesure au mètre (dimensions extérieures) | environ 32 × 11 cm  | environ 0 cm                |

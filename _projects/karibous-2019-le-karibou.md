@@ -1,6 +1,5 @@
 ---
-# Fiche remplie à partir du site des Karibous (leskaribous.fr/robots/). Relire, puis passer published à true.
-published: false
+published: true
 title: "Le Karibou"
 code: P-19
 description: "Premier robot de combat des Karibous, vainqueur de la saison 2019 de la MakerFight."

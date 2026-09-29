@@ -1,6 +1,5 @@
 ---
-# Fiche remplie à partir du site des Karibous (leskaribous.fr/robots/). Relire, puis passer published à true.
-published: false
+published: true
 title: "Le mini Karibou"
 code: P-22
 description: "Robot de combat ultra léger de 6 kg, MakerFight 2022."
@@ -21,4 +20,4 @@ Robot de combat ultra léger de 6 kg, pour tester l'électronique et un nouveau 
 
 | Compétition | Résultat |
 |---|---|
-| MakerFight 2022 | 11e, phases finales |
+| MakerFight 2022 | quarts de finale |

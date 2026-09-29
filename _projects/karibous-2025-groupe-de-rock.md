@@ -1,6 +1,5 @@
 ---
-# Fiche remplie à partir du site des Karibous (leskaribous.fr/robots/). Relire, puis passer published à true.
-published: false
+published: true
 title: "Le groupe de rock"
 code: P-27
 description: "PAMI des Karibous pour 2025, dont la superstar qui avance sur la scène."

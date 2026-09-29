@@ -1,12 +1,11 @@
 ---
-# Fiche remplie à partir des dépôts GitHub. Relire, puis passer published à true.
-published: false
+published: true
 title: "Multi-flux ZEVENT"
 code: P-15
 description: "Une page pour regarder plusieurs chaînes Twitch du ZEVENT en même temps."
-status: open-source
+status: termine
 updated: 2026-09-05   # tri de /projets/ : dernier commit
-tags: [logiciel, open-source]
+tags: [logiciel]
 stack: [HTML, JavaScript]
 featured: false
 featured_order: 99

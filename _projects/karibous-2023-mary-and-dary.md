@@ -1,6 +1,5 @@
 ---
-# Fiche remplie à partir du site des Karibous (leskaribous.fr/robots/). Relire, puis passer published à true.
-published: false
+published: true
 title: "Mary and Dary"
 code: P-23
 description: "Deux robots holonomes quasi identiques pour la Coupe de France de Robotique 2023."
@@ -54,6 +53,7 @@ Le récit complet des matchs est sur [leskaribous.fr](https://leskaribous.fr/pos
 
 ![Un des robots]({{ '/assets/img/projets/karibous-2023-mary-and-dary/cdr-2023-14.jpg' | relative_url }})
 
-![Les deux robots]({{ '/assets/img/projets/karibous-2023-mary-and-dary/cdr-2023-16.jpg' | relative_url }})
+![Un des robots et le panier à cerises]({{ '/assets/img/projets/karibous-2023-mary-and-dary/cdr-2023-16.jpg' | relative_url }})
 
-![Robot de profil]({{ '/assets/img/projets/karibous-2023-mary-and-dary/cdr-2023-20.jpg' | relative_url }})
+![Le panier à cerises des Karibous]({{ '/assets/img/projets/karibous-2023-mary-and-dary/cdr-2023-20.jpg' | relative_url }})
+*Photo : Coupe de France de Robotique.*

@@ -1,6 +1,5 @@
 ---
-# Repris du site des Karibous (leskaribous.fr/docs/2023/robot-base). Relire, puis passer published à true.
-published: false
+published: true
 title: "Base des robots holonomes"
 project: karibous-2023-mary-and-dary
 order: 1
@@ -76,7 +75,7 @@ Le moteur que nous avons choisi pour nos robots est le même que celui que nous 
 **Spécification physique**
 
 - Dimensions: 57 x 57mm
-- Longueur du moteur: 42mm
+- Longueur du moteur: 41mm
 - Diamètre d'arbre: Φ6.35mm
 - Longueur de l'arbre: 20.6mm
 - Poids: 500g

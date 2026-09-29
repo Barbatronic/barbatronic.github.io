@@ -1,6 +1,5 @@
 ---
-# Fiche remplie à partir des dépôts GitHub. Relire, puis passer published à true.
-published: false
+published: true
 title: "Robot différentiel 2026"
 code: P-07
 description: "Robot différentiel des Karibous pour la Coupe de France de Robotique 2026, sur ESP32-S3."

@@ -1,6 +1,5 @@
 ---
-# Fiche remplie à partir du site des Karibous (leskaribous.fr/robots/). Relire, puis passer published à true.
-published: false
+published: true
 title: "Les Jumeaux Archéologues"
 code: P-21
 description: "Deux robots holonomes à bras à ventouses pour la Coupe de France de Robotique 2022."
@@ -29,6 +28,4 @@ La base holonome conçue cette année a été reprise et améliorée en 2023 (vo
 
 ![Les deux robots]({{ '/assets/img/projets/karibous-2022-jumeaux-archeologues/cdr-2022-23.jpg' | relative_url }})
 
-![Un des robots en match]({{ '/assets/img/projets/karibous-2022-jumeaux-archeologues/cdr-2022-15.jpg' | relative_url }})
-
-![Bras à ventouses]({{ '/assets/img/projets/karibous-2022-jumeaux-archeologues/cdr-2022-19.jpg' | relative_url }})
+![Les deux robots sur la table de jeu, Coupe de France 2022]({{ '/assets/img/projets/karibous-2022-jumeaux-archeologues/cdr-2022-15.jpg' | relative_url }})

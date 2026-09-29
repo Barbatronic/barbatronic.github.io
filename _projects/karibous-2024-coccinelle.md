@@ -1,6 +1,5 @@
 ---
-# Fiche remplie à partir du site des Karibous (leskaribous.fr/robots/). Relire, puis passer published à true.
-published: false
+published: true
 title: "La Coccinelle"
 code: P-25
 description: "PAMI des Karibous pour la Coupe de France de Robotique 2024."
@@ -24,4 +23,4 @@ Ensemble de petits robots autonomes (PAMI). Ils sont programmés pour rejoindre 
 | Coupe de Belgique 2024 | 2e des équipes invitées |
 | Coupe de France de Robotique 2024 | 5e de la catégorie Légendes, 9e au général |
 
-![Le Jardinier et un PAMI]({{ '/assets/img/projets/karibous-2024-coccinelle/cdr-2024-18.jpg' | relative_url }})
+![Le Jardinier et trois PAMI]({{ '/assets/img/projets/karibous-2024-coccinelle/cdr-2024-21.jpg' | relative_url }})

@@ -1,18 +1,17 @@
 ---
-# Fiche remplie à partir du site des Karibous (leskaribous.fr/robots/). Relire, puis passer published à true.
-published: false
+published: true
 title: "Le Technicien de scène"
 code: P-26
 description: "Robot holonome des Karibous pour 2025 : 2e en Belgique, 2e des Légendes à la Coupe de France."
 status: termine
 updated: 2025-05-31   # tri de /projets/ : fin de la Coupe de France 2025
 tags: [robotique, electronique, karibous]
-stack: [Teensy, SparkFun OTOS, LD06]
+stack: [Teensy, SparkFun OTOS, lidar]
 featured: false
 featured_order: 99
 repo: "https://github.com/LesKaribous/Karibous-2025-Hardware"
 image: "/assets/img/projets/karibous-2025-technicien-de-scene/cover.jpg"
-image_caption: "Le Technicien de scène, 2025"
+image_caption: "Le Technicien de scène, 2025. Photo : Pixi"
 links:
   - { label: "Les Karibous", url: "https://leskaribous.fr/robots/" }
 ---
@@ -32,7 +31,4 @@ J'en ai tiré une note d'humeur : [Ce n'était pas une année à holonome](https
 Documentation : cartes électroniques et réflexions de conception, dans la documentation du projet.
 
 ![Le Technicien de scène et les PAMI]({{ '/assets/img/projets/karibous-2025-technicien-de-scene/cdr-2025-4.jpg' | relative_url }})
-*Photo : Pixi.*
-
-![Le Technicien de scène]({{ '/assets/img/projets/karibous-2025-technicien-de-scene/cdr-2025-5.jpg' | relative_url }})
 *Photo : Pixi.*

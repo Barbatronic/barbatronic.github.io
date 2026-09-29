@@ -1,6 +1,5 @@
 ---
-# Fiche remplie à partir des dépôts GitHub. Relire, puis passer published à true.
-published: false
+published: true
 title: "KiCad Toolkit"
 code: P-09
 description: "Mes librairies, blocs de conception et réglages KiCad, installables depuis le gestionnaire de contenu de KiCad."

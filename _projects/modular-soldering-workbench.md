@@ -1,6 +1,5 @@
 ---
-# Fiche remplie à partir des dépôts GitHub. Relire, puis passer published à true.
-published: false
+published: true
 title: "Poste de soudure modulaire"
 code: P-12
 description: "Poste de soudure modulaire pour l'assemblage de cartes électroniques."

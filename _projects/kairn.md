@@ -1,6 +1,5 @@
 ---
-# Fiche remplie à partir des dépôts GitHub. Relire, puis passer published à true.
-published: false
+published: true
 title: "Kairn"
 code: P-16
 description: "Application de suivi sportif open source, locale : pas de compte, pas de télémétrie."

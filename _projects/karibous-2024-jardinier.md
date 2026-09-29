@@ -1,6 +1,5 @@
 ---
-# Fiche remplie à partir du site des Karibous (leskaribous.fr/robots/). Relire, puis passer published à true.
-published: false
+published: true
 title: "Le Jardinier"
 code: P-24
 description: "Robot holonome des Karibous pour la Coupe de France de Robotique 2024 : 9e au général."
@@ -19,7 +18,7 @@ links:
 
 Robot holonome sur une architecture proche des trois années précédentes. Il ramasse les éléments de jeu et fait tourner les panneaux solaires. Il joue avec les PAMI de la même saison (voir La Coccinelle).
 
-Stratégie, quasiment identique sur toutes les séries : prendre le lot de 6 plantes, les déposer dans des zones pour les PAMI, puis faire tourner les panneaux solaires.
+Stratégie à la Coupe de Belgique, quasiment identique sur toutes les séries : prendre le lot de 6 plantes, les déposer dans des zones pour les PAMI, puis faire tourner les panneaux solaires.
 
 Malgré une vitesse faible, le robot termine 9e au général de la Coupe de France : un robot fiable et répétable a ses chances. Après trois saisons, cette base a été remise à plat pour 2025.
 

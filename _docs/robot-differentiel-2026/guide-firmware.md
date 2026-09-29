@@ -1,6 +1,5 @@
 ---
-# Repris de Differential-Robot-Firmware/doc/guide.md. Relire, puis passer published à true.
-published: false
+published: true
 title: "Guide d'utilisation du firmware"
 project: robot-differentiel-2026
 order: 1
@@ -39,22 +38,22 @@ Firmware pour robot différentiel de compétition (Coupe de France de Robotique)
 
 ```c
 // Roues motrices
-#define DRIVE_WHEEL_DIAM_MM      57.7f   // diamètre réel (pied à coulisse)
-#define WHEELBASE_MM            148.5f   // distance entre roues motrices
+#define DRIVE_WHEEL_DIAM_MM      57.53f  // diamètre réel (pied à coulisse)
+#define WHEELBASE_MM            145.6f   // distance entre roues motrices
 
 // Roues codeuses (passives, séparées des motrices : pour test et calibration)
-#define ENC_WHEEL_DIAM_MM        50.0f
+#define ENC_WHEEL_DIAM_MM        50.58f
 #define ENC_WHEELBASE_MM        189.0f   // distance entre roues codeuses
 
 // Dimensions robot
 #define ROBOT_BACK_TO_CENTER_MM  80.9f   // arrière → axe des roues
 
 // Vitesse et accélération
-#define DEFAULT_SPEED_MMS       400.0f   // mm/s
-#define DEFAULT_ACCEL_MMS2      200.0f   // mm/s²
+#define DEFAULT_SPEED_MMS       2000.0f   // mm/s
+#define DEFAULT_ACCEL_MMS2      1500.0f   // mm/s²
 
 // Détection adversaire
-#define OBS_DETECT_DIST_MM      400.0f   // mm
+#define OBS_DETECT_DIST_MM      500.0f   // mm
 
 // Zones aveugles LIDAR (poteaux structurels du robot)
 #define LIDAR_BLIND_L_START      75.0f   // début zone gauche (°, repère robot)
@@ -64,7 +63,7 @@ Firmware pour robot différentiel de compétition (Coupe de France de Robotique)
 
 // Chrono de match
 #define MATCH_DURATION_MS      100000UL  // 100 s
-#define MATCH_ENDGAME_MS        80000UL  // repli à 80 s
+#define MATCH_ENDGAME_MS        85000UL  // repli à 85 s
 ```
 
 ### 2. Flasher et démarrer
@@ -100,8 +99,8 @@ Le **switch d'équipe** peut être changé à tout moment avant l'étape 1.
 
 | Temps | Comportement |
 |---|---|
-| 0 → 80 s | Stratégie normale |
-| 80 s | `go()`/`turn()` s'arrêtent → `runNearEndYellow/Blue()` lancé |
+| 0 → 85 s | Stratégie normale |
+| 85 s | `go()`/`turn()` s'arrêtent → `runNearEndYellow/Blue()` lancé |
 | 100 s | Moteurs et actionneurs désengagés |
 
 ---
@@ -187,7 +186,7 @@ deposeStock(robot, 200, 600, 180); // navigue, ouvre gripper, recule, ferme
 
 // Constantes géométriques (config.h) :
 // STOCK_TOOL_OFFSET_MM  = 210mm  (centre robot → centre stock en prise)
-// STOCK_STAGING_MM      = 150mm  (recul avant approche finale)
+// STOCK_STAGING_MM      = 120mm  (recul avant approche finale)
 // STOCK_DEPOSE_OFFSET_MM= 180mm  (centre robot → centre stock en dépose)
 ```
 
@@ -339,7 +338,7 @@ Calibrer en observant les points des poteaux sur Teleplot pendant WAIT_INIT.
 | `strategy` | 1 | 2 | Pré-match + match + chrono + actionneurs |
 | `motion` | 1 | 3 | **taskMotionControl 50 Hz** : PID continu, exécute Target |
 | `display` | 1 | 1 | Rafraîchissement OLED 2 Hz |
-| `LogServer` | 1 | 1 | Broadcast WebSocket (pose, lidar, motion, etc.) |
+| `logwifi` | 0 | 1 | Broadcast WebSocket (pose, lidar, motion, etc.) |
 | `loop()` | 1 | - | LEDs 100ms · WiFi telemetry 200ms · Field click poll · Log match 500ms |
 
 ---

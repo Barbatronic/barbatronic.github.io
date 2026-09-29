@@ -1,6 +1,5 @@
 ---
-# Fiche remplie à partir des dépôts GitHub. Relire, puis passer published à true.
-published: false
+published: true
 title: "CollectIO"
 code: P-17
 description: "Catalogue personnel de films, BD et mangas : scan de codes-barres, métadonnées automatiques, export."

@@ -1,6 +1,5 @@
 ---
-# Fiche remplie à partir du site des Karibous (leskaribous.fr/robots/). Relire, puis passer published à true.
-published: false
+published: true
 title: "Les Jumeaux Chimistes"
 code: P-18
 description: "Deux robots quasi identiques des Karibous pour la Coupe de France de Robotique 2019."
@@ -19,7 +18,7 @@ links:
 ---
 
 Deux robots quasiment identiques : code, structure et électronique communs. Seuls les actionneurs sont spécialisés et les différencient.
-Ce choix a accéléré le développement, et les bases ont été réutilisées directement les années suivantes.
+Ce choix a accéléré le développement, et les bases étaient directement réutilisables pour les années suivantes.
 
 | Compétition | Résultat |
 |---|---|

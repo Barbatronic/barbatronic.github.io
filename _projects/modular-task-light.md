@@ -1,12 +1,11 @@
 ---
-# Fiche remplie à partir des dépôts GitHub. Relire, puis passer published à true.
-published: false
+published: true
 title: "Modular Task Light"
 code: P-10
 description: "Lampe d'atelier articulée et modulaire, montée sur profilé aluminium 2020."
-status: open-source
+status: termine
 updated: 2025-12-29   # tri de /projets/ : dernier commit
-tags: [atelier, impression-3d, open-source]
+tags: [atelier, impression-3d]
 stack: [FreeCAD, impression 3D]
 featured: false
 featured_order: 99

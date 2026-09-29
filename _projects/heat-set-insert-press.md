@@ -1,6 +1,5 @@
 ---
-# Fiche remplie à partir des dépôts GitHub. Relire, puis passer published à true.
-published: false
+published: true
 title: "Presse à inserts"
 code: P-11
 description: "Presse pour poser des inserts filetés à chaud dans les pièces imprimées en 3D."
