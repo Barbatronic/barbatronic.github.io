@@ -1,0 +1,57 @@
+---
+layout: default
+---
+{%- comment -%}
+  Accueil. Front matter attendu dans la page (index.html, en/index.html) :
+    hero_lines : lignes du grand titre
+    intro      : phrase sous le titre
+  Projets à la une : `featured: true` dans le projet, triés par `featured_order`, 3 max.
+{%- endcomment -%}
+{%- include i18n/init.html -%}
+{%- assign logo = site.static_files | where: "path", "/assets/img/logo.png" | first -%}
+
+<section class="hero-grid">
+  <div class="hero-main">
+    <p class="mono kicker">{{ t.hero_kicker }}</p>
+    <h1 class="display">{% for line in page.hero_lines %}{{ line }}{% unless forloop.last %}<br>{% endunless %}{% endfor %}</h1>
+    <div class="hero-actions">
+      <a class="btn is-dark" href="{{ t.nav[0].url | relative_url }}">{{ t.cta_projects | upcase }} &rarr;</a>
+      <a class="btn" href="{{ t.nav[3].url | relative_url }}#services">{{ t.cta_contact | upcase }}</a>
+      <p class="hero-intro">{{ page.intro }}</p>
+    </div>
+  </div>
+  <figure class="hero-figure">
+    <div class="figure-box{% unless logo %} is-placeholder{% endunless %}">
+      {%- if logo %}<img src="{{ logo.path | relative_url }}" alt="{{ site.title }}">{% endif -%}
+    </div>
+    <figcaption class="mono"><span>FIG. 01</span><span>ÉCH. 1:1</span></figcaption>
+  </figure>
+</section>
+
+{%- assign projects_url = t.nav[0].url -%}
+{%- include i18n/items.html type="projects" -%}
+{%- assign all_projects = items -%}
+{%- assign featured = items | where: "featured", true | sort: "featured_order" -%}
+<section class="block">
+  {%- capture _all_label %}{{ t.all_projects }} ({{ all_projects | size }}){% endcapture -%}
+  {%- include section-title.html num="01" title=t.featured link_url=projects_url link_label=_all_label -%}
+  <div class="featured-grid">
+    {%- for p in featured limit: 1 -%}{%- include project-card.html p=p variant="large" -%}{%- endfor -%}
+    <div class="featured-side">
+      {%- for p in featured offset: 1 limit: 2 -%}{%- include project-card.html p=p variant="row" -%}{%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{%- include i18n/items.html type="posts" -%}{%- assign _posts = items -%}
+{%- include i18n/items.html type="logs" -%}{%- assign _logs = items -%}
+{%- include i18n/items.html type="docs" -%}{%- assign _docs = items -%}
+{%- assign activity = _posts | concat: _logs | concat: _docs | sort: "date" | reverse -%}
+<section class="block has-border-top">
+  {%- include section-title.html num="02" title=t.activity -%}
+  <div class="feed">
+    {%- for item in activity limit: 6 -%}{%- include feed-row.html item=item -%}{%- else -%}<p class="mono">{{ t.nothing_yet }}</p>{%- endfor -%}
+  </div>
+</section>
+
+{%- include services-band.html -%}

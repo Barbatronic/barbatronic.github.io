@@ -1,0 +1,35 @@
+{%- comment -%}
+  Liste localisée d'une famille de contenus, avec repli sur la langue par défaut.
+  Paramètres :
+    type     projects | logs | docs | posts
+    project  (optionnel) slug de projet pour filtrer logs et docs
+  Sortie :
+    items    contenus dans `lang` + contenus de la langue par défaut non traduits.
+             Un élément de repli se reconnaît à `item.lang != lang`.
+  Clé de correspondance entre langues : "<project>/<slug>" (slug = nom du fichier).
+  Nécessite i18n/init.html.
+{%- endcomment -%}
+{%- if include.type == "posts" -%}
+  {%- assign _primary = site.posts | where: "lang", lang -%}
+  {%- assign _fallback = site.posts | where: "lang", site.default_lang -%}
+{%- else -%}
+  {%- assign _cname = include.type | append: sfx -%}
+  {%- assign _primary = site[_cname] -%}
+  {%- assign _fallback = site[include.type] -%}
+{%- endif -%}
+{%- if include.project -%}
+  {%- assign _primary = _primary | where: "project", include.project -%}
+  {%- assign _fallback = _fallback | where: "project", include.project -%}
+{%- endif -%}
+{%- assign items = _primary -%}
+{%- if lang != site.default_lang -%}
+  {%- assign _keys = "" | split: "" -%}
+  {%- for _i in _primary -%}
+    {%- assign _k = _i.project | append: "/" | append: _i.slug -%}
+    {%- assign _keys = _keys | push: _k -%}
+  {%- endfor -%}
+  {%- for _i in _fallback -%}
+    {%- assign _k = _i.project | append: "/" | append: _i.slug -%}
+    {%- unless _keys contains _k -%}{%- assign items = items | push: _i -%}{%- endunless -%}
+  {%- endfor -%}
+{%- endif -%}

@@ -1,0 +1,6 @@
+# Liens du pied de page et de la page À propos. `handle` est affiché sur la page À propos.
+- { name: GitHub, url: "https://github.com/Barbatronic", handle: Barbatronic }
+- { name: YouTube, url: "https://www.youtube.com/c/BarbatronicLive", handle: BarbatronicLive }
+- { name: Twitch, url: "https://www.twitch.tv/barbatroniclive", handle: barbatroniclive }
+- { name: Bluesky, url: "https://bsky.app/profile/barbatronic.bsky.social", handle: "@barbatronic.bsky.social" }
+- { name: Mastodon, url: "https://piaille.fr/@barbatronic", handle: "@barbatronic@piaille.fr" }

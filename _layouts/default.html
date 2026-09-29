@@ -1,0 +1,18 @@
+<!doctype html>
+{%- include i18n/init.html -%}
+{%- include i18n/translation.html -%}
+<html lang="{{ lang }}">
+<head>
+  {%- include head.html -%}
+</head>
+<body data-lang="{{ lang }}" data-has-translation="{% if translation %}true{% else %}false{% endif %}">
+  <a class="skip-link" href="#main">{{ t.skip }}</a>
+  {%- include header.html -%}
+  {%- include untranslated-banner.html -%}
+  <main id="main">
+    {{ content }}
+  </main>
+  {%- include footer.html -%}
+  <script src="{{ '/assets/js/main.js' | relative_url }}" defer></script>
+</body>
+</html>

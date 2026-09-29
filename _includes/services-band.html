@@ -1,0 +1,28 @@
+{%- comment -%}
+  Bandeau noir "Travaillons ensemble" (données : _data/services.yml).
+  Paramètre : full (true sur la page À propos : pas de bouton "En savoir plus", bouton contact).
+  Les libellés passent par `escape` : ce sont des textes bruts, ils peuvent contenir & ou <.
+{%- endcomment -%}
+{%- assign about_url = t.nav[3].url -%}
+<section class="band-dark" id="services">
+  <div class="band-head">
+    {%- include section-title.html num="03" title=t.work_together -%}
+    {%- if include.full -%}
+    {%- assign _mail = site.data.contact.email | strip -%}
+    {%- if _mail != "" -%}
+    <a class="btn is-light" href="mailto:{{ _mail }}">{{ t.cta_contact | upcase }} &rarr;</a>
+    {%- endif -%}
+    {%- else -%}
+    <a class="btn is-light" href="{{ about_url | relative_url }}#services">{{ t.cta_more | upcase }} &rarr;</a>
+    {%- endif -%}
+  </div>
+  <div class="services">
+    {%- for s in site.data.services -%}
+    <div class="service">
+      <span class="mono">{{ s.id }}</span>
+      <h3>{{ s[lang].title | escape }}</h3>
+      <p>{{ s[lang].text | escape }}</p>
+    </div>
+    {%- endfor -%}
+  </div>
+</section>

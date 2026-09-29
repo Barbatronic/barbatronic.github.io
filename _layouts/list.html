@@ -1,0 +1,32 @@
+---
+layout: default
+---
+{%- comment -%}
+  Index chronologique (blog ou journaux). Front matter de la page :
+    list_type : posts | logs
+    title     : titre affiché
+{%- endcomment -%}
+{%- include i18n/init.html -%}
+{%- include i18n/items.html type=page.list_type -%}
+{%- assign entries = items | sort: "date" | reverse -%}
+
+<section class="page-head">
+  <div class="page-head-row">
+    <h1 class="display">{{ page.title }}</h1>
+    <span class="mono">{{ entries | size }}</span>
+  </div>
+  {%- assign _intro = content | strip -%}
+  {%- if _intro != "" %}<div class="lead">{{ content }}</div>{% endif %}
+</section>
+
+<section class="block">
+  {%- assign by_year = entries | group_by_exp: "e", "e.date | date: '%Y'" -%}
+  {%- for y in by_year -%}
+  <h2 class="year mono">{{ y.name }}</h2>
+  <div class="feed">
+    {%- for item in y.items -%}{%- include feed-row.html item=item -%}{%- endfor -%}
+  </div>
+  {%- else -%}
+  <p class="mono muted">{{ t.nothing_yet }}</p>
+  {%- endfor -%}
+</section>

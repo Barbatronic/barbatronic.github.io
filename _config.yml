@@ -1,0 +1,90 @@
+# Configuration Jekyll du site Barbatronic.
+# Build : GitHub Pages natif (gem github-pages, Jekyll 3.10). Pas de plugin hors liste blanche.
+# Toute modification de ce fichier impose de relancer `bundle exec jekyll serve`.
+
+title: Barbatronic
+description: >-
+  Robotique, impression 3D et prototypage rapide. Projets, journaux de bord et articles d'Adrien Bracq.
+url: "https://barbatronic.fr"
+baseurl: ""
+timezone: Europe/Paris
+
+author:
+  name: Adrien Bracq
+  twitter: ""
+
+# Langues. La première est la langue par défaut (URL sans préfixe).
+# L'anglais vit sous /en/. Libellés d'interface : _data/i18n.yml.
+default_lang: fr
+languages: [fr, en]
+
+# Une collection par langue : le suffixe _en porte la version anglaise.
+# Un contenu et sa traduction partagent le même nom de fichier (même slug)
+# et, pour les logs et docs, le même champ `project`.
+collections:
+  projects:
+    output: true
+    permalink: /projets/:path/
+  projects_en:
+    output: true
+    permalink: /en/projects/:path/
+  logs:
+    output: true
+    permalink: /logs/:path/
+  logs_en:
+    output: true
+    permalink: /en/logs/:path/
+  docs:
+    output: true
+    permalink: /projets/:path/
+  docs_en:
+    output: true
+    permalink: /en/projects/:path/
+
+defaults:
+  - scope: { path: "" }
+    values: { lang: fr, layout: page }
+  - scope: { path: "en" }
+    values: { lang: en }
+  - scope: { path: "", type: posts }
+    values: { layout: post, lang: fr, permalink: "/blog/:year/:month/:title/" }
+  - scope: { path: "_posts/en", type: posts }
+    values: { lang: en, permalink: "/en/blog/:year/:month/:title/" }
+  - scope: { path: "", type: projects }
+    values: { layout: project, lang: fr }
+  - scope: { path: "", type: projects_en }
+    values: { layout: project, lang: en }
+  - scope: { path: "", type: logs }
+    values: { layout: log, lang: fr }
+  - scope: { path: "", type: logs_en }
+    values: { layout: log, lang: en }
+  - scope: { path: "", type: docs }
+    values: { layout: doc, lang: fr }
+  - scope: { path: "", type: docs_en }
+    values: { layout: doc, lang: en }
+
+plugins:
+  - jekyll-seo-tag
+  - jekyll-feed
+  - jekyll-sitemap
+
+feed:
+  path: /feed.xml
+
+sass:
+  style: compressed
+
+markdown: kramdown
+kramdown:
+  input: GFM
+  hard_wrap: false
+
+# Les fichiers et dossiers commençant par "." ou "_" sont déjà ignorés (dont .claude/).
+# Tout ce qui n'est pas exclu ici est publié tel quel : ne rien laisser de privé à la racine.
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - vendor/
+  - node_modules/
+  - Claude outputs/

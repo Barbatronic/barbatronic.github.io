@@ -1,0 +1,63 @@
+---
+layout: default
+---
+{%- comment -%}
+  Entrée de journal de bord. Numéro (L01, L02...) calculé par date dans le projet.
+  Front matter : title, date, project (obligatoires) ; session, state, next_step (optionnels).
+{%- endcomment -%}
+{%- include i18n/init.html -%}
+{%- include log-number.html item=page -%}
+{%- assign _pc = "projects" | append: sfx -%}
+{%- assign project = site[_pc] | where: "slug", page.project | first -%}
+{%- unless project -%}{%- assign project = site.projects | where: "slug", page.project | first -%}{%- endunless -%}
+{%- include i18n/items.html type="logs" project=page.project -%}{%- assign siblings = items | sort: "date" -%}
+
+<section class="split-head">
+  <div class="split-main">
+    <p class="mono"><a href="{{ project.url | relative_url }}">{{ project.code }} {{ project.title | upcase }}</a> / {{ t.logbook | upcase }} / {{ log_code }}</p>
+    <h1 class="display is-medium" data-scroll-title>{{ log_code }} &middot; {{ page.title }}</h1>
+  </div>
+  <aside class="meta-table mono">
+    <div><span>{{ t.project | upcase }}</span><a href="{{ project.url | relative_url }}"><b>{{ project.code }} &rarr;</b></a></div>
+    <div><span>{{ t.entry | upcase }}</span><span>{{ log_num }} / {{ log_total }}</span></div>
+    <div><span>{{ t.date | upcase }}</span><span>{{ page.date | date: "%d/%m/%Y" }}</span></div>
+    {%- if page.session and page.session != "" %}<div><span>SESSION</span><span>{{ page.session | upcase }}</span></div>{% endif %}
+    {%- if page.state and page.state != "" %}<div><span>{{ t.status | upcase }}</span><b>{{ page.state | upcase }}</b></div>{% endif %}
+  </aside>
+</section>
+
+<section class="with-aside">
+  <article class="content prose">{{ content }}</article>
+  <aside class="side">
+    {%- if page.next_step and page.next_step != "" -%}
+    <div class="side-block">
+      <p class="mono side-title">{{ t.next_step | upcase }}</p>
+      <p>{{ page.next_step }}</p>
+    </div>
+    {%- endif -%}
+    <div class="side-block">
+      <p class="mono side-title">{{ t.logbook | upcase }} {{ project.code }}</p>
+      {%- for l in siblings -%}
+      {%- include log-number.html item=l -%}
+      {%- if l.slug == page.slug -%}
+      <span class="side-row is-current"><span class="mono">{{ log_code }}</span>{{ l.title }}</span>
+      {%- else -%}
+      <a class="side-row" href="{{ l.url | relative_url }}"><span class="mono">{{ log_code }}</span>{{ l.title }}</a>
+      {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </aside>
+</section>
+
+{%- comment -%} Précédent / suivant : recalcul pour la page courante (la boucle ci-dessus a écrasé les variables). {%- endcomment -%}
+{%- include log-number.html item=page -%}
+{%- include i18n/localize.html item=log_prev -%}{%- assign prev = localized -%}
+{%- include i18n/localize.html item=log_next -%}{%- assign next = localized -%}
+<nav class="pager mono" aria-label="{{ t.previous }} / {{ t.next }}">
+  {%- if prev -%}
+  <a href="{{ prev.url | relative_url }}"><span>&larr; {{ t.previous | upcase }}</span><b>{{ prev.title }}</b></a>
+  {%- else -%}<span class="is-disabled"></span>{%- endif -%}
+  {%- if next -%}
+  <a class="is-next" href="{{ next.url | relative_url }}"><span>{{ t.next | upcase }} &rarr;</span><b>{{ next.title }}</b></a>
+  {%- else -%}<span class="is-next is-disabled"><span>{{ t.next | upcase }} &rarr;</span><b>{{ t.last_entry }}</b></span>{%- endif -%}
+</nav>

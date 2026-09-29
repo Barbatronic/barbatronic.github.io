@@ -1,0 +1,44 @@
+---
+# Front matter vide obligatoire : Jekyll compile ce fichier en /assets/css/main.css.
+---
+// Point d'entrée CSS.
+// 1. Variables Bulma (Sass) surchargées pour coller au style "technique".
+// 2. Modules Bulma 0.9.4 utiles uniquement (vendorisés dans _sass/vendor/bulma).
+// 3. Styles du site (_sass/barbatronic), basés sur les variables CSS de _tokens.scss.
+
+// 1. Bulma
+$family-primary: "Barlow", system-ui, sans-serif;
+$family-code: "JetBrains Mono", ui-monospace, monospace;
+$black: #0e0e0e;
+$text: #0e0e0e;
+$link: #0e0e0e;
+$link-hover: #555555;
+$radius: 0;
+$radius-small: 0;
+$radius-large: 0;
+$navbar-height: 4.5rem;
+$navbar-item-img-max-height: 2.5rem;
+$navbar-breakpoint: 1024px;
+$content-heading-weight: 700;
+$body-size: 17px;
+
+// 2. Modules Bulma
+@import "vendor/bulma/utilities/_all";
+@import "vendor/bulma/base/minireset";
+@import "vendor/bulma/base/generic";
+@import "vendor/bulma/elements/container";
+@import "vendor/bulma/elements/content";
+@import "vendor/bulma/elements/table";
+@import "vendor/bulma/components/navbar";
+@import "vendor/bulma/grid/columns";
+@import "vendor/bulma/helpers/visibility";
+@import "vendor/bulma/helpers/spacing";
+
+// 3. Site
+@import "barbatronic/tokens";
+@import "barbatronic/base";
+@import "barbatronic/header-footer";
+@import "barbatronic/layout";
+@import "barbatronic/components";
+@import "barbatronic/prose";
+@import "barbatronic/code";

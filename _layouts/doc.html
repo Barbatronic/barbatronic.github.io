@@ -1,0 +1,57 @@
+---
+layout: default
+---
+{%- comment -%}
+  Page de documentation d'un projet. Menu latéral = toutes les docs du projet, triées par `order`.
+  Front matter : title, project, order, date (dernière mise à jour), description (optionnel).
+{%- endcomment -%}
+{%- include i18n/init.html -%}
+{%- assign _pc = "projects" | append: sfx -%}
+{%- assign project = site[_pc] | where: "slug", page.project | first -%}
+{%- unless project -%}{%- assign project = site.projects | where: "slug", page.project | first -%}{%- endunless -%}
+{%- include i18n/items.html type="docs" project=page.project -%}
+{%- assign docs = items | sort: "order" -%}
+{%- assign doc_prev = nil -%}{%- assign doc_next = nil -%}{%- assign doc_idx = 0 -%}
+{%- for d in docs -%}
+  {%- if d.url == page.url -%}
+    {%- assign doc_idx = forloop.index -%}
+    {%- assign _pi = forloop.index0 | minus: 1 -%}
+    {%- if _pi >= 0 -%}{%- assign doc_prev = docs[_pi] -%}{%- endif -%}
+    {%- assign doc_next = docs[forloop.index] -%}
+  {%- endif -%}
+{%- endfor -%}
+
+<section class="with-sidebar">
+  <aside class="sidebar">
+    <a class="sidebar-project" href="{{ project.url | relative_url }}">
+      <span class="mono">&larr; {{ project.code }}</span>
+      <span class="sidebar-project-title">{{ project.title }}</span>
+    </a>
+    <nav class="sidebar-nav" aria-label="{{ t.documentation }}">
+      <p class="mono side-title">{{ t.documentation | upcase }}</p>
+      {%- for d in docs -%}
+      {%- if d.url == page.url -%}
+      <span class="side-row is-current"><span class="mono">D{{ forloop.index }}</span>{{ d.title }}</span>
+      {%- else -%}
+      <a class="side-row" href="{{ d.url | relative_url }}"><span class="mono">D{{ forloop.index }}</span>{{ d.title }}</a>
+      {%- endif -%}
+      {%- endfor -%}
+    </nav>
+  </aside>
+
+  <article class="doc-main">
+    <p class="mono">{{ project.code }} / DOC / D{{ doc_idx }}</p>
+    <h1 class="display is-medium" data-scroll-title>{{ page.title }}</h1>
+    <p class="mono doc-meta">
+      {%- if page.date %}<span>{{ t.updated | upcase }} : {{ page.date | date: "%d/%m/%Y" }}</span>{% endif -%}
+      {%- if site.github.repository_url %}<a href="{{ site.github.repository_url }}/edit/main/{{ page.path }}">{{ t.edit_on_github | upcase }} &#8599;</a>{% endif -%}
+    </p>
+    <div class="content prose">{{ content }}</div>
+    <nav class="pager mono is-boxed" aria-label="{{ t.previous }} / {{ t.next }}">
+      {%- if doc_prev -%}<a href="{{ doc_prev.url | relative_url }}"><span>&larr; {{ t.previous | upcase }}</span><b>{{ doc_prev.title }}</b></a>
+      {%- else -%}<span class="is-disabled"><span>&larr;</span><b>{{ t.first_doc }}</b></span>{%- endif -%}
+      {%- if doc_next -%}<a class="is-next" href="{{ doc_next.url | relative_url }}"><span>{{ t.next | upcase }} &rarr;</span><b>{{ doc_next.title }}</b></a>
+      {%- else -%}<span class="is-next is-disabled"></span>{%- endif -%}
+    </nav>
+  </article>
+</section>

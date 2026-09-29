@@ -1,0 +1,76 @@
+---
+layout: default
+---
+{%- comment -%}
+  Fiche projet. Regroupe automatiquement, par le champ `project: <slug du projet>` :
+    - les docs  (_docs/<slug>/*.md, triées par `order`)
+    - les logs  (_logs/<slug>/*.md, triés par date)
+    - les articles de blog (_posts, champ `project`)
+  Front matter du projet : voir README.md (section Modèle de contenu).
+{%- endcomment -%}
+{%- include i18n/init.html -%}
+{%- include i18n/items.html type="docs" project=page.slug -%}{%- assign docs = items | sort: "order" -%}
+{%- include i18n/items.html type="logs" project=page.slug -%}{%- assign logs = items | sort: "date" | reverse -%}
+{%- include i18n/items.html type="posts" -%}{%- assign posts = items | where: "project", page.slug -%}
+{%- assign projects_url = t.nav[0].url -%}
+
+<section class="split-head">
+  <div class="split-main">
+    <p class="mono"><a href="{{ projects_url | relative_url }}">{{ t.projects_title | upcase }}</a> / {{ page.code }}</p>
+    <h1 class="display">{{ page.title }}</h1>
+    <p class="lead">{{ page.description }}</p>
+  </div>
+  <aside class="meta-table mono">
+    <div><span>{{ t.status | upcase }}</span><b>{{ t.statuses[page.status] | default: page.status | upcase }}</b></div>
+    <div><span>{{ t.tags | upcase }}</span><span>{% for tg in page.tags %}#{{ tg }} {% endfor %}</span></div>
+    {%- if page.stack %}<div><span>STACK</span><span>{{ page.stack | join: ", " }}</span></div>{% endif %}
+    <div><span>{{ t.content | upcase }}</span><span>{{ docs | size }} DOC &middot; {{ logs | size }} LOG &middot; {{ posts | size }} ART</span></div>
+    <div class="meta-actions">
+      {%- if page.repo %}<a class="btn is-dark" href="{{ page.repo }}">{{ t.code | upcase }} &rarr;</a>{% endif -%}
+      {%- for l in page.links %}<a class="btn" href="{{ l.url }}">{{ l.label | upcase }} &rarr;</a>{% endfor -%}
+    </div>
+  </aside>
+</section>
+
+<figure class="cover{% unless page.image %} is-placeholder{% endunless %}">
+  {%- if page.image %}<img src="{{ page.image | relative_url }}" alt="">{% endif -%}
+  <figcaption class="mono"><span>{{ page.image_caption }}</span><span>FIG. 01</span></figcaption>
+</figure>
+
+{%- assign _body = content | strip -%}
+{%- if _body != "" %}
+<section class="block content-block">
+  <div class="content prose">{{ content }}</div>
+</section>
+{%- endif %}
+
+<section class="three-cols">
+  <div class="col">
+    {%- include section-title.html num="A" title=t.documentation level="h2" -%}
+    {%- for d in docs -%}
+    <a class="list-row" href="{{ d.url | relative_url }}">
+      <span class="list-title">{{ d.title }}</span>
+      {%- if d.description %}<span class="list-sub">{{ d.description }}</span>{% endif -%}
+    </a>
+    {%- else -%}<p class="mono muted">{{ t.nothing_yet }}</p>{%- endfor -%}
+  </div>
+  <div class="col">
+    {%- include section-title.html num="B" title=t.logbook level="h2" -%}
+    {%- for l in logs -%}
+    {%- include log-number.html item=l -%}
+    <a class="list-row" href="{{ l.url | relative_url }}">
+      <span class="mono list-meta">{{ log_code }} / {{ l.date | date: "%d/%m/%Y" }}</span>
+      <span class="list-title">{{ l.title }}</span>
+    </a>
+    {%- else -%}<p class="mono muted">{{ t.nothing_yet }}</p>{%- endfor -%}
+  </div>
+  <div class="col">
+    {%- include section-title.html num="C" title=t.articles level="h2" -%}
+    {%- for a in posts -%}
+    <a class="list-row" href="{{ a.url | relative_url }}">
+      <span class="mono list-meta">{{ a.date | date: "%d/%m/%Y" }}</span>
+      <span class="list-title">{{ a.title }}</span>
+    </a>
+    {%- else -%}<p class="mono muted">{{ t.nothing_yet }}</p>{%- endfor -%}
+  </div>
+</section>

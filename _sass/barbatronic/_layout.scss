@@ -1,0 +1,137 @@
+// Grandes structures de page. Mobile d'abord : les colonnes s'empilent sous 1024px.
+
+$desktop: 1024px;
+@mixin desktop { @media screen and (min-width: $desktop) { @content; } }
+
+// Sections génériques
+.block { padding: 56px var(--gutter) 64px; }
+.has-border-top { border-top: var(--rule); }
+.page-head { padding: 56px var(--gutter) 32px; border-bottom: var(--rule); display: flex; flex-direction: column; gap: 20px; }
+.page-head-row { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px; }
+
+.section-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 24px; }
+.section-title {
+  display: flex; align-items: baseline; gap: 16px;
+  h2, h3 { margin: 0; font-family: var(--font-display); font-weight: 700; text-transform: uppercase; font-size: clamp(34px, 4vw, 56px); line-height: 0.95; }
+  .mono { font-size: 14px; }
+}
+
+// Accueil / À propos : bloc titre sur grille
+.hero-grid {
+  @include blueprint;
+  border-bottom: var(--rule); padding: 48px var(--gutter); display: flex; flex-direction: column; gap: 32px;
+  @include desktop { flex-direction: row; gap: 56px; padding-top: 64px; padding-bottom: 64px; min-height: 560px; box-sizing: border-box; }
+}
+.hero-main { flex: 1; display: flex; flex-direction: column; justify-content: space-between; gap: 28px; }
+.kicker { letter-spacing: 0.06em; }
+.hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; }
+.hero-intro { font-size: 17px; line-height: 1.45; color: #333; max-width: 380px; background: var(--paper); margin: 0;
+  &.is-large { font-size: 21px; line-height: 1.6; max-width: 680px; } }
+.hero-figure {
+  margin: 0; display: flex; flex-direction: column; gap: 10px; align-self: center; width: 100%; max-width: 320px;
+  figcaption { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); }
+}
+.figure-box { aspect-ratio: 1; border: var(--rule); background-color: var(--paper); img { width: 100%; height: 100%; object-fit: cover; display: block; } }
+
+// Fiche projet / log : en-tête + tableau de métadonnées
+.split-head {
+  display: flex; flex-direction: column; border-bottom: var(--rule);
+  @include desktop { flex-direction: row; }
+}
+.split-main {
+  flex: 1; padding: 44px var(--gutter); display: flex; flex-direction: column; gap: 18px;
+  @include desktop { border-right: var(--rule); }
+}
+.meta-table {
+  border-top: var(--rule);
+  @include desktop { border-top: 0; width: 340px; flex-shrink: 0; }
+  > div { display: flex; justify-content: space-between; gap: 12px; padding: 15px 24px; border-bottom: var(--rule-thin); }
+  > div > span:first-child { color: var(--muted); }
+  .meta-actions { flex-direction: column; border-bottom: 0; padding: 20px 24px; gap: 8px; }
+}
+
+.cover {
+  margin: 0; border-bottom: var(--rule); height: clamp(220px, 36vw, 460px); position: relative; overflow: hidden;
+  img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  figcaption { position: absolute; left: 0; right: 0; bottom: 0; display: flex; justify-content: space-between; padding: 12px var(--gutter); font-size: 12px; }
+  img + figcaption { background: var(--paper); border-top: var(--rule); }
+}
+
+.content-block { border-bottom: var(--rule); }
+
+.three-cols {
+  display: grid; grid-template-columns: minmax(0, 1fr);
+  @include desktop { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .col { padding: 40px var(--gutter); border-bottom: var(--rule); display: flex; flex-direction: column;
+    @include desktop { padding: 40px 32px; border-bottom: 0; border-right: var(--rule);
+      &:first-child { padding-left: var(--gutter); } &:last-child { border-right: 0; padding-right: var(--gutter); } } }
+  .section-head { margin-bottom: 14px; }
+  .section-title h2 { font-size: 36px; }
+}
+
+// Contenu + colonne latérale (log)
+.with-aside {
+  display: flex; flex-direction: column;
+  @include desktop { flex-direction: row; }
+  > .prose { flex: 1; padding: 48px var(--gutter); min-width: 0; @include desktop { border-right: var(--rule); } }
+  > .side { border-top: var(--rule); @include desktop { border-top: 0; width: 340px; flex-shrink: 0; } }
+  // Colonne latérale collée sous l'en-tête (--sticky-top calculé par main.js).
+  > .side { @include desktop { position: sticky; top: var(--sticky-top, 0px); align-self: flex-start; max-height: calc(100vh - var(--sticky-top, 0px)); overflow-y: auto; transition: top 0.2s ease; } }
+  // La colonne occupe toute la largeur (aside au bord droit) ; les enfants sont limités à 780 px et centrés.
+  > .content.prose { max-width: none; > * { max-width: 780px; margin-left: auto; margin-right: auto; } }
+}
+.side-block { padding: 24px; border-bottom: var(--rule); &:last-child { border-bottom: 0; } p { margin: 0; } }
+.side-title { font-size: 12px; font-weight: 700; margin-bottom: 10px !important; }
+.side-row {
+  display: flex; gap: 12px; padding: 10px 0; border-top: var(--rule-thin); font-size: 16px;
+  .mono { font-size: 12px; padding-top: 3px; }
+  &.is-current { background: var(--ink); color: var(--paper); padding: 10px 12px; font-weight: 600; }
+}
+
+// Article : sommaire + texte
+.with-toc {
+  display: flex; flex-direction: column;
+  @include desktop { flex-direction: row; }
+  > .prose { flex: 1; padding: 48px var(--gutter); min-width: 0; max-width: 840px; }
+}
+.toc {
+  padding: 32px var(--gutter) 0;
+  @include desktop { width: 280px; flex-shrink: 0; padding: 48px 32px 48px var(--gutter); border-right: var(--rule); position: sticky; top: var(--sticky-top, 0px); align-self: flex-start; transition: top 0.2s ease; }
+  a { display: block; padding: 10px 0; border-top: var(--rule-thin); font-size: 16px; }
+  a:last-child { border-bottom: var(--rule-thin); }
+}
+
+// Doc : menu latéral + contenu
+.with-sidebar { display: flex; flex-direction: column; @include desktop { flex-direction: row; min-height: 70vh; } }
+.sidebar { border-bottom: var(--rule); @include desktop { width: 300px; flex-shrink: 0; border-bottom: 0; border-right: var(--rule); } }
+.sidebar-project { display: flex; flex-direction: column; gap: 4px; padding: 22px 32px 22px var(--gutter); border-bottom: var(--rule); }
+.sidebar-project-title { font-family: var(--font-display); font-weight: 700; font-size: 26px; line-height: 1; text-transform: uppercase; }
+.sidebar-nav { padding: 24px 32px 24px var(--gutter); }
+.doc-main { flex: 1; min-width: 0; padding: 44px var(--gutter); display: flex; flex-direction: column; gap: 22px; }
+.doc-meta { display: flex; flex-wrap: wrap; gap: 28px; color: #333; margin: 0; a { text-decoration: underline; text-underline-offset: 4px; } }
+
+// Bandeau noir
+.band-dark {
+  background: var(--ink); color: var(--paper); padding: 56px var(--gutter); display: flex; flex-direction: column; gap: 28px;
+  @include desktop { flex-direction: row; gap: 56px; align-items: flex-start; }
+  a:not(.btn) { color: var(--paper); }
+  .section-head { margin: 0; }
+}
+.band-head { display: flex; flex-direction: column; gap: 20px; align-items: flex-start; @include desktop { width: 380px; flex-shrink: 0; } }
+.services {
+  flex: 1; display: grid; grid-template-columns: minmax(0, 1fr); border: 2px solid var(--paper);
+  @include desktop { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+.service {
+  padding: 22px; display: flex; flex-direction: column; gap: 8px; border-top: 2px solid var(--paper);
+  &:first-child { border-top: 0; }
+  @include desktop { border-top: 0; border-left: 2px solid var(--paper); &:first-child { border-left: 0; } }
+  h3 { margin: 0; font-family: var(--font-display); font-weight: 700; font-size: 26px; text-transform: uppercase; }
+  p { margin: 0; font-size: 15px; line-height: 1.5; color: #d4d4d4; }
+}
+
+.related { border-top: var(--rule); padding: 32px var(--gutter); }
+.related-project { display: flex; flex-direction: column; gap: 4px; }
+.related-title { font-family: var(--font-display); font-weight: 700; font-size: 28px; text-transform: uppercase; }
+
+.year { margin: 32px 0 8px; font-weight: 700; &:first-child { margin-top: 0; } }

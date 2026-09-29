@@ -1,0 +1,14 @@
+{%- comment -%}
+  Variables de langue pour le template courant. À inclure en tête de chaque layout.
+  Sorties :
+    lang        langue de la page (fr par défaut)
+    t           libellés de _data/i18n.yml pour `lang`
+    other_lang  l'autre langue (le site en gère deux)
+    t_other     libellés de l'autre langue
+    sfx         suffixe de collection : "" pour la langue par défaut, "_en" sinon
+{%- endcomment -%}
+{%- assign lang = page.lang | default: site.default_lang -%}
+{%- assign t = site.data.i18n[lang] -%}
+{%- if lang == site.default_lang -%}{%- assign sfx = "" -%}{%- else -%}{%- assign sfx = "_" | append: lang -%}{%- endif -%}
+{%- for l in site.languages -%}{%- if l != lang -%}{%- assign other_lang = l -%}{%- endif -%}{%- endfor -%}
+{%- assign t_other = site.data.i18n[other_lang] -%}

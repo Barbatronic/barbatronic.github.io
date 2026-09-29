@@ -1,0 +1,117 @@
+# Libellés d'interface par langue. Clé = code langue de _config.yml.
+# Usage dans un template : {{ site.data.i18n[page.lang].nav.projects.label }}
+# via la variable `t` assignée dans _includes/i18n/init.html.
+
+fr:
+  locale: fr_FR
+  home_url: /
+  nav:
+    - { key: projects, label: Projets, url: /projets/ }
+    - { key: blog, label: Blog, url: /blog/ }
+    - { key: logs, label: Journaux, url: /logs/ }
+    - { key: about, label: "À propos", url: /a-propos/ }
+  menu_open: Ouvrir le menu
+  skip: Aller au contenu
+  hero_kicker: "[ ADRIEN BRACQ ] / MAKERSPACE UNILASALLE AMIENS"
+  cta_projects: Voir les projets
+  cta_contact: Travaillons ensemble
+  cta_more: En savoir plus
+  featured: "À la une"
+  all_projects: Tous les projets
+  activity: "Activité récente"
+  work_together: Travaillons ensemble
+  projects_title: Projets
+  blog_title: Blog
+  logs_title: Journaux de bord
+  documentation: Documentation
+  logbook: Journal de bord
+  articles: Articles
+  related_project: "Projet lié"
+  status: Statut
+  tags: Tags
+  all: Tous
+  search: Recherche
+  search_placeholder: "esp32, robot..."
+  no_result: Aucun projet ne correspond au filtre.
+  content: Contenu
+  code: Code source
+  previous: "Précédent"
+  next: Suivant
+  last_entry: "Dernière entrée"
+  first_doc: "Début de la doc"
+  updated: "Mis à jour"
+  edit_on_github: Modifier sur GitHub
+  reading_time: min
+  toc: Sommaire
+  entry: "Entrée"
+  date: Date
+  project: Projet
+  next_step: "Prochaine étape"
+  nothing_yet: Rien pour le moment.
+  untranslated: "Cette page n'existe pas encore en français. Voici la version anglaise."
+  lang_name: "Français"
+  links: Liens
+  types: { log: LOG, post: ARTICLE, doc: DOC }
+  statuses:
+    en-cours: En cours
+    termine: "Terminé"
+    open-source: Open source
+    pause: En pause
+    competition: "Compétition"
+
+en:
+  locale: en_US
+  home_url: /en/
+  nav:
+    - { key: projects, label: Projects, url: /en/projects/ }
+    - { key: blog, label: Blog, url: /en/blog/ }
+    - { key: logs, label: Logs, url: /en/logs/ }
+    - { key: about, label: About, url: /en/about/ }
+  menu_open: Open menu
+  skip: Skip to content
+  hero_kicker: "[ ADRIEN BRACQ ] / MAKERSPACE UNILASALLE AMIENS"
+  cta_projects: See the projects
+  cta_contact: "Let's work together"
+  cta_more: Learn more
+  featured: Featured
+  all_projects: All projects
+  activity: Recent activity
+  work_together: "Let's work together"
+  projects_title: Projects
+  blog_title: Blog
+  logs_title: Logbooks
+  documentation: Documentation
+  logbook: Logbook
+  articles: Articles
+  related_project: Related project
+  status: Status
+  tags: Tags
+  all: All
+  search: Search
+  search_placeholder: "esp32, robot..."
+  no_result: No project matches this filter.
+  content: Content
+  code: Source code
+  previous: Previous
+  next: Next
+  last_entry: Latest entry
+  first_doc: Start of docs
+  updated: Updated
+  edit_on_github: Edit on GitHub
+  reading_time: min
+  toc: Contents
+  entry: Entry
+  date: Date
+  project: Project
+  next_step: Next step
+  nothing_yet: Nothing yet.
+  untranslated: "This page is not available in English yet. Showing the French version."
+  lang_name: English
+  links: Links
+  types: { log: LOG, post: POST, doc: DOC }
+  statuses:
+    en-cours: In progress
+    termine: Done
+    open-source: Open source
+    pause: On hold
+    competition: Competition

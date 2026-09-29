@@ -1,0 +1,20 @@
+{%- comment -%}
+  Cherche la traduction de la page courante dans `other_lang`.
+  Sortie : translation (document/page ou nil).
+  Règles :
+    - collections et posts : même slug (nom de fichier) et même `project` ;
+    - pages simples : même `ref` dans le front matter.
+  Nécessite i18n/init.html.
+{%- endcomment -%}
+{%- assign translation = nil -%}
+{%- if page.collection == "posts" -%}
+  {%- assign translation = site.posts | where: "lang", other_lang | where: "slug", page.slug | first -%}
+{%- elsif page.collection -%}
+  {%- assign _base = page.collection | remove: "_en" -%}
+  {%- if other_lang == site.default_lang -%}{%- assign _oc = _base -%}{%- else -%}{%- assign _oc = _base | append: "_" | append: other_lang -%}{%- endif -%}
+  {%- assign _cands = site[_oc] | where: "slug", page.slug -%}
+  {%- if page.project -%}{%- assign _cands = _cands | where: "project", page.project -%}{%- endif -%}
+  {%- assign translation = _cands | first -%}
+{%- elsif page.ref -%}
+  {%- assign translation = site.pages | where: "ref", page.ref | where: "lang", other_lang | first -%}
+{%- endif -%}

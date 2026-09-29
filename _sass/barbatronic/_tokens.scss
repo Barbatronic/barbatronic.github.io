@@ -1,0 +1,32 @@
+// Variables de design. Changer une valeur ici la répercute partout.
+// Thème clair uniquement ; un thème sombre se fera en redéfinissant ces variables
+// sous @media (prefers-color-scheme: dark).
+:root {
+  --ink: #0e0e0e;          // texte, bordures, fonds noirs
+  --paper: #ffffff;        // fond
+  --muted: #555555;        // texte secondaire (contraste AA sur blanc)
+  --grid-line: #ededed;    // lignes de la grille de fond
+  --hatch: #dedede;        // hachures des images de remplacement
+  --code-bg: #f3f3f3;
+
+  // Coloration du code (Rouge). Palette sobre, contraste AA sur --code-bg.
+  --code-comment: #6b6b6b;  // commentaires
+  --code-keyword: #0e0e0e;  // mots-clés, types (mis en gras)
+  --code-string: #7a3b1e;   // chaînes, caractères
+  --code-number: #3a5f8a;   // nombres, constantes
+  --code-name: #2f2f2f;     // fonctions, classes, variables
+  --code-error: #a11b1b;    // jetons invalides, diff supprimé
+
+  --font-display: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --font-body: "Barlow", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --rule: 2px solid var(--ink);   // trait principal
+  --rule-thin: 1px solid var(--ink);
+  --gutter: 56px;                 // marge latérale desktop
+  --gap: 24px;
+}
+
+@media (max-width: 768px) {
+  :root { --gutter: 16px; --gap: 16px; }
+}

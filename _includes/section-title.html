@@ -1,0 +1,14 @@
+{%- comment -%}
+  Titre de section numéroté "01 / TITRE".
+  Paramètres : num, title, level (h2 par défaut), link_url, link_label (optionnels).
+{%- endcomment -%}
+{%- assign _lvl = include.level | default: "h2" -%}
+<div class="section-head">
+  <div class="section-title">
+    {%- if include.num %}<span class="mono">{{ include.num }} /</span>{% endif -%}
+    <{{ _lvl }}>{{ include.title }}</{{ _lvl }}>
+  </div>
+  {%- if include.link_url %}
+  <a class="link-arrow mono" href="{{ include.link_url | relative_url }}">{{ include.link_label | upcase }} &rarr;</a>
+  {%- endif %}
+</div>

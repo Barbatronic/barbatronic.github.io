@@ -1,0 +1,55 @@
+// En-tête (surcharge de la navbar Bulma), sélecteur de langue, bandeau de traduction, pied de page.
+
+.site-header { border-bottom: var(--rule); position: sticky; top: 0; z-index: 40; background: var(--paper); }
+
+// Titre réduit sous le menu, visible après défilement (classe .is-visible posée par main.js).
+// Positionné hors du flux pour ne pas décaler la page quand il apparaît.
+.scroll-title {
+  position: absolute; left: 0; right: 0; top: 100%; z-index: -1;
+  margin-top: 2px; padding: 10px var(--gutter); background: var(--paper); border-bottom: var(--rule);
+  font-family: var(--font-display); font-weight: 700; font-size: 22px; line-height: 1.1; text-transform: uppercase;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  transform: translateY(-100%); visibility: hidden; transition: transform 0.2s ease, visibility 0.2s;
+  &.is-visible { transform: none; visibility: visible; }
+}
+
+.navbar {
+  padding: 0 calc(var(--gutter) - 12px);
+  font-family: var(--font-mono); font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em;
+  .navbar-item { color: var(--ink); }
+  a.navbar-item:hover, a.navbar-item.is-active { background: transparent; color: var(--ink); text-decoration: underline; text-underline-offset: 6px; text-decoration-thickness: 2px; }
+}
+
+.brand { gap: 14px; }
+.brand-logo { width: 40px; height: 40px; max-height: none !important; border: var(--rule); object-fit: cover; }
+.brand-logo.is-placeholder { display: inline-block; background: repeating-linear-gradient(135deg, var(--paper) 0 4px, #cfcfcf 4px 5px); }
+.brand-name { font-family: var(--font-display); font-weight: 700; font-size: 26px; letter-spacing: 0.04em; text-transform: uppercase; }
+
+.navbar-burger {
+  appearance: none; background: none; border: var(--rule); width: 44px; height: 44px; margin: auto 12px auto auto; color: var(--ink);
+  span { left: calc(50% - 10px); width: 20px; height: 2px; }
+}
+
+@media screen and (max-width: 1023px) {
+  .navbar-menu { box-shadow: none; border-top: var(--rule); padding: 8px 0; }
+  .navbar-menu .navbar-item { padding: 12px 16px; }
+}
+
+.lang-switch {
+  display: inline-flex; border: var(--rule); font-family: var(--font-mono);
+  > * { padding: 5px 9px; }
+  .lang-current { background: var(--ink); color: var(--paper); }
+  a { text-decoration: none !important; }
+}
+
+.untranslated-banner {
+  padding: 12px var(--gutter); border-bottom: var(--rule); background: var(--ink); color: var(--paper); font-size: 15px;
+  .mono { margin-right: 8px; }
+}
+
+.site-footer {
+  border-top: var(--rule); padding: 28px var(--gutter);
+  display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between;
+  font-family: var(--font-mono); font-size: 13px; text-transform: uppercase; letter-spacing: 0.04em;
+}
+.site-footer-links { display: flex; flex-wrap: wrap; gap: 24px; list-style: none; margin: 0; padding: 0; }

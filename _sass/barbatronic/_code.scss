@@ -1,0 +1,43 @@
+// Coloration syntaxique des blocs de code (Rouge, via kramdown GFM).
+// Rouge produit le balisage (`<span class="k">`...) mais aucune couleur : elle est définie ici.
+// Couleurs : variables --code-* de _tokens.scss. Structure du balisage généré :
+//   div.language-<lang>.highlighter-rouge > div.highlight > pre.highlight > code
+// Le cadre du bloc (fond, filet, padding) vient de la règle `pre` de _prose.scss.
+
+.content.prose .highlight {
+  background: none;
+
+  // Commentaires
+  .c, .ch, .cd, .cm, .cp, .cpf, .c1, .cs { color: var(--code-comment); font-style: italic; }
+
+  // Mots-clés et types
+  .k, .kc, .kd, .kn, .kp, .kr, .kt, .kv { color: var(--code-keyword); font-weight: 700; }
+  .ow { color: var(--code-keyword); font-weight: 700; }
+
+  // Chaînes
+  .s, .sa, .sb, .sc, .dl, .sd, .s2, .se, .sh, .si, .sx, .sr, .s1, .ss { color: var(--code-string); }
+
+  // Nombres et constantes
+  .m, .mb, .mf, .mh, .mi, .il, .mo, .mx, .no, .nb, .bp { color: var(--code-number); }
+
+  // Noms : fonctions, classes, attributs, variables
+  .n, .na, .nc, .nd, .ne, .nf, .nl, .nn, .py, .nx, .nt, .nv, .vc, .vg, .vi, .vm { color: var(--code-name); }
+  .nc, .nf, .nt { font-weight: 500; }
+
+  // Opérateurs et ponctuation
+  .o, .p, .pi { color: var(--code-comment); }
+
+  // Erreurs
+  .err, .w { color: var(--code-error); }
+
+  // Blocs génériques (diff, sortie de terminal)
+  .gd { color: var(--code-error); }
+  .gi { color: #1f5c2e; }
+  .gh, .gu { color: var(--code-keyword); font-weight: 700; }
+  .ge { font-style: italic; }
+  .gs { font-weight: 700; }
+  .gp, .gt { color: var(--code-comment); }
+
+  // Numéros de ligne : non sélectionnables à la copie
+  .lineno, .gl { color: var(--code-comment); user-select: none; padding-right: 14px; }
+}

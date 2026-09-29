@@ -1,0 +1,12 @@
+# Tags de projets. Clé = valeur utilisée dans le front matter (`tags: [robotique, esp32]`).
+# Un tag absent de ce fichier s'affiche tel quel et n'apparaît pas dans les filtres.
+# L'ordre de ce fichier est l'ordre des filtres sur /projets/.
+
+robotique: { fr: Robotique, en: Robotics }
+electronique: { fr: "Électronique", en: Electronics }
+impression-3d: { fr: Impression 3D, en: 3D printing }
+esp32: { fr: ESP32, en: ESP32 }
+atelier: { fr: Atelier, en: Workshop }
+open-source: { fr: Open source, en: Open source }
+karibous: { fr: Karibous, en: Karibous }
+logiciel: { fr: Logiciel, en: Software }

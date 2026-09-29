@@ -1,0 +1,9 @@
+<footer class="site-footer">
+  <span>&copy; {{ site.time | date: "%Y" }} {{ site.title }} / Amiens</span>
+  <ul class="site-footer-links">
+    {%- for s in site.data.social -%}
+    <li><a href="{{ s.url }}" rel="me noopener">{{ s.name }}</a></li>
+    {%- endfor -%}
+    <li><a href="{{ '/feed.xml' | relative_url }}">RSS</a></li>
+  </ul>
+</footer>

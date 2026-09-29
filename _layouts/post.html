@@ -1,0 +1,50 @@
+---
+layout: default
+---
+{%- comment -%}
+  Article de blog. Front matter : title, date, description, tags, project (slug, optionnel),
+  image (optionnel). Le sommaire est généré en JS à partir des titres h2 (main.js).
+{%- endcomment -%}
+{%- include i18n/init.html -%}
+{%- assign words = content | strip_html | number_of_words -%}
+{%- assign minutes = words | divided_by: 200 | plus: 1 -%}
+{%- assign project = nil -%}
+{%- if page.project -%}
+  {%- assign _pc = "projects" | append: sfx -%}
+  {%- assign project = site[_pc] | where: "slug", page.project | first -%}
+  {%- unless project -%}{%- assign project = site.projects | where: "slug", page.project | first -%}{%- endunless -%}
+{%- endif -%}
+{%- assign blog_url = t.nav[1].url -%}
+
+<section class="page-head">
+  <p class="mono"><a href="{{ blog_url | relative_url }}">BLOG</a> / {{ page.date | date: "%d/%m/%Y" }} / {{ minutes }} {{ t.reading_time | upcase }}</p>
+  <h1 class="display is-article" data-scroll-title>{{ page.title }}</h1>
+  {%- if page.description %}<p class="lead">{{ page.description }}</p>{% endif %}
+  <p class="chips mono">
+    {%- for tg in page.tags %}<span class="chip is-static">#{{ tg }}</span>{% endfor -%}
+    {%- if project %}<a class="chip is-dark" href="{{ project.url | relative_url }}">{{ t.project | upcase }} {{ project.code }} &rarr;</a>{% endif -%}
+  </p>
+</section>
+
+{%- if page.image %}
+<figure class="cover">
+  <img src="{{ page.image | relative_url }}" alt="">
+  <figcaption class="mono"><span>{{ page.image_caption }}</span><span>FIG. 01</span></figcaption>
+</figure>
+{%- endif %}
+
+<section class="with-toc">
+  <nav class="toc" data-toc hidden aria-label="{{ t.toc }}">
+    <p class="mono side-title">{{ t.toc | upcase }}</p>
+  </nav>
+  <article class="content prose" data-toc-source>{{ content }}</article>
+</section>
+
+{%- if project %}
+<section class="related">
+  <a class="related-project" href="{{ project.url | relative_url }}">
+    <span class="mono">{{ t.related_project | upcase }} &middot; {{ project.code }}</span>
+    <span class="related-title">{{ project.title }} &rarr;</span>
+  </a>
+</section>
+{%- endif %}

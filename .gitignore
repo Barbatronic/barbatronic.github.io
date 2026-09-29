@@ -1,0 +1,19 @@
+# Build Jekyll
+_site/
+.sass-cache/
+.jekyll-cache/
+.jekyll-metadata
+.bundle/
+vendor/
+Gemfile.lock
+
+# Outillage d'édition privé (skills Claude, contexte). Versionné dans un dépôt privé séparé.
+.claude/
+CLAUDE.md
+
+# Archives de livraison de l'outillage (zip). Aussi exclues du build dans _config.yml.
+Claude outputs/
+
+# Système
+.DS_Store
+Thumbs.db

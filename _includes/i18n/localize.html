@@ -1,0 +1,12 @@
+{%- comment -%}
+  Renvoie la version dans `lang` d'un contenu de la langue par défaut, ou le contenu lui-même.
+  Paramètre : item. Sortie : localized.
+{%- endcomment -%}
+{%- assign localized = include.item -%}
+{%- if include.item and sfx != "" and include.item.collection -%}
+  {%- assign _lc = include.item.collection | append: sfx -%}
+  {%- assign _hit = site[_lc] | where: "slug", include.item.slug -%}
+  {%- if include.item.project -%}{%- assign _hit = _hit | where: "project", include.item.project -%}{%- endif -%}
+  {%- assign _hit = _hit | first -%}
+  {%- if _hit -%}{%- assign localized = _hit -%}{%- endif -%}
+{%- endif -%}

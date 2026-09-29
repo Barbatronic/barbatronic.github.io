@@ -1,0 +1,20 @@
+{%- comment -%}
+  Numéro d'un log dans son projet, calculé par ordre de date (le plus ancien = L01).
+  Paramètre : item (un log). La numérotation se fait dans la collection de la langue par défaut
+  pour rester identique en FR et en EN (les deux fichiers partagent le même slug).
+  Sorties : log_num (entier), log_code ("L04"), log_total, log_prev, log_next (logs FR ou nil).
+{%- endcomment -%}
+{%- assign _all = site.logs | where: "project", include.item.project | sort: "date" -%}
+{%- assign log_total = _all | size -%}
+{%- assign log_num = 0 -%}
+{%- assign log_prev = nil -%}
+{%- assign log_next = nil -%}
+{%- for _l in _all -%}
+  {%- if _l.slug == include.item.slug -%}
+    {%- assign log_num = forloop.index -%}
+    {%- assign _pi = forloop.index0 | minus: 1 -%}
+    {%- if _pi >= 0 -%}{%- assign log_prev = _all[_pi] -%}{%- endif -%}
+    {%- assign log_next = _all[forloop.index] -%}
+  {%- endif -%}
+{%- endfor -%}
+{%- if log_num < 10 -%}{%- assign log_code = "L0" | append: log_num -%}{%- else -%}{%- assign log_code = "L" | append: log_num -%}{%- endif -%}

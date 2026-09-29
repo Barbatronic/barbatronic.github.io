@@ -1,0 +1,14 @@
+{%- comment -%}
+  Sélecteur FR/EN. Lien vers la traduction si elle existe, sinon vers l'accueil de l'autre langue.
+  Le choix est mémorisé côté navigateur (localStorage "lang", voir assets/js/main.js).
+{%- endcomment -%}
+{%- if translation -%}{%- assign switch_url = translation.url -%}{%- else -%}{%- assign switch_url = t_other.home_url -%}{%- endif -%}
+<span class="lang-switch">
+  {%- for l in site.languages -%}
+  {%- if l == lang -%}
+  <b class="lang-current" aria-current="true">{{ l | upcase }}</b>
+  {%- else -%}
+  <a href="{{ switch_url | relative_url }}" hreflang="{{ l }}" lang="{{ l }}" data-set-lang="{{ l }}" title="{{ site.data.i18n[l].lang_name }}">{{ l | upcase }}</a>
+  {%- endif -%}
+  {%- endfor -%}
+</span>

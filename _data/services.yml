@@ -1,0 +1,11 @@
+# Offres affichées dans le bandeau "Travaillons ensemble" (accueil) et sur la page À propos.
+# À ajuster : ce sont des propositions de départ.
+- id: A
+  fr: { title: "Ateliers & formations", text: "Impression 3D, électronique, robotique : écoles, fablabs, entreprises." }
+  en: { title: "Workshops & training", text: "3D printing, electronics, robotics: schools, fablabs, companies." }
+- id: B
+  fr: { title: Prototypage, text: "De l'idée au prototype fonctionnel : conception, fabrication, électronique embarquée." }
+  en: { title: Prototyping, text: "From idea to working prototype: design, fabrication, embedded electronics." }
+- id: C
+  fr: { title: Interventions, text: "Conférences, démonstrations et événements maker." }
+  en: { title: Talks, text: "Talks, demos and maker events." }

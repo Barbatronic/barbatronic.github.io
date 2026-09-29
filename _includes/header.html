@@ -1,0 +1,34 @@
+{%- comment -%}
+  En-tête : logo, navigation (Bulma navbar), sélecteur de langue.
+  Logo : déposer assets/img/logo.png (carré). Sans fichier, un carré hachuré le remplace.
+  En-tête collant. Barre de titre réduite (.scroll-title) remplie et affichée par main.js
+  quand le h1 marqué data-scroll-title sort de l'écran.
+{%- endcomment -%}
+{%- assign logo = site.static_files | where: "path", "/assets/img/logo.png" | first -%}
+<header class="site-header">
+  <nav class="navbar" aria-label="Navigation principale">
+    <div class="navbar-brand">
+      <a class="navbar-item brand" href="{{ t.home_url | relative_url }}">
+        {%- if logo -%}
+        <img class="brand-logo" src="{{ logo.path | relative_url }}" alt="" width="40" height="40">
+        {%- else -%}
+        <span class="brand-logo is-placeholder" aria-hidden="true"></span>
+        {%- endif -%}
+        <span class="brand-name">{{ site.title | upcase }}</span>
+      </a>
+      <button class="navbar-burger" type="button" aria-label="{{ t.menu_open }}" aria-expanded="false" data-target="site-menu">
+        <span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>
+      </button>
+    </div>
+    <div class="navbar-menu" id="site-menu">
+      <div class="navbar-end">
+        {%- for item in t.nav -%}
+        {%- assign item_url = item.url | relative_url -%}
+        <a class="navbar-item{% if page.url contains item.url %} is-active{% endif %}" href="{{ item_url }}">{{ item.label }}</a>
+        {%- endfor -%}
+        <div class="navbar-item">{%- include lang-switch.html -%}</div>
+      </div>
+    </div>
+  </nav>
+  <div class="scroll-title" data-scroll-bar aria-hidden="true"><span class="scroll-title-text"></span></div>
+</header>

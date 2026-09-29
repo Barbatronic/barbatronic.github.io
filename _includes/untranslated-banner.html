@@ -1,0 +1,10 @@
+{%- comment -%}
+  Bandeau "pas encore traduit". Masqué par défaut ; main.js l'affiche si la page n'a pas
+  de traduction et que la langue mémorisée du visiteur est l'autre langue.
+  Le texte est dans la langue du visiteur (t_other).
+{%- endcomment -%}
+{%- unless translation -%}
+<div class="untranslated-banner" hidden data-for-lang="{{ other_lang }}" lang="{{ other_lang }}">
+  <span class="mono">[ {{ other_lang | upcase }} ]</span> {{ t_other.untranslated }}
+</div>
+{%- endunless -%}

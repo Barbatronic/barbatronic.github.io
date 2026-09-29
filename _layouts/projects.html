@@ -1,0 +1,49 @@
+---
+layout: default
+---
+{%- comment -%}
+  Liste de tous les projets + filtres (tags, statut, recherche) gérés par assets/js/main.js.
+  Sans JavaScript, tous les projets restent visibles et les filtres sont masqués.
+  Ordre : `updated` décroissant (dernière activité en premier) ; projets sans `updated` en fin de liste.
+{%- endcomment -%}
+{%- include i18n/init.html -%}
+{%- include i18n/items.html type="projects" -%}
+{%- assign projects = items | sort: "updated", "first" | reverse -%}
+{%- assign statuses = projects | map: "status" | uniq -%}
+
+<section class="page-head">
+  <div class="page-head-row">
+    <h1 class="display">{{ t.projects_title }}</h1>
+    <span class="mono">{{ projects | size }} {{ t.projects_title | upcase }}</span>
+  </div>
+  <div class="filters" data-filters hidden>
+    <div class="filter-row">
+      <span class="mono filter-label">{{ t.tags | upcase }}</span>
+      <div class="chips" data-filter-group="tag">
+        <button type="button" class="chip is-active" data-value="">{{ t.all }}</button>
+        {%- for tg in site.data.tags -%}
+        <button type="button" class="chip" data-value="{{ tg[0] }}">{{ tg[1][lang] }}</button>
+        {%- endfor -%}
+      </div>
+    </div>
+    <div class="filter-row">
+      <span class="mono filter-label">{{ t.status | upcase }}</span>
+      <div class="chips" data-filter-group="status">
+        <button type="button" class="chip is-active" data-value="">{{ t.all }}</button>
+        {%- for s in statuses -%}
+        <button type="button" class="chip" data-value="{{ s }}">{{ t.statuses[s] | default: s }}</button>
+        {%- endfor -%}
+      </div>
+      <label class="search mono">{{ t.search | upcase }}
+        <input type="search" data-filter-search placeholder="{{ t.search_placeholder }}">
+      </label>
+    </div>
+  </div>
+</section>
+
+<section class="block">
+  <div class="project-grid" data-project-grid>
+    {%- for p in projects -%}{%- include project-card.html p=p level="h2" -%}{%- endfor -%}
+  </div>
+  <p class="mono no-result" data-no-result hidden>{{ t.no_result }}</p>
+</section>
