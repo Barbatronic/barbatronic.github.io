@@ -8,6 +8,8 @@ description: >-
 url: "https://barbatronic.fr"
 baseurl: ""
 timezone: Europe/Paris
+# Dépôt GitHub : requis par site.github (lien "Modifier sur GitHub" des docs) hors GitHub Pages.
+repository: Barbatronic/barbatronic.github.io
 
 author:
   name: Adrien Bracq
