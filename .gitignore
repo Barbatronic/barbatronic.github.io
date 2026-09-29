@@ -4,7 +4,7 @@ _site/
 .jekyll-cache/
 .jekyll-metadata
 .bundle/
-vendor/
+/vendor/
 Gemfile.lock
 
 # Outillage d'édition privé (skills Claude, contexte). Versionné dans un dépôt privé séparé.
