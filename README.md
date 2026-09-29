@@ -118,6 +118,18 @@ URL : `/blog/AAAA/MM/<titre>/`.
 avec `--unpublished`. Les skills `nouveau-post`, `nouveau-log` et `nouveau-projet` créent leurs
 fichiers dans cet état.
 
+### Modèle 3D (log, doc, article)
+
+Fichier `.glb` rangé dans `assets/img/projets/<slug>/3d/`, puis dans le Markdown :
+
+```liquid
+{% include model-3d.html src="/assets/img/projets/<slug>/3d/piece.glb" alt="Description"
+   poster="/assets/img/projets/<slug>/piece.jpg" caption="Légende" %}
+```
+
+`poster` et `caption` sont optionnels. Le script model-viewer (`assets/js/vendor/`, Apache-2.0)
+n'est chargé que sur les pages qui contiennent un modèle.
+
 ## Langues
 
 - FR par défaut, EN sous `/en/`. Une collection par langue : `_projects` / `_projects_en`, etc.

@@ -23,20 +23,22 @@ layout: default
 
 <section class="with-sidebar">
   <aside class="sidebar">
-    <a class="sidebar-project" href="{{ project.url | relative_url }}">
-      <span class="mono">&larr; {{ project.code }}</span>
-      <span class="sidebar-project-title">{{ project.title }}</span>
-    </a>
-    <nav class="sidebar-nav" aria-label="{{ t.documentation }}">
-      <p class="mono side-title">{{ t.documentation | upcase }}</p>
-      {%- for d in docs -%}
-      {%- if d.url == page.url -%}
-      <span class="side-row is-current"><span class="mono">D{{ forloop.index }}</span>{{ d.title }}</span>
-      {%- else -%}
-      <a class="side-row" href="{{ d.url | relative_url }}"><span class="mono">D{{ forloop.index }}</span>{{ d.title }}</a>
-      {%- endif -%}
-      {%- endfor -%}
-    </nav>
+    <div class="sidebar-sticky">
+      <a class="sidebar-project" href="{{ project.url | relative_url }}">
+        <span class="mono">&larr; {{ project.code }}</span>
+        <span class="sidebar-project-title">{{ project.title }}</span>
+      </a>
+      <nav class="sidebar-nav" aria-label="{{ t.documentation }}">
+        <p class="mono side-title">{{ t.documentation | upcase }}</p>
+        {%- for d in docs -%}
+        {%- if d.url == page.url -%}
+        <span class="side-row is-current"><span class="mono">D{{ forloop.index }}</span>{{ d.title }}</span>
+        {%- else -%}
+        <a class="side-row" href="{{ d.url | relative_url }}"><span class="mono">D{{ forloop.index }}</span>{{ d.title }}</a>
+        {%- endif -%}
+        {%- endfor -%}
+      </nav>
+    </div>
   </aside>
 
   <article class="doc-main">

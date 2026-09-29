@@ -104,6 +104,8 @@ $desktop: 1024px;
 // Doc : menu latéral + contenu
 .with-sidebar { display: flex; flex-direction: column; @include desktop { flex-direction: row; min-height: 70vh; } }
 .sidebar { border-bottom: var(--rule); @include desktop { width: 300px; flex-shrink: 0; border-bottom: 0; border-right: var(--rule); } }
+// Contenu du menu collé sous l'en-tête ; l'aside reste pleine hauteur pour garder sa bordure.
+.sidebar-sticky { @include desktop { position: sticky; top: var(--sticky-top, 0px); max-height: calc(100vh - var(--sticky-top, 0px)); overflow-y: auto; transition: top 0.2s ease; } }
 .sidebar-project { display: flex; flex-direction: column; gap: 4px; padding: 22px 32px 22px var(--gutter); border-bottom: var(--rule); }
 .sidebar-project-title { font-family: var(--font-display); font-weight: 700; font-size: 26px; line-height: 1; text-transform: uppercase; }
 .sidebar-nav { padding: 24px 32px 24px var(--gutter); }

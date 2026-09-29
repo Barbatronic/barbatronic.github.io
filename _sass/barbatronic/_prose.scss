@@ -43,3 +43,11 @@
   ul li.task-list-item { list-style: none; margin-left: -1.5em; }
   .task-list-item-checkbox { width: 18px; height: 18px; margin-right: 10px; vertical-align: -3px; accent-color: var(--ink); }
 }
+
+// Visionneuse 3D (_includes/model-3d.html).
+.content .model-3d {
+  margin: 0 0 1.5em; border: var(--rule); background: var(--paper);
+  model-viewer { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; background: var(--paper); --poster-color: var(--paper); }
+  figcaption { display: flex; justify-content: space-between; gap: 12px; padding: 10px 14px; border-top: var(--rule); font-size: 12px; line-height: 1.4; }
+  figcaption a { text-decoration: none; white-space: nowrap; }
+}
