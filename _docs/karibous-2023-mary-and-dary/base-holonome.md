@@ -11,7 +11,7 @@ description: "Roues holonomes, colonnes moteur, motorisation NEMA 23 + MKS Servo
 La conception de nos robots est à la fois simple et modulable, nous permettant chaque année d'ajuster nos systèmes et de faire évoluer nos robots. Depuis 2017, nous employons une base de profilés MakerBeam, combinée à la découpe laser et à l'impression 3D, pour concevoir nos robots. Et depuis 2021, nous développons des robots holonomes.
 La version que nous présentons ici est une évolution de notre base holonome introduite en 2022, tout en conservant les principes de conception adoptés par l'équipe depuis 2017.
 
-![Base holonome]({{ '/assets/img/projets/karibous-2023-mary-and-dary/base.jpg' | relative_url }})
+{% include model-3d.html src="/assets/img/projets/karibous-2023-mary-and-dary/3d/robot-base.glb" alt="Base holonome" poster="/assets/img/projets/karibous-2023-mary-and-dary/base.jpg" caption="Base holonome : cliquer-glisser pour tourner" %}
 
 ## Robot Holonome
 
@@ -21,7 +21,7 @@ Un robot holonome est un type de robot mobile capable de se déplacer instantan�
 
 Les roues holonomes, également appelées roues omni-directionnelles, sont conçues pour permettre un mouvement dans toutes les directions sans avoir à tourner la roue elle-même. Elles sont généralement constituées d'une série de rouleaux montés à angle par rapport à l'axe principal de la roue. Ces rouleaux permettent au robot de se déplacer latéralement tout en roulant normalement.
 
-![Roue holonome]({{ '/assets/img/projets/karibous-2023-mary-and-dary/omniwheel.jpg' | relative_url }})
+{% include model-3d.html src="/assets/img/projets/karibous-2023-mary-and-dary/3d/omniwheel.glb" alt="Roue holonome" poster="/assets/img/projets/karibous-2023-mary-and-dary/omniwheel.jpg" caption="Roue holonome : cliquer-glisser pour tourner" %}
 
 ### Avantages des robots holonomes
 
@@ -36,7 +36,7 @@ Les roues holonomes, également appelées roues omni-directionnelles, sont conç
 
 La conception des robots, en particulier ceux destinés à des mouvements omni-directionnels, nécessite une approche innovante pour garantir à la fois la maniabilité et la simplicité. Dans cette optique, la conception basée sur un assemblage de trois colonnes moteur holonome est une solution efficace.
 
-![Colonne moteur]({{ '/assets/img/projets/karibous-2023-mary-and-dary/column.jpg' | relative_url }})
+{% include model-3d.html src="/assets/img/projets/karibous-2023-mary-and-dary/3d/robot-column.glb" alt="Colonne moteur" poster="/assets/img/projets/karibous-2023-mary-and-dary/column.jpg" caption="Colonne moteur : cliquer-glisser pour tourner" %}
 
 ### Structure des colonnes Moteur
 

@@ -18,8 +18,7 @@ J'ai fait une maquette rapide ce soir, en impression 3D et découpe laser. Le mo
 
 ### Modèle 3D
 
-[Télécharger le modèle 3D (.glb)]({{ '/assets/img/projets/cdr-2027/2026-09-22-lanceur-deux-moteurs/ball-launcher-test.glb' | relative_url }})
-*Modèle 3D du lanceur, cliquer-glisser pour tourner autour.*
+{% include model-3d.html src="/assets/img/projets/cdr-2027/2026-09-22-lanceur-deux-moteurs/ball-launcher-test.glb" alt="Modèle 3D du lanceur de boulets à deux moteurs" caption="Modèle 3D du lanceur, cliquer-glisser pour tourner autour" %}
 
 ![Les deux moteurs MF360S, avec leur support imprimé]({{ '/assets/img/projets/cdr-2027/2026-09-22-lanceur-deux-moteurs/lanceur-deux-moteurs.jpg' | relative_url }})
 *Les deux moteurs MF360S, avec leur support imprimé.*
