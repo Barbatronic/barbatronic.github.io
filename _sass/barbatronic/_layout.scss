@@ -68,6 +68,8 @@ $desktop: 1024px;
 }
 
 .content-block { border-bottom: var(--rule); }
+// Fiche projet : texte limité à 780 px et centré, comme les logs et les articles.
+.content-block.is-centered > .content.prose { max-width: none; > * { max-width: 780px; margin-left: auto; margin-right: auto; } }
 
 .three-cols {
   display: grid; grid-template-columns: minmax(0, 1fr);
