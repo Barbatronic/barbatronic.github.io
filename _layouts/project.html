@@ -14,11 +14,20 @@ layout: default
 {%- include i18n/items.html type="posts" -%}{%- assign posts = items | where: "project", page.slug -%}
 {%- assign projects_url = t.nav[0].url -%}
 
+{%- comment -%} Photo de couverture sous le titre, colonne de gauche, format 16:9 ; le bandeau de droite
+     occupe toute la hauteur de l'en-tête. {%- endcomment -%}
+{%- assign _has_img = false -%}{%- if page.image and page.image != "" -%}{%- assign _has_img = true -%}{%- endif -%}
 <section class="split-head">
-  <div class="split-main">
+  <div class="split-main has-cover">
     <p class="mono"><a href="{{ projects_url | relative_url }}">{{ t.projects_title | upcase }}</a> / {{ page.code }}</p>
-    <h1 class="display">{{ page.title }}</h1>
+    <h1 class="display" data-scroll-title="{{ page.code }} &middot; {{ page.title | escape }}">{{ page.title }}</h1>
     <p class="lead">{{ page.description }}</p>
+    <figure class="project-cover">
+      <div class="project-cover-img{% unless _has_img %} is-placeholder{% endunless %}">
+        {%- if _has_img %}<img src="{{ page.image | relative_url }}" alt="">{% endif -%}
+      </div>
+      <figcaption class="mono"><span>{{ page.image_caption }}</span><span>FIG. 01</span></figcaption>
+    </figure>
   </div>
   <aside class="meta-table mono">
     <div><span>{{ t.status | upcase }}</span><b>{{ t.statuses[page.status] | default: page.status | upcase }}</b></div>
@@ -31,12 +40,6 @@ layout: default
     </div>
   </aside>
 </section>
-
-{%- assign _has_img = false -%}{%- if page.image and page.image != "" -%}{%- assign _has_img = true -%}{%- endif -%}
-<figure class="cover{% unless _has_img %} is-placeholder{% endunless %}">
-  {%- if _has_img %}<img src="{{ page.image | relative_url }}" alt="">{% endif -%}
-  <figcaption class="mono"><span>{{ page.image_caption }}</span><span>FIG. 01</span></figcaption>
-</figure>
 
 {%- assign _body = content | strip -%}
 {%- if _body != "" %}

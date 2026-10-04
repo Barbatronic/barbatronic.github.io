@@ -2,7 +2,9 @@
   En-tête : logo, navigation (Bulma navbar), sélecteur de langue.
   Logo : assets/img/logo.png (carré, silhouette sur fond transparent). Sans fichier, un carré hachuré le remplace.
   En-tête collant. Barre de titre réduite (.scroll-title) remplie et affichée par main.js
-  quand le h1 marqué data-scroll-title sort de l'écran.
+  quand le h1 marqué data-scroll-title sort de l'écran (texte : valeur de l'attribut, sinon celui du h1).
+  La barre porte le bouton Code source (champ `repo` du projet : la page elle-même, ou le projet lié
+  par `project` pour un log, une doc, un article) et une flèche de retour en haut de page.
 {%- endcomment -%}
 {%- assign logo = site.static_files | where: "path", "/assets/img/logo.png" | first -%}
 <header class="site-header">
@@ -30,5 +32,16 @@
       </div>
     </div>
   </nav>
-  <div class="scroll-title" data-scroll-bar aria-hidden="true"><span class="scroll-title-text"></span></div>
+  <div class="scroll-title" data-scroll-bar>
+    <span class="scroll-title-text" aria-hidden="true"></span>
+    {%- assign _repo = page.repo -%}
+    {%- if page.project and page.project != "" -%}
+      {%- assign _rp = site.projects | where: "slug", page.project | first -%}
+      {%- assign _repo = _rp.repo -%}
+    {%- endif -%}
+    {%- if _repo and _repo != "" %}
+    <a class="btn is-dark is-small" href="{{ _repo }}">{{ t.code | upcase }} &rarr;</a>
+    {%- endif %}
+    <a class="scroll-top mono" href="#" data-scroll-top aria-label="{{ t.back_to_top }}" title="{{ t.back_to_top }}">&uarr;</a>
+  </div>
 </header>

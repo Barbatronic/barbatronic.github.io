@@ -6,11 +6,20 @@
 // Positionné hors du flux pour ne pas décaler la page quand il apparaît.
 .scroll-title {
   position: absolute; left: 0; right: 0; top: 100%; z-index: -1;
-  margin-top: 2px; padding: 10px var(--gutter); background: var(--paper); border-bottom: var(--rule);
-  font-family: var(--font-display); font-weight: 700; font-size: 22px; line-height: 1.1; text-transform: uppercase;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  margin-top: 2px; padding: 6px var(--gutter); background: var(--paper); border-bottom: var(--rule);
+  display: flex; align-items: center; gap: 16px;
   transform: translateY(-100%); visibility: hidden; transition: transform 0.2s ease, visibility 0.2s;
   &.is-visible { transform: none; visibility: visible; }
+}
+.scroll-title-text {
+  flex: 1; min-width: 0; font-family: var(--font-display); font-weight: 700; font-size: 22px; line-height: 1.1;
+  text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.scroll-title .btn.is-small { flex-shrink: 0; min-height: 34px; padding: 6px 12px; font-size: 12px; }
+.scroll-top {
+  flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px;
+  border: var(--rule); font-size: 16px; color: var(--ink);
+  &:hover { background: var(--ink); color: var(--paper); }
 }
 
 .navbar {

@@ -106,7 +106,15 @@
   if (header) {
     var bar = header.querySelector("[data-scroll-bar]");
     var title = document.querySelector("[data-scroll-title]");
-    if (bar && title) bar.querySelector(".scroll-title-text").textContent = title.textContent.replace(/\s+/g, " ").trim();
+    // Texte de la barre : valeur de data-scroll-title si renseignée, sinon le texte du titre.
+    if (bar && title) bar.querySelector(".scroll-title-text").textContent = (title.dataset.scrollTitle || title.textContent).replace(/\s+/g, " ").trim();
+    // Flèche de retour en haut (défilement doux sauf préférence "réduire les animations").
+    var topLink = bar && bar.querySelector("[data-scroll-top]");
+    if (topLink) topLink.addEventListener("click", function (e) {
+      e.preventDefault();
+      var smooth = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      window.scrollTo({ top: 0, behavior: smooth ? "smooth" : "auto" });
+    });
     var ticking = false;
     var update = function () {
       ticking = false;

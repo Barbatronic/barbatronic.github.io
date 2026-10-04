@@ -12,6 +12,7 @@ fr:
     - { key: about, label: "À propos", url: /a-propos/ }
   menu_open: Ouvrir le menu
   skip: Aller au contenu
+  back_to_top: Haut de page
   cta_projects: Voir les projets
   cta_about: Qui suis-je
   featured: "À la une"
@@ -97,6 +98,7 @@ en:
     - { key: about, label: About, url: /en/about/ }
   menu_open: Open menu
   skip: Skip to content
+  back_to_top: Back to top
   cta_projects: See the projects
   cta_about: About me
   featured: Featured
