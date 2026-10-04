@@ -5,15 +5,16 @@
     variant  "" (grille), "large" (à la une, grande) ou "row" (à la une, horizontale)
     level    niveau du titre de carte : "h3" par défaut, "h2" quand la carte suit
              directement le h1 de la page (liste /projets/), pour ne pas sauter de niveau.
-  Les attributs data-* servent au filtrage JS de /projets/.
+  Les attributs data-* servent au filtrage JS de /projets/ (data-search : titre, description, tags, stack).
 {%- endcomment -%}
 {%- assign p = include.p -%}
 {%- assign _hl = include.level | default: "h3" -%}
 {%- assign _href = p.external_url | default: p.url -%}
-{%- capture _tags -%}{%- for tg in p.tags -%}{{ site.data.tags[tg][lang] | default: tg }}{% unless forloop.last %} {% endunless %}{%- endfor -%}{%- endcapture -%}
+{%- assign _stack = p.stack | join: ' ' -%}
+{%- capture _tags -%}{%- for tg in p.tags -%}{{ site.data.tags[tg][lang] | default: tg }} {% endfor -%}{%- endcapture -%}
 <a class="project-card{% if include.variant %} is-{{ include.variant }}{% endif %}" href="{{ _href | relative_url }}"
    data-tags="{{ p.tags | join: ' ' }}" data-status="{{ p.status }}"
-   data-search="{{ p.title | append: ' ' | append: p.description | append: ' ' | append: _tags | downcase | escape }}">
+   data-search="{{ p.title | append: ' ' | append: p.description | append: ' ' | append: _tags | append: ' ' | append: _stack | downcase | escape }}">
   <div class="card-strip mono">
     <span>{{ p.code }}{% if p.lang != lang %} &middot; {{ p.lang | upcase }}{% endif %}</span>
     <span>{{ t.statuses[p.status] | default: p.status | upcase }}</span>

@@ -3,20 +3,31 @@ layout: about
 ref: about
 title: "Adrien Bracq alias Barbatronic"
 permalink: /a-propos/
-intro: "Enseignant et responsable du MakerSpace d'UniLaSalle Amiens, j'accompagne les étudiants de toute l'école d'ingénieurs dans leurs prototypes. Le reste du temps, je construis des robots, j'imprime en 3D et je documente tout ici."
+portrait: /assets/img/portrait/adrien.jpg
+intro: "Maker : je conçois et fabrique des systèmes complets, mécanique, électronique et code, pour donner vie à des objets et des produits. Je documente tout ici. Je suis aussi enseignant et responsable du MakerSpace d'UniLaSalle Amiens, où j'accompagne les étudiants de toute l'école d'ingénieurs dans leurs prototypes."
 ---
+
+Ingénieur en mécatronique, passé par l'industrie ferroviaire puis par les FabLabs. Depuis plus de dix ans,
+je fabrique, j'enseigne et je partage ce que j'apprends.
 
 ## Ce que je fais
 
-- **Robotique** : robots de compétition avec [Les Karibous](https://leskaribous.fr) (Coupe de France de Robotique) et robots radiocommandés maison.
-- **Impression 3D** : pièces fonctionnelles, outillage d'atelier.
-- **Électronique** : cartes, microcontrôleurs, ESP32, pilotage d'actionneurs.
-- **Transmission** : enseignement, MakerSpace, vidéos et lives.
+- **Conception de systèmes** : mécanique, électronique et code embarqué pensés ensemble, de l'idée à l'objet qui fonctionne.
+- **Prototypage** : impression 3D, découpe laser, fraisage, moulage, PCB. La bonne technologie pour chaque pièce.
+- **Électronique embarquée** : cartes, microcontrôleurs, capteurs, pilotage d'actionneurs.
+- **Robotique** : mon terrain de jeu favori, avec les robots de compétition des [Karibous](https://leskaribous.fr) (Coupe de France de Robotique) et des robots maison.
+- **Transmission** : enseignement, MakerSpace, vidéos et lives sur YouTube et Twitch.
 
 ## Parcours
 
-| Période | Étape |
-|---|---|
-| [ANNÉE] | Responsable du MakerSpace, UniLaSalle Amiens |
-| [ANNÉE] | Lancement de Barbatronic (Twitch, YouTube) |
-| [ANNÉE] | Les Karibous, Coupe de France de Robotique |
+{% include parcours.html %}
+
+## Stack
+
+Chaque outil renvoie aux projets qui l'utilisent.
+
+{% include stack-grid.html %}
+
+## Atelier
+
+{% include atelier-grid.html %}

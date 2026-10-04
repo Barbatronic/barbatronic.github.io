@@ -8,23 +8,20 @@ fr:
   nav:
     - { key: projects, label: Projets, url: /projets/ }
     - { key: blog, label: Blog, url: /blog/ }
-    - { key: logs, label: Journaux, url: /logs/ }
+    - { key: logs, label: Logs, url: /logs/ }
     - { key: about, label: "À propos", url: /a-propos/ }
   menu_open: Ouvrir le menu
   skip: Aller au contenu
-  hero_kicker: "[ ADRIEN BRACQ ] / MAKERSPACE UNILASALLE AMIENS"
   cta_projects: Voir les projets
-  cta_contact: Travaillons ensemble
-  cta_more: En savoir plus
+  cta_about: Qui suis-je
   featured: "À la une"
   all_projects: Tous les projets
   activity: "Activité récente"
-  work_together: Travaillons ensemble
   projects_title: Projets
   blog_title: Blog
-  logs_title: Journaux de bord
+  logs_title: Logs
   documentation: Documentation
-  logbook: Journal de bord
+  logbook: Logs
   articles: Articles
   related_project: "Projet lié"
   status: Statut
@@ -51,6 +48,37 @@ fr:
   untranslated: "Cette page n'existe pas encore en français. Voici la version anglaise."
   lang_name: "Français"
   links: Liens
+  contact: Contact
+  atelier:
+    doc: Manufacturer documentation
+    past: Before
+    pro: WORK
+    perso: HOME
+  parcours:
+    pro: Career
+    asso: Volunteering
+    formation: Education
+    since: Since
+    period: Period
+    step: Step
+    details: Full background, in detail
+    hint: "Hover a point for details."
+    chart_label: "Timeline of my background. Full details are in the tables below."
+  atelier:
+    doc: Documentation du fabricant
+    past: Avant
+    pro: PRO
+    perso: PERSO
+  parcours:
+    pro: Parcours
+    asso: Associatif
+    formation: Formation
+    since: Depuis
+    period: "Période"
+    step: "Étape"
+    details: Tout le parcours en détail
+    hint: "Survolez un point pour le détail."
+    chart_label: "Frise chronologique du parcours. Le détail complet est dans les tableaux qui suivent."
   types: { log: LOG, post: ARTICLE, doc: DOC }
   statuses:
     en-cours: En cours
@@ -69,19 +97,16 @@ en:
     - { key: about, label: About, url: /en/about/ }
   menu_open: Open menu
   skip: Skip to content
-  hero_kicker: "[ ADRIEN BRACQ ] / MAKERSPACE UNILASALLE AMIENS"
   cta_projects: See the projects
-  cta_contact: "Let's work together"
-  cta_more: Learn more
+  cta_about: About me
   featured: Featured
   all_projects: All projects
   activity: Recent activity
-  work_together: "Let's work together"
   projects_title: Projects
   blog_title: Blog
-  logs_title: Logbooks
+  logs_title: Logs
   documentation: Documentation
-  logbook: Logbook
+  logbook: Logs
   articles: Articles
   related_project: Related project
   status: Status
@@ -108,6 +133,7 @@ en:
   untranslated: "This page is not available in English yet. Showing the French version."
   lang_name: English
   links: Links
+  contact: Contact
   types: { log: LOG, post: POST, doc: DOC }
   statuses:
     en-cours: In progress

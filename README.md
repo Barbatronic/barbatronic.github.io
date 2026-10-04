@@ -1,6 +1,6 @@
 # barbatronic.fr
 
-Site d'Adrien Bracq (Barbatronic) : projets, journaux de bord, documentation et blog.
+Site d'Adrien Bracq (Barbatronic) : projets, logs, documentation et blog.
 Jekyll servi par GitHub Pages sur le domaine `barbatronic.fr` (fichier `CNAME`).
 
 ## Stack
@@ -32,14 +32,15 @@ _config.yml            configuration, collections, valeurs par défaut
 _data/
   i18n.yml             libellés d'interface FR / EN, statuts de projet
   tags.yml             tags de projets et leurs libellés (ordre = ordre des filtres)
-  services.yml         offres "Travaillons ensemble"
   social.yml           liens réseaux
-  contact.yml          e-mail public (vide = bouton masqué)
+  contact.yml          e-mail public (vide = pas de lien)
+  stack.yml            grille Stack de la page À propos, reliée au champ `stack` des projets
+  atelier.yml          machines de la grille Atelier (page À propos)
 _layouts/              un layout par type de page (voir ci-dessous)
 _includes/             composants ; i18n/ = logique de langue
 _sass/barbatronic/     styles du site ; _tokens.scss = couleurs, polices, espacements
 _projects/ _projects_en/   projets
-_logs/ _logs_en/           journaux de bord, un dossier par projet
+_logs/ _logs_en/           logs, un dossier par projet
 _docs/ _docs_en/           documentation, un dossier par projet
 _posts/ _posts/en/         articles de blog
 index.html, projets/, blog/, logs/, a-propos.md    pages FR

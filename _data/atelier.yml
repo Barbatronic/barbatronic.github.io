@@ -1,0 +1,35 @@
+# Matériel de la page À propos (include atelier-grid.html).
+# current : utilisé régulièrement aujourd'hui, une tuile par famille de machines.
+#   type  : famille (fr/en).
+#   items : machines.
+#     model : nom de la machine.
+#     use   : [pro, perso] : MakerSpace et/ou atelier perso (badges).
+#     url   : (optionnel) doc ou page officielle du fabricant (lien externe ↗).
+#     link  : (optionnel) page du site liée : projet, article, log.
+# past : utilisé avant, liste simple sous la grille. `more` : mention de fin ("et bien d'autres").
+# Liens vérifiés le 2026-10-04. Sans page officielle trouvée (K40, P3, Laserbox, Cameo) : pas de lien.
+current:
+  - type: { fr: Impression 3D FDM, en: FDM 3D printing }
+    items:
+      - { model: Bambu Lab P1P, use: [pro], url: "https://wiki.bambulab.com/en/p1/manual/intro-p1p" }
+      - { model: Bambu Lab X1 Carbon, use: [pro], url: "https://wiki.bambulab.com/en/x1" }
+      - { model: Bambu Lab A1 mini, use: [pro, perso], url: "https://wiki.bambulab.com/en/a1-mini" }
+      - { model: Bambu Lab A2L, use: [perso], url: "https://blog.bambulab.com/bambu-lab-a2l-creative-playground-extra-large/" }
+      - { model: Artillery Genius Pro, use: [pro], url: "https://www.artillery3d.com/pages/3d-printing-user-support" }
+      - { model: Artillery Sidewinder X2, use: [pro, perso], url: "https://www.artillery3d.com/pages/3d-printing-user-support" }
+  - type: { fr: "Impression 3D résine", en: Resin 3D printing }
+    items:
+      - { model: Phrozen Sonic Mighty 4K, use: [pro], url: "https://phrozen3d.com/products/sonic-mighty-4k" }
+  - type: { fr: "Découpe laser", en: Laser cutting }
+    items:
+      - { model: xTool P3, use: [pro] }
+      - { model: xTool F2 Ultra, use: [pro], url: "https://support.xtool.com/article/1961" }
+      - { model: Makeblock Laserbox, use: [pro] }
+      - { model: K40 (CO2), use: [perso] }
+  - type: { fr: "Plotter de découpe", en: Cutting plotter }
+    items:
+      - { model: Silhouette Cameo 4, use: [pro] }
+      - { model: Silhouette Cameo 3, use: [perso] }
+past:
+  items: [Ultimaker Original, Ultimaker 2, Snapmaker 2.0, Creality CR-10, Creality Ender 3, BQ Hephestos 2, "Laser CO2 Arketype 100 W et 40 W", Othermill]
+  more: { fr: "et bien d'autres", en: and many more }

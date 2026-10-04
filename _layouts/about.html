@@ -2,12 +2,11 @@
 layout: default
 ---
 {%- comment -%}
-  Page À propos. Front matter : title, intro, portrait (optionnel, chemin image).
+  Page À propos. Front matter : title, intro, portrait (optionnel, chemin image ; sinon cadre hachuré).
   Le contenu Markdown de la page forme le corps (sections "## ...").
-  Le bandeau d'offres vient de _data/services.yml, les liens de _data/social.yml.
+  Section Contact : liens de _data/social.yml, plus l'e-mail de _data/contact.yml s'il est renseigné.
 {%- endcomment -%}
 {%- include i18n/init.html -%}
-{%- assign logo = site.static_files | where: "path", "/assets/img/logo.png" | first -%}
 
 <section class="hero-grid is-compact">
   <div class="hero-main">
@@ -16,7 +15,7 @@ layout: default
     <p class="hero-intro is-large">{{ page.intro }}</p>
   </div>
   <figure class="hero-figure">
-    {%- assign _img = page.portrait | default: logo.path -%}
+    {%- assign _img = page.portrait -%}
     <div class="figure-box{% unless _img %} is-placeholder{% endunless %}">
       {%- if _img %}<img src="{{ _img | relative_url }}" alt="{{ site.author.name }}">{% endif -%}
     </div>
@@ -28,11 +27,11 @@ layout: default
   <div class="content prose is-wide">{{ content }}</div>
 </section>
 
-{%- include services-band.html full=true -%}
-
 <section class="block">
-  {%- include section-title.html num="04" title=t.links -%}
+  {%- include section-title.html num="03" title=t.contact -%}
   <div class="social-grid mono">
+    {%- assign _mail = site.data.contact.email | strip -%}
+    {%- if _mail != "" -%}<a href="mailto:{{ _mail }}"><b>E-MAIL</b><span>{{ _mail }}</span></a>{%- endif -%}
     {%- for s in site.data.social -%}
     <a href="{{ s.url }}" rel="me noopener"><b>{{ s.name | upcase }}</b><span>{{ s.handle }}</span></a>
     {%- endfor -%}

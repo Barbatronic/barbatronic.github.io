@@ -1,0 +1,32 @@
+{%- comment -%}
+  Grille "Stack" : outils par catégorie, chacun relié aux projets qui l'utilisent.
+  Données : _data/stack.yml. Aucun paramètre ; s'insère dans le Markdown d'une page
+  ({% include stack-grid.html %}).
+  Compteur : nombre de projets (langue par défaut) dont le `stack` ou les tags contiennent
+  le terme `q` (ou `name`). Lien : page Projets filtrée par ?q=<terme>.
+  Sortie : <div class="stack-grid">, une tuile par catégorie.
+{%- endcomment -%}
+{%- include i18n/init.html -%}
+{%- assign _projects_url = t.nav[0].url | relative_url -%}
+<div class="stack-grid mono">
+  {%- for cat in site.data.stack -%}
+  <div class="stack-cat">
+    <b>{{ cat[lang] | default: cat.fr | upcase }}</b>
+    {%- for it in cat.items -%}
+    {%- assign _q = it.q | default: it.name | downcase -%}
+    {%- assign _label = it.name -%}{%- if lang != site.default_lang and it[lang] -%}{%- assign _label = it[lang] -%}{%- endif -%}
+    {%- assign _n = 0 -%}
+    {%- for p in site.projects -%}
+      {%- capture _hay -%}{{ p.stack | join: " | " }} | {% for tg in p.tags %}{{ site.data.tags[tg].fr | default: tg }} | {% endfor %}{%- endcapture -%}
+      {%- assign _hay = _hay | downcase -%}
+      {%- if _hay contains _q -%}{%- assign _n = _n | plus: 1 -%}{%- endif -%}
+    {%- endfor -%}
+    {%- if _n > 0 -%}
+    <a class="stack-item" href="{{ _projects_url }}?q={{ _q | url_encode }}"><span>{{ _label }}</span><span class="stack-count">{% if _n < 10 %}0{% endif %}{{ _n }} &rarr;</span></a>
+    {%- else -%}
+    <span class="stack-item"><span>{{ _label }}</span></span>
+    {%- endif -%}
+    {%- endfor -%}
+  </div>
+  {%- endfor -%}
+</div>

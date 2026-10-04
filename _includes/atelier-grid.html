@@ -1,0 +1,32 @@
+{%- comment -%}
+  Atelier : matériel utilisé aujourd'hui (une tuile par famille de machines) + matériel d'avant (ligne simple).
+  Données : _data/atelier.yml (current, past). Libellés : t.atelier (_data/i18n.yml).
+  Aucun paramètre ; s'insère dans le Markdown d'une page ({% include atelier-grid.html %}).
+  Sorties :
+    <div class="atelier-grid">  une tuile par famille ; une ligne par machine : nom (lien externe ↗ si `url`),
+                                badges PRO / PERSO, lien "→" vers une page du site si `link`.
+    <p class="atelier-past">    `past.items` séparés par des points médians, puis `past.more`.
+{%- endcomment -%}
+{%- include i18n/init.html -%}
+<div class="atelier-grid mono">
+  {%- for cat in site.data.atelier.current -%}
+  <div class="atelier-cat">
+    <b>{{ cat.type[lang] | default: cat.type.fr | upcase }}</b>
+    {%- for m in cat.items -%}
+    <div class="atelier-item">
+      {%- if m.url -%}<a class="atelier-model" href="{{ m.url }}" rel="noopener" title="{{ t.atelier.doc }}">{{ m.model }} &nearr;</a>
+      {%- else -%}<span class="atelier-model">{{ m.model }}</span>{%- endif -%}
+      {%- if m.link -%}<a class="atelier-link" href="{{ m.link | relative_url }}">&rarr;</a>{%- endif -%}
+      <span class="atelier-use">{% for u in m.use %}<span class="badge is-{{ u }}">{{ t.atelier[u] }}</span>{% endfor %}</span>
+    </div>
+    {%- endfor -%}
+  </div>
+  {%- endfor -%}
+</div>
+{%- assign _past = site.data.atelier.past -%}
+{%- if _past.items.size > 0 -%}
+<p class="atelier-past mono"><span>{{ t.atelier.past | upcase }}</span>
+  {%- for m in _past.items -%}{{ m }}{% unless forloop.last %} &middot; {% endunless %}{%- endfor -%}
+  {%- if _past.more %} &middot; {{ _past.more[lang] | default: _past.more.fr }}{% endif -%}
+</p>
+{%- endif -%}

@@ -1,0 +1,64 @@
+# Parcours de la page À propos (include parcours.html) : frise animée + tableaux repliés.
+# Sections : pro (Parcours), asso (Associatif), formation (Formation). L'ordre du fichier = ordre d'affichage.
+# Entrée :
+#   start / end : "AAAA" ou "AAAA-MM" (AAAA seul = janvier pour start, décembre pour end).
+#                 Sans `end` : en cours ("Depuis AAAA").
+#   fr / en     : { title, org, detail }. `short` (optionnel) : libellé court de la frise.
+#   roles       : (optionnel) sous-rôles, chacun avec start/end/fr/en ; une barre par rôle dans la frise,
+#                 une seule ligne regroupée dans le tableau.
+# Les dates au mois près servent seulement à la frise ; le tableau n'affiche que les années.
+pro:
+  - start: "2021"
+    fr: { title: Responsable du MakerSpace, org: UniLaSalle Amiens, short: MakerSpace UniLaSalle }
+    en: { title: Head of the MakerSpace, org: UniLaSalle Amiens, short: UniLaSalle MakerSpace }
+  - start: "2020-11"
+    end: "2024"
+    fr: { title: "ABMecatro, auto-entrepreneur", detail: Conseil en prototypage et formation, short: ABMecatro }
+    en: { title: "ABMecatro, freelance", detail: Prototyping consulting and training, short: ABMecatro }
+  - start: "2014-09"
+    end: "2020-12"
+    fr: { title: La Machinerie, org: Amiens }
+    en: { title: La Machinerie, org: Amiens }
+    roles:
+      - start: "2014-09"
+        end: "2020-12"
+        fr: { title: Fab Manager du FabLab, short: Fab Manager }
+        en: { title: Fab Manager of the FabLab, short: Fab Manager }
+      - start: "2015-09"
+        end: "2020-09"
+        fr: { title: "Chef de projet OPEN BOT", detail: "Médiation scientifique autour de la robotique", short: OPEN BOT }
+        en: { title: "Project manager, OPEN BOT", detail: Robotics science outreach, short: OPEN BOT }
+  - start: "2014-09"
+    end: "2015-02"
+    fr: { title: Enseignant en automatisme, org: "IUT GMP d'Amiens", detail: Un semestre, short: IUT GMP }
+    en: { title: Automation teacher, org: IUT GMP Amiens, detail: One semester, short: IUT GMP }
+  - start: "2012-02"
+    end: "2014-02"
+    fr: { title: "Ingénieur qualité client", org: Faiveley Transport Amiens, detail: Ferroviaire, short: Faiveley }
+    en: { title: Customer quality engineer, org: Faiveley Transport Amiens, detail: Railway, short: Faiveley }
+asso:
+  - start: "2019"
+    link: https://leskaribous.fr
+    fr: { title: "Président des Karibous", detail: "Association de robotique, Coupe de France de Robotique", short: Karibous }
+    en: { title: President of the Karibous, detail: "Robotics club, French Robotics Cup", short: Karibous }
+  - start: "2014-02"
+    end: "2014-09"
+    fr: { title: "Cofondateur de l'association La Machinerie", org: Amiens, detail: Avant d'en devenir Fab Manager, short: "Cofondation Machinerie" }
+    en: { title: Co-founder of the La Machinerie association, org: Amiens, detail: Before becoming its Fab Manager, short: La Machinerie co-founder }
+  - start: "2011"
+    end: "2012"
+    fr: { title: "Président de Valrobotik", detail: Association de robotique, short: Valrobotik }
+    en: { title: President of Valrobotik, detail: Robotics club, short: Valrobotik }
+formation:
+  - start: "2019"
+    end: "2019"
+    fr: { title: Fab Academy, org: "MIT, formation distribuée", short: Fab Academy }
+    en: { title: Fab Academy, org: "MIT, distributed course", short: Fab Academy }
+  - start: "2009"
+    end: "2012"
+    fr: { title: "Ingénieur en mécatronique", org: ENSIAME Valenciennes, detail: Major de promotion, short: ENSIAME }
+    en: { title: Mechatronics engineering degree, org: ENSIAME Valenciennes, detail: Top of the class, short: ENSIAME }
+  - start: "2007"
+    end: "2009"
+    fr: { title: "DUT automatique et électronique", org: "Béthune", short: "DUT Béthune" }
+    en: { title: Two-year technical degree (DUT) in automation and electronics, org: "Béthune", short: "DUT Béthune" }

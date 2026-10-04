@@ -67,8 +67,15 @@
     var search = filters.querySelector("[data-filter-search]");
     if (search) search.addEventListener("input", function () { state.q = search.value.trim().toLowerCase(); apply(); });
 
-    // Filtre initial par URL : /projets/?tag=esp32
-    var initial = new URLSearchParams(location.search).get("tag");
+    // Filtre initial par URL : /projets/?tag=esp32 ou /projets/?q=freecad (liens de la grille Stack)
+    var params = new URLSearchParams(location.search);
+    var q = params.get("q");
+    if (q && search) {
+      search.value = q;
+      state.q = q.trim().toLowerCase();
+      apply();
+    }
+    var initial = params.get("tag");
     if (initial) {
       var b = filters.querySelector('[data-filter-group="tag"] [data-value="' + CSS.escape(initial) + '"]');
       if (b) b.click();

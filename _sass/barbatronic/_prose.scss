@@ -28,7 +28,7 @@
 
   img { border: var(--rule); }
 
-  // Vidéos des journaux : même cadre que les images, jamais plus large que la colonne.
+  // Vidéos des logs : même cadre que les images, jamais plus large que la colonne.
   video { display: block; max-width: 100%; height: auto; border: var(--rule); background: var(--ink); }
 
   // Légende de média : `*Texte.*` sur la ligne sous une image ou une vidéo.

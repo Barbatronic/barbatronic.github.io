@@ -1,0 +1,42 @@
+# Grille "Stack" de la page À propos (include stack-grid.html).
+# Une entrée = une catégorie (fr/en) et ses outils.
+# Outil : `name` (affiché), `en` (libellé anglais si différent), `q` (terme de recherche si différent de name).
+# Le compteur de projets cherche `q` (ou `name`) dans le `stack` et les tags de chaque fiche projet,
+# et le lien ouvre /projets/?q=<terme>. Sans projet correspondant, l'outil s'affiche sans lien.
+- fr: CAO
+  en: CAD
+  items:
+    - { name: FreeCAD }
+    - { name: Fusion 360 }
+    - { name: SolidWorks }
+- fr: "Électronique"
+  en: Electronics
+  items:
+    - { name: KiCad }
+    - { name: ESP32 }
+    - { name: Teensy }
+- fr: Firmware
+  en: Firmware
+  items:
+    - { name: C++ }
+    - { name: PlatformIO }
+    - { name: Marlin }
+- fr: Logiciel
+  en: Software
+  items:
+    - { name: Python }
+    - { name: JavaScript }
+    - { name: Node.js }
+    - { name: Docker }
+- fr: Fabrication
+  en: Fabrication
+  items:
+    - { name: Impression 3D, en: 3D printing }
+    - { name: "Découpe laser", en: Laser cutting }
+    - { name: Fraisage, en: Milling }
+    - { name: Moulage, en: Moulding }
+- fr: "Mécanique"
+  en: Mechanics
+  items:
+    - { name: MakerBeam }
+    - { name: Pas à pas, en: Stepper motors, q: nema }

@@ -5,24 +5,23 @@ layout: default
   Accueil. Front matter attendu dans la page (index.html, en/index.html) :
     hero_lines : lignes du grand titre
     intro      : phrase sous le titre
+    hero_image : image de droite (optionnel, chemin). Sans image, cadre hachuré.
   Projets à la une : `featured: true` dans le projet, triés par `featured_order`, 3 max.
 {%- endcomment -%}
 {%- include i18n/init.html -%}
-{%- assign logo = site.static_files | where: "path", "/assets/img/logo.png" | first -%}
 
 <section class="hero-grid">
   <div class="hero-main">
-    <p class="mono kicker">{{ t.hero_kicker }}</p>
     <h1 class="display">{% for line in page.hero_lines %}{{ line }}{% unless forloop.last %}<br>{% endunless %}{% endfor %}</h1>
     <div class="hero-actions">
       <a class="btn is-dark" href="{{ t.nav[0].url | relative_url }}">{{ t.cta_projects | upcase }} &rarr;</a>
-      <a class="btn" href="{{ t.nav[3].url | relative_url }}#services">{{ t.cta_contact | upcase }}</a>
+      <a class="btn" href="{{ t.nav[3].url | relative_url }}">{{ t.cta_about | upcase }}</a>
       <p class="hero-intro">{{ page.intro }}</p>
     </div>
   </div>
   <figure class="hero-figure">
-    <div class="figure-box{% unless logo %} is-placeholder{% endunless %}">
-      {%- if logo %}<img src="{{ logo.path | relative_url }}" alt="{{ site.title }}">{% endif -%}
+    <div class="figure-box{% unless page.hero_image %} is-placeholder{% endunless %}">
+      {%- if page.hero_image %}<img src="{{ page.hero_image | relative_url }}" alt="{{ site.title }}">{% endif -%}
     </div>
     <figcaption class="mono"><span>FIG. 01</span><span>ÉCH. 1:1</span></figcaption>
   </figure>
@@ -54,4 +53,3 @@ layout: default
   </div>
 </section>
 
-{%- include services-band.html -%}
