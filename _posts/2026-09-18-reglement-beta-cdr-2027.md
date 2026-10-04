@@ -32,6 +32,15 @@ qui est le vrai roi.
 
 ## La table et les éléments de jeu
 
+![Vue 3D de la table de jeu 2027]({{ '/assets/img/projets/cdr-2027/2026-09-18-reglement-beta/table-vue-generale.jpg' | relative_url }})
+*Vue générale de la table (règlement bêta).*
+
+![Vue 3D de la table avec les zones numérotées]({{ '/assets/img/projets/cdr-2027/2026-09-18-reglement-beta/table-zones.jpg' | relative_url }})
+*Les zones : 1. salle du trône, 2. cour du château, 3. écuries (départ des PAMI), 4. remparts, 5. douves, 6. carrières de pierres.*
+
+![Plan de la table vu de dessus, avec les cotes]({{ '/assets/img/projets/cdr-2027/2026-09-18-reglement-beta/table-plan.jpg' | relative_url }})
+*Plan de la table vu de dessus, avec les cotes en mm (annexe G.1, version bêta).*
+
 - **Table** : 3000 × 2000 mm, comme d'habitude. Chaque équipe a sa « salle du trône » (zone de départ et
   d'arrivée de 50 × 50 cm), sa cour du château, ses remparts, ses douves et ses « écuries » (zones de
   départ des PAMI). Des carrières de pierres sont réparties sur la table.
@@ -41,6 +50,15 @@ qui est le vrai roi.
 - **Chevaliers** : les PAMI de l'équipe.
 - **Graal** : fabriqué par l'équipe, posé dans la salle du trône avant le match. Il suit les mêmes
   contraintes de construction qu'un PAMI.
+
+![Deux pierres en carton avec leurs tags ArUco]({{ '/assets/img/projets/cdr-2027/2026-09-18-reglement-beta/pierres.jpg' | relative_url }})
+*Les pierres : cartons de 320 × 110 × 110 mm avec un tag ArUco sur chaque grande face.*
+
+![Boulets bleus et jaunes en mousse]({{ '/assets/img/projets/cdr-2027/2026-09-18-reglement-beta/boulets.jpg' | relative_url }})
+*Les boulets : 10 balles en mousse de 45 mm par équipe, bleues ou jaunes.*
+
+![Salles du trône bleue et jaune]({{ '/assets/img/projets/cdr-2027/2026-09-18-reglement-beta/salles-du-trone.jpg' | relative_url }})
+*Les salles du trône, zones de départ et d'arrivée de 50 × 50 cm.*
 
 ## Les quatre actions
 
@@ -58,6 +76,12 @@ Ramasser les pierres et construire le château dans ses remparts, en suivant le 
 Les constructions peuvent monter jusqu'à 430 mm. On peut stocker jusqu'à 3 pierres dans la cour pendant
 le match. Voler les pierres du château adverse n'est permis qu'une fois toutes les carrières vides, et
 sans détruire le château adverse.
+
+![Un mur, une tour et une porte en pierres]({{ '/assets/img/projets/cdr-2027/2026-09-18-reglement-beta/constructions.jpg' | relative_url }})
+*De gauche à droite : un mur, une tour et une porte.*
+
+![Château complet construit avec les pierres]({{ '/assets/img/projets/cdr-2027/2026-09-18-reglement-beta/chateau.jpg' | relative_url }})
+*Un château complet, vu depuis le centre de la table.*
 
 ### Il n'y en a qu'un, et c'est le mien !
 
