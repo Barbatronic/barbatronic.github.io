@@ -32,8 +32,9 @@ layout: default
   </aside>
 </section>
 
-<figure class="cover{% unless page.image %} is-placeholder{% endunless %}">
-  {%- if page.image %}<img src="{{ page.image | relative_url }}" alt="">{% endif -%}
+{%- assign _has_img = false -%}{%- if page.image and page.image != "" -%}{%- assign _has_img = true -%}{%- endif -%}
+<figure class="cover{% unless _has_img %} is-placeholder{% endunless %}">
+  {%- if _has_img %}<img src="{{ page.image | relative_url }}" alt="">{% endif -%}
   <figcaption class="mono"><span>{{ page.image_caption }}</span><span>FIG. 01</span></figcaption>
 </figure>
 

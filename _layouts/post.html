@@ -26,7 +26,7 @@ layout: default
   </p>
 </section>
 
-{%- if page.image %}
+{%- if page.image and page.image != "" %}
 <figure class="cover">
   <img src="{{ page.image | relative_url }}" alt="">
   <figcaption class="mono"><span>{{ page.image_caption }}</span><span>FIG. 01</span></figcaption>
