@@ -16,7 +16,7 @@ author:
   twitter: ""
 
 # Langues. La première est la langue par défaut (URL sans préfixe).
-# L'anglais vit sous /en/. Libellés d'interface : _data/i18n.yml.
+# La version anglaise est sous /en/. Libellés d'interface : _data/i18n.yml.
 default_lang: fr
 languages: [fr, en]
 
