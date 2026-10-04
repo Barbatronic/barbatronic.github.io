@@ -102,7 +102,9 @@ $desktop: 1024px;
 .with-toc {
   display: flex; flex-direction: column;
   @include desktop { flex-direction: row; }
-  > .prose { flex: 1; padding: 48px var(--gutter); min-width: 0; max-width: 840px; }
+  > .prose { flex: 1; padding: 48px var(--gutter); min-width: 0; }
+  // Comme pour les logs : la colonne prend toute la largeur, le texte est limité à 780 px et centré.
+  > .content.prose { max-width: none; > * { max-width: 780px; margin-left: auto; margin-right: auto; } }
 }
 .toc {
   padding: 32px var(--gutter) 0;
