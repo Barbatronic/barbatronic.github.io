@@ -6,7 +6,7 @@ description: "Conversion de mon Ultimaker Original au filament 1,75 mm avec des 
 status: en-cours
 updated: 2025-05-16   # tri de /projets/ : dernier commit
 tags: [impression-3d]
-stack: [Marlin, impression 3D]
+stack: [Marlin, FreeCAD, OrcaSlicer, impression 3D]
 featured: false
 featured_order: 99
 repo: "https://github.com/Barbatronic/UMO-1.75mm"
@@ -22,4 +22,5 @@ L'Ultimaker Original (2011) a été ma première imprimante 3D personnelle, reç
 - l'extrudeur était devenu presque inutilisable.
 
 La conversion utilise des pièces standard d'Ender 3 (extrudeur, tête d'impression) pour passer au 1,75 mm.
-Le pas-à-pas (démontage, câblage, résistance à souder sur la carte mère, firmware) est dans le dépôt. Projet en cours.
+Le pas-à-pas (démontage, câblage, résistance à souder sur la carte mère, firmware, calibration) est dans la doc du projet,
+avec le support de tête imprimé en 3D et le profil OrcaSlicer. Projet en cours.
