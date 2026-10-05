@@ -32,6 +32,15 @@
   video { display: block; max-width: 100%; height: auto; border: var(--rule); background: var(--ink); }
   iframe { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; border: var(--rule); background: var(--ink); }
 
+  // Bandeau de photos légendées : <div class="gallery"><figure><img><figcaption>…</div>.
+  // Vignettes recadrées au même format, pour des photos en portrait ou des étapes.
+  .gallery {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; margin-top: 0; margin-bottom: 1.5em;
+    figure { margin: 0; text-align: left; }
+    img { display: block; width: 100%; aspect-ratio: 2 / 3; object-fit: cover; }
+    figcaption { margin-top: 6px; font-style: normal; font-family: var(--font-mono); font-size: 13px; line-height: 1.4; color: var(--muted); }
+  }
+
   // Légende de média : `*Texte.*` sur la ligne sous une image ou une vidéo.
   // Deux formes produites par kramdown : collée à l'image dans le même paragraphe
   // (`img + em`), ou seule dans son paragraphe après une vidéo (`em:only-child`).
