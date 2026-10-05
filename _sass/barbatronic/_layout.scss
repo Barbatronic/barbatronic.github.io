@@ -107,6 +107,8 @@ $desktop: 1024px;
   > .prose { flex: 1; padding: 48px var(--gutter); min-width: 0; }
   // Comme pour les logs : la colonne prend toute la largeur, le texte est limité à 780 px et centré.
   > .content.prose { max-width: none; > * { max-width: 780px; margin-left: auto; margin-right: auto; } }
+  // Page À propos : grilles et frise, colonne de 960 px.
+  > .content.prose.is-wide > * { max-width: 960px; }
 }
 .toc {
   padding: 32px var(--gutter) 0;

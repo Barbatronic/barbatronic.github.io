@@ -3,7 +3,8 @@ layout: default
 ---
 {%- comment -%}
   Page À propos. Front matter : title, intro, portrait (optionnel, chemin image ; sinon cadre hachuré).
-  Le contenu Markdown de la page forme le corps (sections "## ...").
+  Le contenu Markdown de la page forme le corps (sections "## ..."), centré, avec sommaire collant
+  à gauche (généré par main.js à partir des h2).
   Section Contact : liens de _data/social.yml, plus l'e-mail de _data/contact.yml s'il est renseigné.
 {%- endcomment -%}
 {%- include i18n/init.html -%}
@@ -23,8 +24,11 @@ layout: default
   </figure>
 </section>
 
-<section class="block content-block">
-  <div class="content prose is-wide">{{ content }}</div>
+<section class="with-toc content-block">
+  <nav class="toc" data-toc hidden aria-label="{{ t.toc }}">
+    <p class="mono side-title">{{ t.toc | upcase }}</p>
+  </nav>
+  <div class="content prose is-wide" data-toc-source>{{ content }}</div>
 </section>
 
 <section class="block">
