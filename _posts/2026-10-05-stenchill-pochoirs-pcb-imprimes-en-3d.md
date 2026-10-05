@@ -4,8 +4,8 @@ date: 2026-10-05
 description: "Stenchill transforme vos fichiers Gerber en pochoir de pâte à braser imprimable en 3D. Un outil gratuit développé par A·D·C studio, né d'une discussion sur mon live, et qui ne cesse de s'enrichir."
 tags: [electronique, pcb, impression-3d, outils, communaute]
 project: 
-image: ""
-image_caption: ""
+image: "/assets/img/blog/2026-10-05-stenchill/stencil-imprime.jpg"
+image_caption: "Pochoir imprimé en 3D avec Stenchill. Photo : Stenchill."
 ---
 
 Il y a quelques mois, on parlait de pochoirs pour la pâte à braser dans le chat du live. Un pochoir pro
@@ -25,6 +25,16 @@ Avec Stenchill :
 1. vous déposez le ZIP de vos Gerber (KiCad, Eagle, Altium, EasyEDA…) ;
 2. vous voyez le pochoir en 3D et ajustez les paramètres si besoin (épaisseur, épaulements, buse) ;
 3. vous téléchargez un STL ou un 3MF, et vous l'imprimez.
+
+<div class="gallery">
+  <figure><img src="{{ '/assets/img/blog/2026-10-05-stenchill/stencil-imprime.jpg' | relative_url }}" alt="Pochoir gris imprimé en 3D, percé aux emplacements des pads" loading="lazy"><figcaption>1. Le pochoir imprimé</figcaption></figure>
+  <figure><img src="{{ '/assets/img/blog/2026-10-05-stenchill/calage-epaulements.jpg' | relative_url }}" alt="PCB posé dans les épaulements de calage du pochoir" loading="lazy"><figcaption>2. La carte calée par les épaulements</figcaption></figure>
+  <figure><img src="{{ '/assets/img/blog/2026-10-05-stenchill/pochoir-pate-etalee.jpg' | relative_url }}" alt="Pochoir couvert de pâte à braser étalée à la raclette" loading="lazy"><figcaption>3. La pâte étalée à la raclette</figcaption></figure>
+  <figure><img src="{{ '/assets/img/blog/2026-10-05-stenchill/pate-deposee.jpg' | relative_url }}" alt="PCB nu avec la pâte déposée sur les pads" loading="lazy"><figcaption>4. La pâte déposée sur les pads</figcaption></figure>
+  <figure><img src="{{ '/assets/img/blog/2026-10-05-stenchill/composants-soudes.jpg' | relative_url }}" alt="PCB avec les composants CMS soudés" loading="lazy"><figcaption>5. Les composants soudés après refusion</figcaption></figure>
+</div>
+
+*Photos : [Stenchill](https://www.stenchill.com/fr/).*
 
 C'est gratuit, sans compte, sans pub. Et ça marche aussi pour les anciennes cartes : vous pouvez faire
 un pochoir après coup, sans rien recommander.
