@@ -17,6 +17,9 @@ fr:
   cta_about: Qui suis-je
   featured: "À la une"
   all_projects: Tous les projets
+  latest_post: Dernier article
+  all_posts: Tous les articles
+  read_post: "Lire l'article"
   activity: "Activité récente"
   projects_title: Projets
   blog_title: Blog
@@ -103,6 +106,9 @@ en:
   cta_about: About me
   featured: Featured
   all_projects: All projects
+  latest_post: Latest post
+  all_posts: All posts
+  read_post: Read the post
   activity: Recent activity
   projects_title: Projects
   blog_title: Blog

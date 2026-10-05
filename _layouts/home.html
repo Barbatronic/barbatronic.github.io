@@ -6,6 +6,7 @@ layout: default
     hero_lines : lignes du grand titre
     intro      : phrase sous le titre
     hero_image : image de droite (optionnel, chemin). Sans image, cadre hachuré.
+  Dernier article : l'article de blog le plus récent (langue de la page, sinon repli).
   Projets à la une : `featured: true` dans le projet, triés par `featured_order`, 3 max.
 {%- endcomment -%}
 {%- include i18n/init.html -%}
@@ -27,13 +28,35 @@ layout: default
   </figure>
 </section>
 
+{%- include i18n/items.html type="posts" -%}
+{%- assign latest = items | sort: "date" | last -%}
+{%- if latest -%}
+{%- assign blog_url = t.nav[1].url -%}
+<section class="block">
+  {%- capture _all_posts_label %}{{ t.all_posts }} ({{ items | size }}){% endcapture -%}
+  {%- include section-title.html num="01" title=t.latest_post link_url=blog_url link_label=_all_posts_label -%}
+  <a class="project-card is-row is-post" href="{{ latest.url | relative_url }}">
+    <div class="card-media">
+      {%- if latest.image and latest.image != "" -%}<img src="{{ latest.image | relative_url }}" alt="" loading="lazy">{%- endif -%}
+    </div>
+    <div class="card-body">
+      <span class="mono card-meta">{{ t.types.post }} &middot; {{ latest.date | date: "%d/%m/%Y" }}{% if latest.lang != lang %} &middot; {{ latest.lang | upcase }}{% endif %}</span>
+      <h3 class="card-title">{{ latest.title }}</h3>
+      {%- if latest.description %}<p class="card-text">{{ latest.description }}</p>{% endif %}
+      <p class="card-tags mono">{% for tg in latest.tags %}#{{ tg }} {% endfor %}</p>
+      <span class="mono card-meta">{{ t.read_post | upcase }} &rarr;</span>
+    </div>
+  </a>
+</section>
+{%- endif -%}
+
 {%- assign projects_url = t.nav[0].url -%}
 {%- include i18n/items.html type="projects" -%}
 {%- assign all_projects = items -%}
 {%- assign featured = items | where: "featured", true | sort: "featured_order" -%}
-<section class="block">
+<section class="block has-border-top">
   {%- capture _all_label %}{{ t.all_projects }} ({{ all_projects | size }}){% endcapture -%}
-  {%- include section-title.html num="01" title=t.featured link_url=projects_url link_label=_all_label -%}
+  {%- include section-title.html num="02" title=t.featured link_url=projects_url link_label=_all_label -%}
   <div class="featured-grid">
     {%- for p in featured limit: 1 -%}{%- include project-card.html p=p variant="large" -%}{%- endfor -%}
     <div class="featured-side">
@@ -47,7 +70,7 @@ layout: default
 {%- include i18n/items.html type="docs" -%}{%- assign _docs = items -%}
 {%- assign activity = _posts | concat: _logs | concat: _docs | sort: "date" | reverse -%}
 <section class="block has-border-top">
-  {%- include section-title.html num="02" title=t.activity -%}
+  {%- include section-title.html num="03" title=t.activity -%}
   <div class="feed">
     {%- for item in activity limit: 6 -%}{%- include feed-row.html item=item -%}{%- else -%}<p class="mono">{{ t.nothing_yet }}</p>{%- endfor -%}
   </div>
