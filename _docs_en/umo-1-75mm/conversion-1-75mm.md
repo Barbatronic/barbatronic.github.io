@@ -42,7 +42,7 @@ Ultimaker's original BOM can help too: [UltimakerOriginal repository](https://gi
 
 ## Removing the original print head and extruder
 
-I had already modified the extruder in the past, so my version is slightly different from the original. I use it to temporarily hold the new extruder while I design a proper *Ultimaker-style* replacement.
+I had already modified the extruder in the past, so my version is slightly different from the original. I use it to temporarily hold the new extruder while I design a proper "Ultimaker-style" replacement.
 
 ![The original extruder, already modified]({{ '/assets/img/projets/umo-1-75mm/doc/IMG_08.jpg' | relative_url }})
 *My extruder, already modified before the conversion.*
@@ -222,4 +222,4 @@ The repository provides an OrcaSlicer printer profile, 0.4 mm nozzle and 1.75 mm
 
 ## What's next
 
-With these steps, the Ultimaker Original prints with 1.75 mm filament. Still to do: the V2 print head mount, the *Ultimaker-style* extruder replacement, tidying the cables and photos of the fan.
+With these steps, the Ultimaker Original prints with 1.75 mm filament. Still to do: the V2 print head mount, the "Ultimaker-style" extruder replacement, tidying the cables and photos of the fan.
