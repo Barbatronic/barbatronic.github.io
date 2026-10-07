@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Banc d'essai : mur de 3 pierres et 3 ventouses</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Semi+Condensed:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#E8EDF1; --panel:#F6F8FA; --ink:#14233A; --muted:#566579; --line:#C7D1DB; --field:#DCE4EB;
+  --glass:rgba(246,248,250,.74); --shade:rgba(15,28,48,.28); --tpu:#F28C1B; --accent:#1B5BB8; --ok:#17805A; --warn:#9A5B00; --bad:#B8322A; --table:#D5DDE5; --grid:#B9C5D1;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --glass:rgba(18,30,47,.72); --shade:rgba(0,0,0,.55); --bg:#0E1826; --panel:#152234; --ink:#E6EDF5; --muted:#97A7BB; --line:#293A50; --field:#1D2D42;
+    --accent:#7DB1FF; --ok:#4CC38A; --warn:#F0B24A; --bad:#F58075; --table:#182639; --grid:#2A3C54;
+  }
+}
+:root[data-theme="dark"]{
+  --glass:rgba(18,30,47,.72); --shade:rgba(0,0,0,.55); --bg:#0E1826; --panel:#152234; --ink:#E6EDF5; --muted:#97A7BB; --line:#293A50; --field:#1D2D42;
+  --accent:#7DB1FF; --ok:#4CC38A; --warn:#F0B24A; --bad:#F58075; --table:#182639; --grid:#2A3C54;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Barlow","Segoe UI",system-ui,sans-serif;font-size:16px;line-height:1.45}
+.num{font-family:"Barlow Semi Condensed","Barlow","Segoe UI",sans-serif;font-variant-numeric:tabular-nums}
+.page{max-width:1280px;margin:0 auto;padding:18px 16px 40px}
+header h1{font-family:"Barlow Semi Condensed","Barlow",sans-serif;font-weight:600;font-size:1.7rem;line-height:1.1;margin:0 0 4px;letter-spacing:.005em}
+header p{margin:0 0 14px;color:var(--muted);max-width:68ch}
+.bench{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:16px;align-items:start}
+#view{display:block;width:100%;height:min(58vh,560px);min-height:300px;touch-action:none;cursor:grab}
+#view:active{cursor:grabbing}
+.chip{position:absolute;left:12px;top:12px;display:flex;align-items:center;gap:8px;padding:6px 12px 6px 10px;border-radius:999px;background:var(--bg);border:1px solid var(--line);font-weight:600;font-size:.95rem}
+.chip i{width:10px;height:10px;border-radius:50%;background:var(--muted);flex:none}
+.chip[data-s="plaque"] i,.chip[data-s="tenu"] i{background:var(--ok)}
+.chip[data-s="bord"] i,.chip[data-s="inegal"] i{background:var(--warn)}
+.chip[data-s="alerte"] i{background:var(--bad)}
+.views{position:absolute;right:10px;top:10px;display:flex;gap:6px}
+button{font:inherit;color:inherit}
+.views button,.play{background:var(--bg);border:1px solid var(--line);border-radius:5px;padding:6px 10px;font-size:.9rem;cursor:pointer}
+.views button:hover,.play:hover{border-color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.verdict{padding:12px 14px;font-size:1.02rem;min-height:3.2em}
+.verdict strong{font-weight:600}
+.verdict .w{display:block;color:var(--warn);margin-top:4px}
+.verdict .b{display:block;color:var(--bad);margin-top:4px}
+.readouts{display:flex;flex-wrap:wrap;gap:1px;background:var(--line);border-top:1px solid var(--line)}
+.readouts div{flex:1 1 150px;background:var(--panel);padding:9px 14px 10px}
+.readouts dt{color:var(--muted);font-size:.86rem}
+.readouts dd{margin:0;font-size:1.45rem;font-weight:600;line-height:1.15}
+.readouts dd small{font-size:.8rem;font-weight:500;color:var(--muted);margin-left:3px}
+dl{margin:0}
+.plotwrap{border-top:1px solid var(--line);padding:10px 14px 12px}
+.plotwrap h2,.panel h2{font-size:1rem;font-weight:600;margin:0 0 6px}
+#plot{display:block;width:100%;height:170px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:14px}
+.panel section + section{margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line);border-radius:5px;overflow:hidden;margin-bottom:8px}
+.seg label{position:relative;text-align:center;padding:8px 6px;font-size:.93rem;cursor:pointer;background:var(--bg);line-height:1.2}
+.seg label + label{border-left:1px solid var(--line)}
+.seg input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.seg label:has(input:checked){background:var(--ink);color:var(--bg);font-weight:600}
+.seg label:has(input:focus-visible){outline:2px solid var(--accent);outline-offset:-2px}
+.sl{display:grid;grid-template-columns:1fr auto;column-gap:10px;align-items:baseline;margin-top:10px}
+.sl label{font-size:.95rem}
+.sl output{font-weight:600;font-size:1.05rem}
+.sl input{grid-column:1/-1;width:100%;margin:4px 0 0;accent-color:var(--accent)}
+.sl .hint{grid-column:1/-1;color:var(--muted);font-size:.84rem;margin-top:2px}
+.play{margin-top:10px;width:100%;background:var(--accent);border-color:var(--accent);color:var(--panel);font-weight:600;padding:9px}
+.stiff{display:grid;grid-template-columns:1fr auto;gap:2px 10px;margin-top:12px;font-size:.93rem}
+.stiff dt{color:var(--muted)} .stiff dd{margin:0;font-weight:600;text-align:right}
+.script{margin-top:10px;font-size:.88rem;color:var(--muted)}
+details{margin-top:16px;max-width:76ch;color:var(--muted)}
+details summary{cursor:pointer;color:var(--ink);font-weight:600}
+details li{margin:4px 0}
+
+table.res{width:100%;border-collapse:collapse;font-size:1rem}
+table.res th{text-align:left;font-weight:500;color:var(--muted);font-size:.86rem;padding:6px 8px 4px 0}
+table.res td{padding:6px 8px 6px 0;border-top:1px solid var(--line);vertical-align:top}
+table.res td:first-child{font-weight:600;white-space:nowrap}
+table.res .k{color:var(--warn)} table.res .b{color:var(--bad)} table.res .o{color:var(--ok)}
+.seuils{margin:10px 0 0;color:var(--muted);font-size:.9rem;max-width:72ch}
+.tog{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:14px}
+.tog button{background:var(--bg);border:1px solid var(--line);border-radius:5px;padding:8px 4px;font-size:.88rem;line-height:1.15;cursor:pointer}
+.tog button[aria-pressed="true"]{background:var(--ok);border-color:var(--ok);color:var(--panel);font-weight:600}
+.btns{display:grid;gap:8px;margin-top:12px}
+.btns .play{margin-top:0}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.duo .play{font-size:.9rem;padding:9px 6px;line-height:1.2}
+.regle{margin:10px 0 0;font-size:.9rem;color:var(--muted)}
+.regle.w{color:var(--warn)}
+.pla-dot{display:inline-block;width:.7em;height:.7em;border-radius:2px;background:#1FA3B8;margin-right:.35em}
+.play.ghost{background:var(--bg);color:var(--ink);border-color:var(--line)}
+.chk{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start;font-size:.95rem;cursor:pointer;padding:8px 10px;border:1px solid var(--line);border-radius:5px;background:var(--bg)}
+.chk input{margin:3px 0 0;width:17px;height:17px;accent-color:var(--accent)}
+[hidden]{display:none!important}
+
+/* ---- structure commune ---- */
+.stage{background:var(--panel);border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.cv{position:relative;background:var(--bg)}
+.results .verdict{border-top:0}
+details.tbl{border-top:1px solid var(--line);padding:0 14px}
+details.tbl summary,details.hyp summary{cursor:pointer;font-weight:600;font-size:.95rem;padding:8px 0;color:var(--ink)}
+details.tbl[open]{padding-bottom:12px}
+details.hyp{margin:0;max-width:none;color:var(--muted);font-size:.9rem}
+details.hyp ul{padding-left:18px;margin:6px 0 0}
+.panel:focus-visible{outline-offset:-2px}
+/* ---- petit écran : la vue reste collée en haut, les réglages défilent dessous ---- */
+@media (max-width:899px){
+  .bench{grid-template-columns:1fr;gap:12px}
+  .stage{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;box-shadow:0 6px 14px -8px var(--shade)}
+  #view{height:38vh;min-height:230px}
+  .results{max-height:30vh;overflow:auto}
+  .verdict{font-size:.95rem;padding:8px 12px;min-height:0}
+  header h1{font-size:1.3rem}
+  header p{font-size:.95rem}
+  .views button{padding:5px 8px;font-size:.85rem}
+  .chip{font-size:.88rem;padding:5px 10px 5px 8px;left:8px;top:8px}
+  .views{right:8px;top:auto;bottom:8px}
+}
+/* ---- grand écran : la simulation occupe toute la fenêtre, les réglages flottent dessus ---- */
+@media (min-width:900px){
+  html,body{height:100%;overflow:hidden}
+  .page{max-width:none;height:100%;padding:0;position:relative}
+  .bench{display:block;height:100%}
+  .stage{position:absolute;inset:0;border:0;border-radius:0;background:var(--bg)}
+  .cv{position:absolute;inset:0}
+  #view{height:100%;min-height:0}
+  header{position:absolute;left:18px;top:14px;z-index:3;pointer-events:none;max-width:calc(100% - 420px)}
+  header h1{font-size:1.25rem;margin:0}
+  header p{display:none}
+  .chip{left:18px;top:52px}
+  .views{left:18px;right:auto;top:96px}
+  .glass{background:var(--glass);-webkit-backdrop-filter:blur(14px) saturate(1.15);backdrop-filter:blur(14px) saturate(1.15);border:1px solid var(--line);border-radius:10px;box-shadow:0 14px 34px -14px var(--shade)}
+  .panel{position:absolute;top:12px;right:12px;bottom:12px;width:344px;overflow-y:auto;overscroll-behavior:contain;z-index:4;padding:14px;scrollbar-width:thin;scrollbar-color:var(--line) transparent}
+  .results{position:absolute;left:18px;bottom:14px;width:min(540px,calc(100% - 344px - 48px));max-height:46%;overflow-y:auto;z-index:4;scrollbar-width:thin}
+  .results .verdict{min-height:0;padding:10px 14px}
+  .readouts div,.results table{background:transparent}
+}
+</style>
+</head>
+<body>
+<div class="page">
+<header>
+  <h1>Mur de 3 pierres, plaque à 3 ventouses</h1>
+  <p>Trois supports TPU avec ventouse à l'horizontale et appui PLA. Avancez la plaque, activez le vide, levez, tournez : les cartons bougent s'ils doivent bouger.</p>
+</header>
+<div class="bench">
+  <div class="stage">
+    <div class="cv">
+      <canvas id="view" aria-label="Vue 3D du mur de pierres et de la plaque à ventouses"></canvas>
+      <div class="chip" id="chip" data-s="libre" role="status"><i></i><span id="chipTxt">Pas de contact</span></div>
+      <div class="views">
+        <button type="button" data-v="3d">3D</button>
+        <button type="button" data-v="cote">Côté</button>
+        <button type="button" data-v="face">Robot</button>
+      </div>
+    </div>
+    <div class="results glass">
+      <div class="verdict" id="verdict" aria-live="polite"></div>
+      <details class="tbl" id="tbl">
+        <summary>Détail par niveau</summary>
+        <table class="res num">
+          <thead><tr><th scope="col">Niveau</th><th scope="col">Ventouse</th><th scope="col">Carton de ce niveau</th></tr></thead>
+          <tbody id="rows"></tbody>
+        </table>
+        <p class="seuils" id="seuils"></p>
+      </details>
+    </div>
+  </div>
+  <div class="panel glass" tabindex="0" aria-label="Réglages">
+    <section>
+      <h2>Plaque porte-ventouses</h2>
+      <div id="sl-plaque"></div>
+      <div class="tog" role="group" aria-label="Vide par ventouse">
+        <button type="button" data-vac="2" aria-pressed="false">Vide haut</button>
+        <button type="button" data-vac="1" aria-pressed="false">Vide milieu</button>
+        <button type="button" data-vac="0" aria-pressed="false">Vide bas</button>
+        <button type="button" id="vacAll">Les trois</button>
+      </div>
+      <div class="btns">
+        <button type="button" class="play" id="seqTri">Prendre la pierre du haut à 3 ventouses</button>
+        <button type="button" class="play" id="seqMur">Prendre le mur entier</button>
+        <button type="button" class="play" id="seqHaut">Dresser la pierre du haut</button>
+        <div class="duo">
+          <button type="button" class="play ghost" id="reset">Remettre le mur en place</button>
+          <button type="button" class="play ghost" id="resetAct">Remettre l'actionneur à zéro</button>
+        </div>
+      </div>
+    </section>
+    <section>
+      <h2>Appui rigide en PLA</h2>
+      <label class="chk"><input type="checkbox" id="pla" checked><span>Un appui PLA autour de chaque ventouse : la pierre vient s'y poser</span></label>
+      <div id="sl-pla"></div>
+      <p class="regle" id="regle"></p>
+    </section>
+    <section>
+      <h2>Support TPU</h2>
+      <div id="sl-tpu"></div>
+      <dl class="stiff num" id="stiff"></dl>
+      <div class="script num" id="script"></div>
+    </section>
+    <section>
+      <h2>Ventouses et cartons</h2>
+      <div id="sl-obj"></div>
+    </section>
+    <section>
+      <details class="hyp">
+        <summary>Ce que le calcul suppose</summary>
+        <ul>
+          <li>Les pierres (320 x 110 x 110 mm) sont des blocs rigides. Le frottement est celui de Coulomb, avec un coefficient pour la table, un entre cartons et un sur le PLA.</li>
+          <li>Chaque support TPU est un ressort linéaire (bras en poutres, moyeu rigide). Au-delà d'environ 12 mm de course ou 25° de rotule, son effort n'est plus fiable.</li>
+          <li>Sans vide, la lèvre pousse sans frottement. Avec le vide, elle se colle dès qu'elle est plaquée et la ventouse s'écrase : elle tire la pierre et le raccord l'un vers l'autre avec la force du vide (surface utile 4,5 cm²), jusqu'à sa course d'écrasement.</li>
+          <li>L'appui PLA est un bloc rigide carré, en vrai contact avec les cartons.</li>
+          <li>La ventouse décroche si elle est étirée de plus de 1 mm, ou si l'effort latéral ou le moment dépassent ce que la dépression peut tenir (frottement lèvre 0,8).</li>
+          <li>Les pierres heurtent la table, les autres pierres et les appuis PLA, mais pas la plaque, les supports TPU ni les raccords. La raideur de la ventouse, sa course d'écrasement, la dépression et le module du TPU sont des estimations à mesurer.</li>
+        </ul>
+      </details>
+    </section>
+  </div>
+</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script>
+/* Noyau de calcul : ressort plat à 3 bras spiraux (poutres 3D), moyeu rigide, contact de la lèvre. Unités : N, mm, rad. */
+const Core = (() => {
+  const R_MOYEU = 8, R_CAVITE = 21, N_BRAS = 3, RENFORT = 2.5, L_RENFORT = 8;
+  const Z_G = 8, Z_LEVRE = 29, R_LEVRE = 15, PROF_OBJET = 110, G0 = 9.81;
+
+  // ---------- algèbre ----------
+  const zeros = (n, m) => Array.from({ length: n }, () => new Float64Array(m));
+  function matMul(A, B) {
+    const n = A.length, m = B[0].length, k = B.length, C = zeros(n, m);
+    for (let i = 0; i < n; i++) for (let l = 0; l < k; l++) { const a = A[i][l]; if (a !== 0) for (let j = 0; j < m; j++) C[i][j] += a * B[l][j]; }
+    return C;
+  }
+  const transp = A => { const T = zeros(A[0].length, A.length); for (let i = 0; i < A.length; i++) for (let j = 0; j < A[0].length; j++) T[j][i] = A[i][j]; return T; };
+  const matVec = (A, v) => A.map(r => { let s = 0; for (let j = 0; j < v.length; j++) s += r[j] * v[j]; return s; });
+  function inverse(A) {
+    const n = A.length, M = A.map((r, i) => { const row = new Float64Array(2 * n); row.set(r); row[n + i] = 1; return row; });
+    for (let c = 0; c < n; c++) {
+      let p = c; for (let r = c + 1; r < n; r++) if (Math.abs(M[r][c]) > Math.abs(M[p][c])) p = r;
+      [M[c], M[p]] = [M[p], M[c]];
+      const d = M[c][c]; for (let j = 0; j < 2 * n; j++) M[c][j] /= d;
+      for (let r = 0; r < n; r++) if (r !== c) { const f = M[r][c]; if (f !== 0) for (let j = 0; j < 2 * n; j++) M[r][j] -= f * M[c][j]; }
+    }
+    return M.map(r => r.slice(n));
+  }
+  function choleskySolve(K, B) { // K (n x n, SPD, modifiée), B (n x m) -> X
+    const n = K.length, m = B[0].length;
+    for (let j = 0; j < n; j++) {
+      let s = K[j][j]; for (let k = 0; k < j; k++) s -= K[j][k] * K[j][k];
+      const d = Math.sqrt(s); K[j][j] = d;
+      for (let i = j + 1; i < n; i++) { let t = K[i][j]; for (let k = 0; k < j; k++) t -= K[i][k] * K[j][k]; K[i][j] = t / d; }
+    }
+    const X = B.map(r => Float64Array.from(r));
+    for (let c = 0; c < m; c++) {
+      for (let i = 0; i < n; i++) { let s = X[i][c]; for (let k = 0; k < i; k++) s -= K[i][k] * X[k][c]; X[i][c] = s / K[i][i]; }
+      for (let i = n - 1; i >= 0; i--) { let s = X[i][c]; for (let k = i + 1; k < n; k++) s -= K[k][i] * X[k][c]; X[i][c] = s / K[i][i]; }
+    }
+    return X;
+  }
+  const cross = (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];
+  const dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+  function rotVec(th, v) { // rotation exacte de v par le vecteur rotation th (Rodrigues)
+    const a = Math.hypot(th[0], th[1], th[2]); if (a < 1e-12) return v.slice();
+    const k = [th[0] / a, th[1] / a, th[2] / a], c = Math.cos(a), s = Math.sin(a), kv = cross(k, v), kd = dot(k, v);
+    return [v[0] * c + kv[0] * s + k[0] * kd * (1 - c), v[1] * c + kv[1] * s + k[1] * kd * (1 - c), v[2] * c + kv[2] * s + k[2] * kd * (1 - c)];
+  }
+  // matrice de transport rigide : déplacement en P = T * déplacement en O, avec r = OP
+  function transport(r) {
+    const T = zeros(6, 6); for (let i = 0; i < 6; i++) T[i][i] = 1;
+    T[0][4] = r[2]; T[0][5] = -r[1]; T[1][3] = -r[2]; T[1][5] = r[0]; T[2][3] = r[1]; T[2][4] = -r[0];
+    return T;
+  }
+
+  // ---------- poutre 3D ----------
+  function torsJ(w, t) { const a = Math.max(w, t), b = Math.min(w, t); return a * b ** 3 * (1 / 3 - 0.21 * b / a * (1 - b ** 4 / (12 * a ** 4))); }
+  function beamK(E, G, A, Iy, Iz, J, L) {
+    const k = zeros(12, 12), a = E * A / L, t = G * J / L;
+    k[0][0] = k[6][6] = a; k[0][6] = k[6][0] = -a;
+    k[3][3] = k[9][9] = t; k[3][9] = k[9][3] = -t;
+    const bend = (I, iv, ir, sg) => {
+      const c = E * I / L ** 3, m = [[12, 6 * L, -12, 6 * L], [6 * L, 4 * L * L, -6 * L, 2 * L * L], [-12, -6 * L, 12, -6 * L], [6 * L, 2 * L * L, -6 * L, 4 * L * L]];
+      const idx = [iv, ir, iv + 6, ir + 6], s = [1, sg, 1, sg];
+      for (let i = 0; i < 4; i++) for (let j = 0; j < 4; j++) k[idx[i]][idx[j]] += m[i][j] * c * s[i] * s[j];
+    };
+    bend(Iz, 1, 5, 1); bend(Iy, 2, 4, -1);
+    return k;
+  }
+  function largeurLocale(w, d1, d2) {
+    let e = 0;
+    for (const d of [d1, d2]) if (d < L_RENFORT) e = Math.max(e, RENFORT * 0.5 * (1 + Math.cos(Math.PI * d / L_RENFORT)));
+    return w + e;
+  }
+
+  // ---------- modèle du ressort ----------
+  function build(p) { // p = {t, w, sweepDeg, E}
+    const nel = p.nel || 28, nu = 0.48, E = p.E, G = E / (2 * (1 + nu)), t = p.t, sw = p.sweepDeg * Math.PI / 180;
+    const pente = (R_CAVITE - R_MOYEU) / sw;
+    const arms = [], Kc = zeros(6, 6);
+    for (let a = 0; a < N_BRAS; a++) {
+      const th0 = 2 * Math.PI * a / N_BRAS, nodes = [], s = [0];
+      for (let i = 0; i <= nel; i++) {
+        const th = sw * i / nel, r = R_MOYEU + pente * th;
+        nodes.push([r * Math.cos(th + th0), r * Math.sin(th + th0), 0]);
+        if (i) s.push(s[i - 1] + Math.hypot(nodes[i][0] - nodes[i - 1][0], nodes[i][1] - nodes[i - 1][1]));
+      }
+      const Ltot = s[nel], widths = s.map(si => largeurLocale(p.w, si, Ltot - si));
+      const n = (nel - 1) * 6, Kii = zeros(n, n), Kis = zeros(n, 6), Kss = zeros(6, 6);
+      for (let e = 0; e < nel; e++) {
+        const A0 = nodes[e], B0 = nodes[e + 1], L = s[e + 1] - s[e];
+        const ex = [(B0[0] - A0[0]) / L, (B0[1] - A0[1]) / L, 0], ez = [0, 0, 1], ey = cross(ez, ex), R = [ex, ey, ez];
+        const sm = 0.5 * (s[e] + s[e + 1]), ww = largeurLocale(p.w, sm, Ltot - sm);
+        const kl = beamK(E, G, ww * t, ww * t ** 3 / 12, t * ww ** 3 / 12, torsJ(ww, t), L);
+        const T = zeros(12, 12);
+        for (let b = 0; b < 4; b++) for (let i = 0; i < 3; i++) for (let j = 0; j < 3; j++) T[3 * b + i][3 * b + j] = R[i][j];
+        const ke = matMul(transp(T), matMul(kl, T));
+        // ddl globaux : noeud e -> (e-1)*6 si intérieur, 's' si e == 0, fixe si e == nel
+        const map = idx => { const node = idx < 6 ? e : e + 1, d = idx % 6; if (node === 0) return ['s', d]; if (node === nel) return null; return ['i', (node - 1) * 6 + d]; };
+        for (let i = 0; i < 12; i++) { const mi = map(i); if (!mi) continue;
+          for (let j = 0; j < 12; j++) { const mj = map(j); if (!mj) continue; const v = ke[i][j];
+            if (mi[0] === 'i' && mj[0] === 'i') Kii[mi[1]][mj[1]] += v;
+            else if (mi[0] === 'i' && mj[0] === 's') Kis[mi[1]][mj[1]] += v;
+            else if (mi[0] === 's' && mj[0] === 's') Kss[mi[1]][mj[1]] += v;
+          } }
+      }
+      const S = transport(nodes[0]);              // ddl du noeud 0 = S * q_moyeu
+      const Kih = matMul(Kis, S);
+      const X = choleskySolve(Kii, Kih);          // déplacements intérieurs = -X * q_moyeu
+      const Khh = matMul(transp(S), matMul(Kss, S)), KX = matMul(transp(Kih), X);
+      for (let i = 0; i < 6; i++) for (let j = 0; j < 6; j++) Kc[i][j] += Khh[i][j] - KX[i][j];
+      arms.push({ nodes, widths, X, S, s });
+    }
+    for (let i = 0; i < 6; i++) for (let j = i + 1; j < 6; j++) Kc[i][j] = Kc[j][i] = 0.5 * (Kc[i][j] + Kc[j][i]);
+    const C = inverse(Kc);
+    const pas = (R_CAVITE - R_MOYEU) * 2 * Math.PI / sw / N_BRAS;
+    return { p, nel, arms, K: Kc, C, kz: 1 / C[2][2], ktilt: 1 / C[3][3], kr: 1 / C[0][0], fente: pas - p.w, zRef: -t / 2 };
+  }
+  // déplacements (u, theta) des noeuds d'un bras pour un déplacement q du moyeu
+  function armDisp(model, a, q) {
+    const arm = model.arms[a], nel = model.nel, out = [];
+    out.push(matVec(arm.S, q));
+    const d = matVec(arm.X, q);
+    for (let i = 1; i < nel; i++) out.push([-d[(i - 1) * 6], -d[(i - 1) * 6 + 1], -d[(i - 1) * 6 + 2], -d[(i - 1) * 6 + 3], -d[(i - 1) * 6 + 4], -d[(i - 1) * 6 + 5]]);
+    out.push([0, 0, 0, 0, 0, 0]);
+    return out;
+  }
+
+  // ---------- équilibre ----------
+  function gravDir(orient) { return orient === 'bas' ? [0, 0, 1] : [0, -1, 0]; }
+  // équilibre sous charges mortes (bras de levier recalculé avec la rotation : effet pendule inclus)
+  function equilibreLibre(model, loads) {
+    let q = [0, 0, 0, 0, 0, 0], conv = false;
+    for (let it = 0; it < 200; it++) {
+      const W = [0, 0, 0, 0, 0, 0], th = [q[3], q[4], q[5]];
+      for (const l of loads) { const r = rotVec(th, l.p), M = cross(r, l.F); for (let i = 0; i < 3; i++) { W[i] += l.F[i]; W[3 + i] += M[i]; } }
+      const qn = matVec(model.C, W); let d = 0;
+      for (let i = 0; i < 6; i++) { const nv = q[i] + 0.25 * (qn[i] - q[i]); d = Math.max(d, Math.abs(nv - q[i]) * (i < 3 ? 1 : 30)); q[i] = nv; }
+      if (d < 1e-5) { conv = true; break; }
+    }
+    return { q, conv };
+  }
+
+  function solve(model, inp) {
+    const g = gravDir(inp.orient), zRef = model.zRef;
+    const mc = inp.mCup / 1000, mo = inp.mObj / 1000;
+    const loads = [{ p: [0, 0, Z_G - zRef], F: g.map(x => x * mc * G0) }];
+    const out = { warnings: [] };
+    const TL = transport([0, 0, Z_LEVRE - zRef]);
+    if (inp.mode === 'tenu') {
+      const acc = inp.orient === 'bas' ? [inp.acc, 0, 0] : [0, 0, inp.acc];
+      loads.push({ p: [0, 0, Z_LEVRE + PROF_OBJET / 2 - zRef], F: [0, 1, 2].map(i => mo * (g[i] * G0 - acc[i])) });
+      const eq = equilibreLibre(model, loads);
+      out.qh = eq.q; out.conv = eq.conv; out.contact = 'tenu';
+      out.qL = lipPose(out.qh, zRef); out.cup = [0, 0, 0, 0, 0, 0];
+      out.N = 0;
+    } else {
+      const eq = equilibreLibre(model, loads);
+      const qhF = eq.q, a = inp.a, al = inp.alphaDeg * Math.PI / 180;
+      const m = [0, -Math.sin(al), Math.cos(al)], tdir = [0, Math.cos(al), Math.sin(al)], ex = [1, 0, 0];
+      const qLF = matVec(TL, qhF);
+      const Ccup = zeros(6, 6), kv = inp.kv, kvt = kv * 9 * 9 / 2;
+      Ccup[0][0] = Ccup[1][1] = 1 / (0.6 * kv); Ccup[2][2] = 1 / kv; Ccup[3][3] = Ccup[4][4] = 1 / kvt; Ccup[5][5] = 1 / (4 * kvt);
+      const ChL = matMul(TL, matMul(model.C, transp(TL)));
+      const CL = zeros(6, 6); for (let i = 0; i < 6; i++) for (let j = 0; j < 6; j++) CL[i][j] = ChL[i][j] + Ccup[i][j];
+      const pen = (qL, phi) => { const r = [R_LEVRE * Math.cos(phi), R_LEVRE * Math.sin(phi), 0], rxm = cross(r, m);
+        return qL[0] * m[0] + qL[1] * m[1] + qL[2] * m[2] + qL[3] * rxm[0] + qL[4] * rxm[1] + qL[5] * rxm[2] + dot(r, m) + a * Math.cos(al); };
+      const argmaxPen = qL => { let best = -1e9, bp = 0; for (let k = 0; k < 180; k++) { const ph = k * Math.PI / 90, v = pen(qL, ph); if (v > best) { best = v; bp = ph; } } return [best, bp]; };
+      const withContact = (A, b) => { // A q_L = b, torseur = A^T lambda
+        const AC = matMul(A, CL), ACA = matMul(AC, transp(A)), rhs = b.map((bi, i) => bi - dot6(A[i], qLF));
+        const lam = matVec(inverse(ACA), rhs), W = [0, 0, 0, 0, 0, 0];
+        for (let i = 0; i < A.length; i++) for (let j = 0; j < 6; j++) W[j] += lam[i] * A[i][j];
+        return { lam, W };
+      };
+      const dot6 = (x, y) => { let s = 0; for (let i = 0; i < 6; i++) s += x[i] * y[i]; return s; };
+      let W = [0, 0, 0, 0, 0, 0], contact = 'libre', N = 0, Mm = 0, phiStar = null;
+      const [pmax] = argmaxPen(qLF);
+      out.jeu = -pmax;
+      if (pmax > 0) {
+        const Af = [[m[0], m[1], m[2], 0, 0, 0], [0, 0, 0, 1, 0, 0], [0, 0, 0, 0, tdir[1], tdir[2]]];
+        const bf = [-a * Math.cos(al), Math.tan(al), 0];
+        // la 2e contrainte s'écrit theta_x * cos(al) = sin(al) ; on la garde sous la forme theta_x = tan(al)
+        const full = withContact(Af, bf);
+        const Nf = -full.lam[0], Mf = Math.hypot(full.lam[1], full.lam[2]);
+        if (Nf > 0 && Mf <= Nf * R_LEVRE) { contact = 'plaque'; W = full.W; N = Nf; Mm = Mf; }
+        else {
+          let phi = argmaxPen(qLF)[1], res = null;
+          for (let it = 0; it < 12; it++) {
+            const r = [R_LEVRE * Math.cos(phi), R_LEVRE * Math.sin(phi), 0], rxm = cross(r, m);
+            res = withContact([[m[0], m[1], m[2], rxm[0], rxm[1], rxm[2]]], [-a * Math.cos(al) - dot(r, m)]);
+            const qL = qLF.map((v, i) => v + dot6(CL[i], res.W));
+            const np = argmaxPen(qL)[1]; if (Math.abs(np - phi) < 1e-3) break; phi = np;
+          }
+          if (res && -res.lam[0] > 0) { contact = 'bord'; W = res.W; N = -res.lam[0]; phiStar = phi; Mm = N * R_LEVRE; }
+        }
+      }
+      const qhC = matVec(model.C, matVec(transp(TL), W));
+      out.qh = qhF.map((v, i) => v + qhC[i]);
+      out.cup = matVec(Ccup, W);
+      out.qL = matVec(TL, out.qh).map((v, i) => v + out.cup[i]);
+      out.contact = contact; out.N = N; out.M = Mm; out.phiStar = phiStar; out.conv = eq.conv;
+      out.inegal = contact === 'plaque' && Mm > N * R_LEVRE / 2;
+      out.m = m;
+      // glissement de l'objet posé sur la table
+      const Pn = N * dot(m, g), Tg = N * Math.hypot(...[0, 1, 2].map(i => m[i] - dot(m, g) * g[i]));
+      const appui = mo * G0 + Pn;
+      out.pousse = Tg; out.adherence = inp.mu * Math.max(appui, 0);
+      out.glisse = Tg > out.adherence + 1e-9;
+      out.cupComp = -dot([out.cup[0], out.cup[1], out.cup[2]], m);
+      out.glissLevre = Math.hypot(dot([out.qL[0], out.qL[1], out.qL[2]], [1, 0, 0]), dot([out.qL[0], out.qL[1], out.qL[2]], tdir));
+    }
+    out.recul = -out.qh[2];
+    out.tilt = Math.hypot(out.qh[3], out.qh[4]) * 180 / Math.PI;
+    out.lateral = Math.hypot(out.qh[0], out.qh[1]);
+    out.horsDomaine = !out.conv || out.tilt > 25 || Math.abs(out.qh[2]) > 12;
+    return out;
+  }
+  function lipPose(qh, zRef) { return matVec(transport([0, 0, Z_LEVRE - zRef]), qh); }
+
+  return { build, solve, armDisp, rotVec, transport, matVec, R_MOYEU, R_CAVITE, N_BRAS, Z_G, Z_LEVRE, R_LEVRE, PROF_OBJET, G0 };
+})();
+if (typeof module !== 'undefined') module.exports = Core;
+
+</script>
+<script>
+/* Mini-moteur de corps rigides 3D : boîtes, contacts SAT + découpage de faces, impulsions séquentielles, frottement de Coulomb.
+   Unités : mm, kg, s (forces en mN = kg.mm/s²). */
+const Phys = (() => {
+  const WS = 1.0;
+  const add = (a, b) => [a[0] + b[0], a[1] + b[1], a[2] + b[2]], sub = (a, b) => [a[0] - b[0], a[1] - b[1], a[2] - b[2]];
+  const sc = (a, s) => [a[0] * s, a[1] * s, a[2] * s], dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+  const cross = (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];
+  const len = a => Math.hypot(a[0], a[1], a[2]);
+  const qmul = (a, b) => [a[3] * b[0] + a[0] * b[3] + a[1] * b[2] - a[2] * b[1], a[3] * b[1] - a[0] * b[2] + a[1] * b[3] + a[2] * b[0],
+    a[3] * b[2] + a[0] * b[1] - a[1] * b[0] + a[2] * b[3], a[3] * b[3] - a[0] * b[0] - a[1] * b[1] - a[2] * b[2]];
+  const qconj = q => [-q[0], -q[1], -q[2], q[3]];
+  const qrot = (q, v) => { const u = [q[0], q[1], q[2]], t = sc(cross(u, v), 2); return add(add(v, sc(t, q[3])), cross(u, t)); };
+  const qaxis = (ax, an) => { const s = Math.sin(an / 2); return [ax[0] * s, ax[1] * s, ax[2] * s, Math.cos(an / 2)]; };
+  const qnorm = q => { const l = Math.hypot(q[0], q[1], q[2], q[3]); return [q[0] / l, q[1] / l, q[2] / l, q[3] / l]; };
+  function qrotvec(q) { // quaternion -> vecteur rotation
+    let s = Math.hypot(q[0], q[1], q[2]), w = q[3]; if (w < 0) { w = -w; q = [-q[0], -q[1], -q[2]]; }
+    if (s < 1e-9) return [2 * q[0], 2 * q[1], 2 * q[2]];
+    const a = 2 * Math.atan2(s, w); return [q[0] / s * a, q[1] / s * a, q[2] / s * a];
+  }
+  const rotvecq = th => { const a = len(th); return a < 1e-12 ? [0, 0, 0, 1] : qaxis(sc(th, 1 / a), a); };
+
+  function body(o) {
+    const b = { p: o.p.slice(), q: (o.q || [0, 0, 0, 1]).slice(), v: [0, 0, 0], w: [0, 0, 0], h: o.h.slice(), m: o.m || 0, f: [0, 0, 0], t: [0, 0, 0], name: o.name || '' };
+    b.im = b.m > 0 ? 1 / b.m : 0;
+    b.iI = b.m > 0 ? [3 / (b.m * (b.h[1] ** 2 + b.h[2] ** 2)), 3 / (b.m * (b.h[0] ** 2 + b.h[2] ** 2)), 3 / (b.m * (b.h[0] ** 2 + b.h[1] ** 2))] : [0, 0, 0];
+    derive(b); return b;
+  }
+  function derive(b) { b.ax = [qrot(b.q, [1, 0, 0]), qrot(b.q, [0, 1, 0]), qrot(b.q, [0, 0, 1])]; }
+  const iIw = (b, v) => { let r = [0, 0, 0]; for (let i = 0; i < 3; i++) r = add(r, sc(b.ax[i], dot(b.ax[i], v) * b.iI[i])); return r; };
+  const velAt = (b, r) => add(b.v, cross(b.w, r));
+  const toWorld = (b, pl) => add(b.p, qrot(b.q, pl));
+  const toLocal = (b, pw) => qrot(qconj(b.q), sub(pw, b.p));
+
+  // ---------- collision boîte-boîte ----------
+  function collide(A, B) {
+    const d = sub(B.p, A.p), R = [[0, 0, 0], [0, 0, 0], [0, 0, 0]], aR = [[0, 0, 0], [0, 0, 0], [0, 0, 0]], t = [dot(d, A.ax[0]), dot(d, A.ax[1]), dot(d, A.ax[2])];
+    for (let i = 0; i < 3; i++) for (let j = 0; j < 3; j++) { R[i][j] = dot(A.ax[i], B.ax[j]); aR[i][j] = Math.abs(R[i][j]) + 1e-6; }
+    let bestF = -1e9, fType = 0, fIdx = 0, bestE = -1e9, eI = 0, eJ = 0;
+    for (let i = 0; i < 3; i++) { const s = Math.abs(t[i]) - (A.h[i] + B.h[0] * aR[i][0] + B.h[1] * aR[i][1] + B.h[2] * aR[i][2]); if (s > 0) return []; if (s > bestF) { bestF = s; fType = 0; fIdx = i; } }
+    for (let j = 0; j < 3; j++) { const tp = t[0] * R[0][j] + t[1] * R[1][j] + t[2] * R[2][j];
+      const s = Math.abs(tp) - (A.h[0] * aR[0][j] + A.h[1] * aR[1][j] + A.h[2] * aR[2][j] + B.h[j]); if (s > 0) return []; if (s > bestF + 1e-4) { bestF = s; fType = 1; fIdx = j; } }
+    for (let i = 0; i < 3; i++) for (let j = 0; j < 3; j++) {
+      const L = cross(A.ax[i], B.ax[j]), l = len(L); if (l < 1e-4) continue;
+      const i1 = (i + 1) % 3, i2 = (i + 2) % 3, j1 = (j + 1) % 3, j2 = (j + 2) % 3;
+      const ra = A.h[i1] * aR[i2][j] + A.h[i2] * aR[i1][j], rb = B.h[j1] * aR[i][j2] + B.h[j2] * aR[i][j1];
+      const s = (Math.abs(dot(d, L)) - ra - rb) / l; if (s > 0) return []; if (s > bestE) { bestE = s; eI = i; eJ = j; }
+    }
+    const out = [];
+    if (bestE > bestF + 0.3) { // arête-arête
+      let L = cross(A.ax[eI], B.ax[eJ]); L = sc(L, 1 / len(L)); if (dot(L, d) < 0) L = sc(L, -1);
+      let pa = A.p.slice(), pb = B.p.slice();
+      for (let k = 0; k < 3; k++) { if (k !== eI) pa = add(pa, sc(A.ax[k], (dot(A.ax[k], L) > 0 ? 1 : -1) * A.h[k])); if (k !== eJ) pb = add(pb, sc(B.ax[k], (dot(B.ax[k], L) > 0 ? -1 : 1) * B.h[k])); }
+      const u = A.ax[eI], v = B.ax[eJ], w0 = sub(pa, pb), b = dot(u, v), dd = dot(u, w0), e = dot(v, w0), den = 1 - b * b;
+      const sA = den > 1e-9 ? (b * e - dd) / den : 0, sB = den > 1e-9 ? (e - b * dd) / den : 0;
+      const ca = add(pa, sc(u, Math.max(-A.h[eI], Math.min(A.h[eI], sA)))), cb = add(pb, sc(v, Math.max(-B.h[eJ], Math.min(B.h[eJ], sB))));
+      out.push({ p: sc(add(ca, cb), 0.5), n: L, pen: -bestE });
+      return out;
+    }
+    const ref = fType === 0 ? A : B, inc = fType === 0 ? B : A;
+    let n = ref.ax[fIdx].slice(); if (dot(n, sub(inc.p, ref.p)) < 0) n = sc(n, -1);
+    let jb = 0, best = -1; for (let j = 0; j < 3; j++) { const c = Math.abs(dot(inc.ax[j], n)); if (c > best) { best = c; jb = j; } }
+    const sg = dot(inc.ax[jb], n) > 0 ? -1 : 1, c0 = add(inc.p, sc(inc.ax[jb], sg * inc.h[jb])), k1 = (jb + 1) % 3, k2 = (jb + 2) % 3;
+    let poly = [[1, 1], [-1, 1], [-1, -1], [1, -1]].map(s => add(c0, add(sc(inc.ax[k1], s[0] * inc.h[k1]), sc(inc.ax[k2], s[1] * inc.h[k2]))));
+    for (const k of [(fIdx + 1) % 3, (fIdx + 2) % 3]) for (const sgn of [1, -1]) {
+      const pn = sc(ref.ax[k], sgn), lim = ref.h[k], np = [];
+      for (let i = 0; i < poly.length; i++) {
+        const P = poly[i], Q = poly[(i + 1) % poly.length], dp = dot(sub(P, ref.p), pn) - lim, dq = dot(sub(Q, ref.p), pn) - lim;
+        if (dp <= 0) np.push(P);
+        if ((dp < 0 && dq > 0) || (dp > 0 && dq < 0)) np.push(add(P, sc(sub(Q, P), dp / (dp - dq))));
+      }
+      poly = np; if (!poly.length) return [];
+    }
+    const nAB = fType === 0 ? n : sc(n, -1);
+    for (const P of poly) { const depth = ref.h[fIdx] - dot(sub(P, ref.p), n); if (depth >= -0.02) out.push({ p: add(P, sc(n, depth * 0.5)), n: nAB, pen: Math.max(depth, 0) }); }
+    return out;
+  }
+
+  // ---------- pas de temps ----------
+  function step(world, dt) {
+    const { bodies, pairs, g } = world, cs = [];
+    for (const b of bodies) if (b.im > 0) {
+      derive(b);
+      b.v = add(b.v, sc(add(g, sc(b.f, b.im)), dt)); b.w = add(b.w, sc(iIw(b, b.t), dt));
+      b.v = sc(b.v, 1 - 0.05 * dt); b.w = sc(b.w, 1 - 0.6 * dt);
+    }
+    for (const pr of pairs) for (const c of collide(pr.a, pr.b)) {
+      const A = pr.a, B = pr.b; c.A = A; c.B = B; c.mu = pr.mu; c.rA = sub(c.p, A.p); c.rB = sub(c.p, B.p);
+      const t1 = Math.abs(c.n[0]) < 0.8 ? cross(c.n, [1, 0, 0]) : cross(c.n, [0, 1, 0]); c.t1 = sc(t1, 1 / len(t1)); c.t2 = cross(c.n, c.t1);
+      c.d = [c.n, c.t1, c.t2].map(dir => { const ra = cross(c.rA, dir), rb = cross(c.rB, dir), aA = iIw(A, ra), aB = iIw(B, rb);
+        return { dir, ra, rb, aA, aB, m: 1 / (A.im + B.im + dot(ra, aA) + dot(rb, aB)) }; });
+      c.bias = Math.min(120, 0.2 / dt * Math.max(0, c.pen - world.slop)); c.jn = 0; c.j1 = 0; c.j2 = 0; c.pair = pr;
+      // reprise des impulsions du pas précédent (contact le plus proche de la même paire)
+      if (pr.prev) { let bd = 9, bc = null; for (const o of pr.prev) { const dd = Math.abs(o.p[0] - c.p[0]) + Math.abs(o.p[1] - c.p[1]) + Math.abs(o.p[2] - c.p[2]); if (dd < bd) { bd = dd; bc = o; } }
+        if (bc && dot(bc.n, c.n) > 0.95) { c.jn = bc.jn * WS; const jt = add(sc(bc.t1, bc.j1), sc(bc.t2, bc.j2)); c.j1 = dot(jt, c.t1) * WS; c.j2 = dot(jt, c.t2) * WS; } }
+      cs.push(c);
+    }
+    for (const pr of pairs) pr.prev = [];
+    for (const c of cs) c.pair.prev.push(c);
+    // impulsion j le long de la direction k (0 normale, 1 et 2 tangentes), sans allocation
+    const imp = (c, k, j) => { const A = c.A, B = c.B, e = c.d[k], d = e.dir, va = A.v, wa = A.w, vb = B.v, wb = B.w;
+      if (A.im > 0) { const s = j * A.im; va[0] -= d[0] * s; va[1] -= d[1] * s; va[2] -= d[2] * s; wa[0] -= e.aA[0] * j; wa[1] -= e.aA[1] * j; wa[2] -= e.aA[2] * j; }
+      if (B.im > 0) { const s = j * B.im; vb[0] += d[0] * s; vb[1] += d[1] * s; vb[2] += d[2] * s; wb[0] += e.aB[0] * j; wb[1] += e.aB[1] * j; wb[2] += e.aB[2] * j; } };
+    const rel = (c, k) => { const e = c.d[k], d = e.dir, va = c.A.v, wa = c.A.w, vb = c.B.v, wb = c.B.w;
+      return (vb[0] - va[0]) * d[0] + (vb[1] - va[1]) * d[1] + (vb[2] - va[2]) * d[2] + wb[0] * e.rb[0] + wb[1] * e.rb[1] + wb[2] * e.rb[2] - wa[0] * e.ra[0] - wa[1] * e.ra[1] - wa[2] * e.ra[2]; };
+    for (const c of cs) { imp(c, 0, c.jn); imp(c, 1, c.j1); imp(c, 2, c.j2); }
+    for (let it = 0; it < world.iters; it++) for (let ci = 0; ci < cs.length; ci++) { const c = cs[ci];
+      const jn0 = c.jn; c.jn = Math.max(0, jn0 + c.d[0].m * (c.bias - rel(c, 0))); imp(c, 0, c.jn - jn0);
+      let n1 = c.j1 - c.d[1].m * rel(c, 1), n2 = c.j2 - c.d[2].m * rel(c, 2); const lim = c.mu * c.jn, l = Math.hypot(n1, n2);
+      if (l > lim) { n1 *= lim / (l || 1); n2 *= lim / (l || 1); }
+      imp(c, 1, n1 - c.j1); imp(c, 2, n2 - c.j2); c.j1 = n1; c.j2 = n2;
+    }
+    for (const b of bodies) if (b.im > 0) {
+      b.p = add(b.p, sc(b.v, dt));
+      b.q = qnorm(add4(b.q, sc4(qmul([b.w[0], b.w[1], b.w[2], 0], b.q), 0.5 * dt)));
+      b.f = [0, 0, 0]; b.t = [0, 0, 0]; derive(b);
+    }
+    world.contacts = cs;
+  }
+  const add4 = (a, b) => [a[0] + b[0], a[1] + b[1], a[2] + b[2], a[3] + b[3]], sc4 = (a, s) => [a[0] * s, a[1] * s, a[2] * s, a[3] * s];
+  const applyForce = (b, F, pw) => { b.f = add(b.f, F); if (pw) b.t = add(b.t, cross(sub(pw, b.p), F)); };
+  const applyTorque = (b, T) => { b.t = add(b.t, T); };
+  return { body, step, collide, derive, applyForce, applyTorque, velAt, toWorld, toLocal, add, sub, sc, dot, cross, len, qmul, qconj, qrot, qaxis, qnorm, qrotvec, rotvecq };
+})();
+if (typeof module !== 'undefined') module.exports = Phys;
+
+</script>
+<script>
+/* Mur de 3 pierres + plaque porte-ventouses (3 supports compliants). S'appuie sur Core (ressort) et Phys (corps rigides). */
+const Rig = (() => {
+  const P = typeof Phys !== 'undefined' ? Phys : require('./engine.js'), C = typeof Core !== 'undefined' ? Core : require('./core.js');
+  const { add, sub, sc, dot, cross, len } = P;
+  const ZL = C.Z_LEVRE, RL = C.R_LEVRE, HS = [160, 55, 55], PAS = 110, AIRE = 452, MU_LEVRE = 0.8, DT = 1 / 240;
+  const m6 = (A, v) => A.map(r => r[0] * v[0] + r[1] * v[1] + r[2] * v[2] + r[3] * v[3] + r[4] * v[4] + r[5] * v[5]);
+  const mm = (A, B) => A.map(r => B[0].map((_, j) => r.reduce((s, x, k) => s + x * B[k][j], 0)));
+  const tr = A => A[0].map((_, j) => A.map(r => r[j]));
+  function inv(A) { const n = A.length, M = A.map((r, i) => [...r, ...Array.from({ length: n }, (_, j) => +(i === j))]);
+    for (let c = 0; c < n; c++) { let p = c; for (let r = c + 1; r < n; r++) if (Math.abs(M[r][c]) > Math.abs(M[p][c])) p = r; [M[c], M[p]] = [M[p], M[c]];
+      const d = M[c][c]; for (let j = 0; j < 2 * n; j++) M[c][j] /= d;
+      for (let r = 0; r < n; r++) if (r !== c) { const f = M[r][c]; if (f) for (let j = 0; j < 2 * n; j++) M[r][j] -= f * M[c][j]; } }
+    return M.map(r => r.slice(n)); }
+
+  function create(model, prm) {
+    const sim = { t: 0, model, prm, car: { adv: -12, lift: 0, roll: 0, vadv: 0, vlift: 0, wroll: 0 }, cible: { adv: -12, lift: 0, roll: 0 }, cups: [], log: [] };
+    sim.cups = [0, 1, 2].map(k => ({ k, vac: false, bonded: false, lost: false, etat: 'libre', N: 0, qh: [0, 0, 0, 0, 0, 0], qL: [0, 0, 0, 0, 0, 0], jeu: 0 }));
+    sim.pads = [0, 1, 2].map(k => P.body({ p: [0, -9000, 0], h: [20, 20, 10], name: 'appui' + k }));
+    resetMur(sim); setModel(sim, model, prm); return sim;
+  }
+  function resetMur(sim) {
+    const m = sim.prm.mObj / 1000, table = P.body({ p: [0, -50, 0], h: [4000, 50, 4000], name: 'table' });
+    const s = [0, 1, 2].map(k => P.body({ p: [0, 55 + PAS * k, 55], h: HS, m, name: 'pierre' + k }));
+    sim.stones = s; sim.init = s.map(b => ({ p: b.p.slice(), q: b.q.slice() }));
+    const pairs = [...s.map(b => ({ a: table, b, mu: sim.prm.muT, type: 'T' })), { a: s[0], b: s[1], mu: sim.prm.muC, type: 'C' }, { a: s[1], b: s[2], mu: sim.prm.muC, type: 'C' }, { a: s[0], b: s[2], mu: sim.prm.muC, type: 'C' }];
+    for (const pad of sim.pads) for (const b of s) pairs.push({ a: pad, b, mu: sim.prm.muP, type: 'P' });
+    sim.world = { bodies: [table, ...s, ...sim.pads], g: [0, -9810, 0], slop: 0.15, iters: 20, pairs };
+    for (const c of sim.cups) { c.bonded = false; c.lost = false; }
+  }
+  const xoff = (prm, k) => k === 1 ? (prm.decal || 0) : 0;
+  function setModel(sim, model, prm) {
+    sim.model = model; sim.prm = prm;
+    const zr = model.zRef, TL = C.transport([0, 0, ZL - zr]).map(r => Array.from(r)), TLt = tr(TL), Ch = model.C.map(r => Array.from(r)), Kh = inv(Ch);
+    const ChL = mm(TL, mm(Ch, TLt)), kv = prm.kv, kvt = kv * 81 / 2, cc = [1 / (0.6 * kv), 1 / (0.6 * kv), 1 / kv, 1 / kvt, 1 / kvt, 1 / (4 * kvt)];
+    const CLu = ChL.map((r, i) => r.map((x, j) => x + (i === j ? cc[i] : 0)));
+    // ventouse sous vide : soufflets raidis en latéral et en rotule, libres en axial jusqu'à l'écrasement complet
+    let Kcb = [3 * kv, 3 * kv, kv, 5 * kvt, 5 * kvt, 20 * kvt], ksol = 2;
+    // stabilité de l'intégration explicite : pulsation propre maxi de la pierre tenue, tout en butée
+    const diag = d => d.map((k, i) => d.map((_, j) => +(i === j) * k));
+    const Keff = () => { const Khs = Kh;
+      const Cc = Kcb.map((k, i) => 1 / (k + (i === 2 ? ksol : 0))), Ce = mm(TL, mm(inv(Khs), TLt)).map((r, i) => r.map((x, j) => x + (i === j ? Cc[i] : 0))); return inv(Ce); };
+    const lamMax = K => { const m = prm.mObj / 1000, Tg = C.transport([0, 0, -HS[2]]).map(r => Array.from(r)), Kc = mm(tr(Tg), mm(K, Tg));
+      const im = [1 / m, 1 / m, 1 / m, 3 / (m * (HS[1] ** 2 + HS[2] ** 2)), 3 / (m * (HS[0] ** 2 + HS[2] ** 2)), 3 / (m * (HS[0] ** 2 + HS[1] ** 2))];
+      let v = [1, 0.7, 0.4, 0.01, 0.02, 0.015], lam = 0; for (let it = 0; it < 60; it++) { const w = m6(Kc, v).map((x, i) => x * 1000 * im[i]); lam = Math.hypot(...w); v = w.map(x => x / lam); } return lam; };
+    const a = lamMax(Keff()) * DT * DT; sim.aStab = a; if (a > 0.45) { const f = 0.45 / a; Kcb = Kcb.map(x => x * f); ksol *= f; }
+    const J0 = mm(TLt, mm(diag(Kcb), TL)).map((r, i) => r.map((x, j) => x + Kh[i][j])), ez = TLt.map(r => r[2]);
+    const Jsol = J0.map((r, i) => r.map((x, j) => x + ksol * ez[i] * ez[j]));
+    sim.M = { TL, TLt, Ch, Kh, CLu, cc, Kcb, ksol, J0, Jsol };
+    // patins PLA
+    const zp = ZL - prm.padR, dz = Math.max(4, zp - 2);
+    sim.padGeo = { zc: zp - dz / 2, h: [prm.padW / 2, prm.padW / 2, dz / 2] };
+    for (const pad of sim.pads) pad.h = sim.padGeo.h.slice();
+    if (sim.world) { for (const b of sim.stones) { const m = prm.mObj / 1000; b.m = m; b.im = 1 / m; b.iI = [3 / (m * (b.h[1] ** 2 + b.h[2] ** 2)), 3 / (m * (b.h[0] ** 2 + b.h[2] ** 2)), 3 / (m * (b.h[0] ** 2 + b.h[1] ** 2))]; }
+      for (const p of sim.world.pairs) p.mu = p.type === 'T' ? prm.muT : p.type === 'C' ? prm.muC : prm.muP; }
+  }
+  function solve6(A, b) { const n = 6, M = A.map((r, i) => [...r, b[i]]);
+    for (let c = 0; c < n; c++) { let p = c; for (let r = c + 1; r < n; r++) if (Math.abs(M[r][c]) > Math.abs(M[p][c])) p = r; [M[c], M[p]] = [M[p], M[c]];
+      for (let r = c + 1; r < n; r++) { const f = M[r][c] / M[c][c]; if (f) for (let j = c; j <= n; j++) M[r][j] -= f * M[c][j]; } }
+    const x = [0, 0, 0, 0, 0, 0]; for (let i = n - 1; i >= 0; i--) { let s = M[i][n]; for (let j = i + 1; j < n; j++) s -= M[i][j] * x[j]; x[i] = s / M[i][i]; } return x; }
+  // équilibre du moyeu (sans masse) quand la lèvre est collée : ressort TPU et ventouse sous vide
+  function moyeu(M, prm, qL, qFh, dref, Fv, q0) {
+    let q = q0.slice(), W = null, sol = false;
+    const eff = qq => { const lq = m6(M.TL, qq), d = qL.map((v, i) => v - lq[i]); sol = d[2] < -prm.retr;
+      const w = M.Kcb.map((k, i) => k * (d[i] - dref[i])); w[2] += Fv + (sol ? M.ksol * (d[2] + prm.retr) : 0); return w; };
+    for (let it = 0; it < 8; it++) {
+      W = eff(q); const R = m6(M.Kh, q.map((v, i) => v - qFh[i])), tw = m6(M.TLt, W), J = sol ? M.Jsol : M.J0;
+      for (let i = 0; i < 6; i++) R[i] -= tw[i];
+      const dq = solve6(J, R.map(x => -x)); let mx = 0; for (let i = 0; i < 6; i++) { q[i] += dq[i]; mx = Math.max(mx, Math.abs(dq[i]) * (i < 3 ? 1 : 20)); }
+      if (mx < 1e-5) break;
+    }
+    return { q, W: eff(q), sol };
+  }
+
+  // contact unilatéral de la lèvre sur un plan (point p0, normale m entrant dans la pierre), repère du support
+  function levre(CL, qF, p0, m) {
+    const D = dot([0 - p0[0], 0 - p0[1], ZL - p0[2]], m);
+    const pen = (q, ph) => { const r = [RL * Math.cos(ph), RL * Math.sin(ph), 0], rxm = cross(r, m); return q[0] * m[0] + q[1] * m[1] + q[2] * m[2] + q[3] * rxm[0] + q[4] * rxm[1] + q[5] * rxm[2] + dot(r, m) + D; };
+    const amax = q => { let b = -1e9, bp = 0; for (let k = 0; k < 72; k++) { const ph = k * Math.PI / 36, v = pen(q, ph); if (v > b) { b = v; bp = ph; } } return [b, bp]; };
+    const solve = (A, b) => { const ACA = mm(mm(A, CL), tr(A)), rhs = b.map((bi, i) => bi - A[i].reduce((s, x, j) => s + x * qF[j], 0));
+      const iA = inv(ACA), lam = iA.map(r => r.reduce((s, x, j) => s + x * rhs[j], 0)), W = [0, 0, 0, 0, 0, 0];
+      for (let i = 0; i < A.length; i++) for (let j = 0; j < 6; j++) W[j] += lam[i] * A[i][j]; return { lam, W }; };
+    const res = { contact: 'libre', W: [0, 0, 0, 0, 0, 0], N: 0, inegal: false };
+    const [pm, ph0] = amax(qF); res.jeu = -pm;
+    if (pm > 0) {
+      const full = solve([[m[0], m[1], m[2], 0, 0, 0], [0, 0, 0, 0, -m[2], m[1]], [0, 0, 0, m[2], 0, -m[0]]], [-D, -m[0], -m[1]]);
+      const Nf = -full.lam[0], Mf = Math.hypot(full.W[3], full.W[4], full.W[5]);
+      if (Nf > 0 && Mf <= Nf * RL) { res.contact = 'plaque'; res.W = full.W; res.N = Nf; res.inegal = Mf > Nf * RL / 2; }
+      else { let ph = ph0, r1 = null;
+        for (let it = 0; it < 6; it++) { const r = [RL * Math.cos(ph), RL * Math.sin(ph), 0], rxm = cross(r, m);
+          r1 = solve([[m[0], m[1], m[2], rxm[0], rxm[1], rxm[2]]], [-D - dot(r, m)]);
+          const q = qF.map((v, i) => v + CL[i].reduce((s, x, j) => s + x * r1.W[j], 0)), np = amax(q)[1]; if (Math.abs(np - ph) < 1e-3) break; ph = np; }
+        if (r1 && -r1.lam[0] > 0) { res.contact = 'bord'; res.W = r1.W; res.N = -r1.lam[0]; } }
+    }
+    res.qL = qF.map((v, i) => v + CL[i].reduce((s, x, j) => s + x * res.W[j], 0));
+    return res;
+  }
+
+  function substep(sim) {
+    const { car, cible, prm, M, model } = sim, dt = DT;
+    // plaque : suit les consignes à vitesse limitée
+    const suit = (key, vkey, vmax) => { const e = cible[key] - car[key], acc = vmax * 8, vt = Math.sign(e) * Math.min(vmax, Math.sqrt(2 * acc * Math.abs(e)) * 0.8, Math.abs(e) / dt);
+      car[vkey] += Math.max(-acc * dt, Math.min(acc * dt, vt - car[vkey])); car[key] += car[vkey] * dt; };
+    suit('adv', 'vadv', prm.vLin || 40); suit('lift', 'vlift', prm.vLin || 40); suit('roll', 'wroll', (prm.vRot || 45) * Math.PI / 180);
+    const qc = P.qaxis([0, 0, 1], car.roll), Oc = [0, 165 + car.lift, -ZL + car.adv], ux = P.qrot(qc, [1, 0, 0]), uy = P.qrot(qc, [0, 1, 0]), uz = [0, 0, 1];
+    const loc = v => [dot(v, ux), dot(v, uy), dot(v, uz)], wld = v => add(add(sc(ux, v[0]), sc(uy, v[1])), sc(uz, v[2]));
+    const vcar = Pw => add([0, car.vlift, car.vadv], cross([0, 0, car.wroll], sub(Pw, Oc)));
+    const gl = loc([0, -1, 0]), Fg = sc(gl, prm.mCup / 1000 * C.G0), Mg = cross([0, 0, C.Z_G - model.zRef], Fg);
+    const qFh = m6(M.Ch, [...Fg, ...Mg]), qFL = m6(M.TL, qFh), Fv = prm.dP * AIRE / 1000;
+    sim.frame = { qc, Oc };
+    sim.pads.forEach((pad, k) => { if (!prm.pla) { pad.p = [0, -9000, 0]; pad.v = [0, 0, 0]; pad.w = [0, 0, 0]; }
+      else { pad.p = add(Oc, P.qrot(qc, [xoff(prm, k), (k - 1) * PAS, sim.padGeo.zc])); pad.q = qc.slice(); pad.v = vcar(pad.p); pad.w = [0, 0, car.wroll]; } P.derive(pad); });
+    for (const cup of sim.cups) {
+      const Ok = add(Oc, P.qrot(qc, [xoff(prm, cup.k), (cup.k - 1) * PAS, 0]));
+      if (cup.bonded && !cup.vac) { cup.bonded = false; }
+      if (!cup.vac) cup.lost = false;
+      if (!cup.bonded) {
+        // face de pierre en regard de la lèvre
+        let best = null; const Lw = add(Ok, sc(uz, ZL));
+        for (const b of sim.stones) for (let i = 0; i < 3; i++) for (const sg of [1, -1]) {
+          const nw = sc(b.ax[i], sg); if (dot(nw, uz) > -0.75) continue;
+          const cw = add(b.p, sc(nw, b.h[i])), dl = sub(Lw, cw), i1 = (i + 1) % 3, i2 = (i + 2) % 3;
+          if (Math.abs(dot(dl, b.ax[i1])) > b.h[i1] - RL + 2 || Math.abs(dot(dl, b.ax[i2])) > b.h[i2] - RL + 2) continue;
+          const d = -dot(dl, nw); if (d < -60 || d > 40) continue;
+          if (!best || d > best.d) best = { b, d, p0: loc(sub(cw, Ok)), m: sc(loc(nw), -1), mw: sc(nw, -1) };
+        }
+        let r = { contact: 'libre', W: [0, 0, 0, 0, 0, 0], N: 0, qL: qFL, jeu: 99, inegal: false };
+        if (best) {
+          r = levre(M.CLu, qFL, best.p0, best.m);
+          if (r.contact !== 'libre') {
+            const Pw = add(Ok, wld([r.qL[0], r.qL[1], ZL + r.qL[2]])), b = best.b;
+            let F = sc(wld([r.W[0], r.W[1], r.W[2]]), -1000); const T = sc(wld([r.W[3], r.W[4], r.W[5]]), -1000);
+            const vn = dot(sub(P.velAt(b, sub(Pw, b.p)), vcar(Pw)), best.mw), fd = Math.max(-r.N * 1000, -2 * vn); F = add(F, sc(best.mw, fd));
+            P.applyForce(b, F, Pw); P.applyTorque(b, T);
+            if (cup.vac && !cup.lost && r.contact === 'plaque') {
+              cup.bonded = true; cup.stone = b; cup.tBond = sim.t; cup.pl = P.toLocal(b, Pw);
+              cup.ql = P.qmul(P.qconj(b.q), P.qmul(qc, P.rotvecq([r.qL[3], r.qL[4], r.qL[5]])));
+              cup.dref = r.W.map((w, i) => M.cc[i] * w - w / M.Kcb[i]);
+            }
+          }
+        }
+        cup.N = r.N; cup.jeu = r.jeu; cup.qL = r.qL; cup.qh = qFh.map((v, i) => v + m6(M.Ch, m6(M.TLt, r.W))[i]);
+        cup.etat = cup.lost ? 'decrochee' : r.contact === 'libre' ? (cup.vac ? 'fuit' : 'libre') : r.contact === 'bord' ? 'bord' : (r.inegal ? 'inegal' : (cup.vac ? 'fuit' : 'plaque'));
+        if (cup.bonded) cup.etat = 'tenue';
+      } else {
+        const b = cup.stone, Pw = P.toWorld(b, cup.pl), pl = loc(sub(Pw, Ok)), th = P.qrotvec(P.qmul(P.qconj(qc), P.qmul(b.q, cup.ql)));
+        const qL = [pl[0], pl[1], pl[2] - ZL, th[0], th[1], th[2]], ramp = Math.min(1, (sim.t - cup.tBond) / 0.4);
+        const vr = loc(sub(P.velAt(b, sub(Pw, b.p)), vcar(Pw))), wr = loc(sub(b.w, [0, 0, car.wroll])), qd = [...vr, ...wr];
+        const h = moyeu(M, prm, qL, qFh, cup.dref, Fv * ramp, cup.qh), Ws = h.W, W = Ws.slice();
+        const nb = sim.cups.reduce((s, c) => s + (c.bonded && c.stone === b ? 1 : 0), 0) || 1;
+        for (let i = 0; i < 3; i++) { W[i] += 0.006 / nb * qd[i]; W[3 + i] += 5 / nb * qd[3 + i]; }
+        P.applyForce(b, sc(wld([W[0], W[1], W[2]]), -1000), Pw); P.applyTorque(b, sc(wld([W[3], W[4], W[5]]), -1000));
+        const dz = qL[2] - m6(M.TL, h.q)[2], S = Math.hypot(Ws[0], Ws[1]), Mo = Math.hypot(Ws[3], Ws[4]);
+        cup.N = -Ws[2]; cup.qL = qL; cup.qh = h.q; cup.etat = 'tenue'; cup.ecrasee = h.sol; cup.charge = { S, Mo, Fv, dz };
+        if (ramp >= 1 && (dz > 1 || S > MU_LEVRE * Fv || Mo > Fv * RL)) { cup.bonded = false; cup.lost = true; cup.etat = 'decrochee'; sim.log.push({ t: sim.t, k: cup.k }); }
+      }
+    }
+    P.step(sim.world, dt); sim.t += dt;
+  }
+  function advance(sim, n) { for (let i = 0; i < n; i++) substep(sim); }
+  function mesure(sim) { // déplacement de chaque pierre depuis sa position de départ
+    return sim.stones.map((b, k) => { const d = sub(b.p, sim.init[k].p), dq = P.qmul(P.qconj(sim.init[k].q), b.q);
+      return { dz: d[2], dx: d[0], dy: d[1], d: len(d), tilt: len(P.qrotvec(dq)) * 180 / Math.PI }; });
+  }
+  return { create, resetMur, setModel, advance, mesure, DT, PAS, HS };
+})();
+if (typeof module !== 'undefined') module.exports = Rig;
+
+</script>
+<script>
+(() => {
+const $ = id => document.getElementById(id);
+const fmt = (v, d = 1) => (Math.abs(v) < 0.5 * 10 ** -d ? 0 : v).toLocaleString('fr-FR', { minimumFractionDigits: d, maximumFractionDigits: d });
+const gramme = N => N * 1000 / Core.G0;
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const NIV = ['du bas', 'du milieu', 'du haut'], NOM = ['Bas', 'Milieu', 'Haut'];
+
+const st = { t: 3, w: 3.5, sweepDeg: 200, E: 26, kv: 0.2, dP: 10, retr: 5, mCup: 9, mObj: 70, muT: 0.5, muC: 0.5, muP: 0.3, pla: true, padW: 70, padR: 2, decal: 30 };
+const cmd = { adv: -12, lift: 0, roll: 0 };
+const SL = [
+  { box: 'sl-plaque', o: cmd, key: 'adv', label: 'Avance vers le mur', min: -140, max: 15, step: 0.5, unit: 'mm', d: 1, hint: '0 = les lèvres au repos effleurent le mur' },
+  { box: 'sl-plaque', o: cmd, key: 'lift', label: 'Hauteur de la plaque', min: -10, max: 120, step: 1, unit: 'mm', d: 0 },
+  { box: 'sl-plaque', o: cmd, key: 'roll', label: 'Rotation de la plaque', min: -90, max: 90, step: 1, unit: '°', d: 0, hint: 'autour de l\u2019axe horizontal qui passe par la ventouse du milieu' },
+  { box: 'sl-plaque', o: st, key: 'decal', label: 'Décalage latéral de la ventouse du milieu', min: -40, max: 40, step: 1, unit: 'mm', d: 0, vis: 1, hint: 'pour une prise en triangle quand les 3 ventouses tiennent la même pierre' },
+  { box: 'sl-pla', o: st, key: 'padW', label: 'Largeur de l\u2019appui', min: 36, max: 100, step: 2, unit: 'mm', d: 0, vis: 1 },
+  { box: 'sl-pla', o: st, key: 'padR', label: 'Retrait de l\u2019appui derrière la lèvre', min: 0.5, max: 8, step: 0.5, unit: 'mm', d: 1, vis: 1 },
+  { box: 'sl-pla', o: st, key: 'muP', label: 'Frottement carton / PLA', min: 0.1, max: 1, step: 0.05, unit: '', d: 2 },
+  { box: 'sl-tpu', o: st, key: 't', label: 'Épaisseur de la plaque TPU', min: 2, max: 5, step: 0.2, unit: 'mm', d: 1, geo: 1 },
+  { box: 'sl-tpu', o: st, key: 'w', label: 'Largeur des bras', min: 2, max: 5, step: 0.1, unit: 'mm', d: 1, geo: 1 },
+  { box: 'sl-tpu', o: st, key: 'sweepDeg', label: 'Angle parcouru par un bras', min: 120, max: 300, step: 5, unit: '°', d: 0, geo: 1 },
+  { box: 'sl-tpu', o: st, key: 'E', label: 'Module du TPU', min: 8, max: 60, step: 1, unit: 'MPa', d: 0, geo: 1, hint: '85A : environ 12 MPa, 95A : 26 à 50 MPa' },
+  { box: 'sl-obj', o: st, key: 'muT', label: 'Frottement carton / table', min: 0.1, max: 1, step: 0.05, unit: '', d: 2 },
+  { box: 'sl-obj', o: st, key: 'muC', label: 'Frottement carton / carton', min: 0.1, max: 1, step: 0.05, unit: '', d: 2 },
+  { box: 'sl-obj', o: st, key: 'mObj', label: 'Masse d\u2019une pierre', min: 30, max: 200, step: 5, unit: 'g', d: 0 },
+  { box: 'sl-obj', o: st, key: 'kv', label: 'Raideur de la ventouse', min: 0.05, max: 1, step: 0.01, unit: 'N/mm', d: 2, hint: 'estimation, à mesurer avec un poids posé dessus' },
+  { box: 'sl-obj', o: st, key: 'dP', label: 'Dépression dans la ventouse', min: 2, max: 60, step: 1, unit: 'kPa', d: 0, hint: 'le carton fuit : comptez bas' },
+  { box: 'sl-obj', o: st, key: 'retr', label: 'Course d\u2019écrasement de la ventouse sous vide', min: 1, max: 10, step: 0.5, unit: 'mm', d: 1 },
+  { box: 'sl-obj', o: st, key: 'mCup', label: 'Masse ventouse + raccord', min: 4, max: 25, step: 0.5, unit: 'g', d: 1 },
+];
+for (const s of SL) {
+  const div = document.createElement('div'); div.className = 'sl';
+  div.innerHTML = `<label for="in-${s.key}">${s.label}</label><output class="num" id="out-${s.key}"></output>` +
+    `<input type="range" id="in-${s.key}" min="${s.min}" max="${s.max}" step="${s.step}" value="${s.o[s.key]}">` + (s.hint ? `<div class="hint">${s.hint}</div>` : '');
+  $(s.box).appendChild(div);
+  $('in-' + s.key).addEventListener('input', e => { s.o[s.key] = parseFloat(e.target.value); if (s.o === cmd) { seq = null; pushCmd(); } else if (s.geo) rebuild(); else { Rig.setModel(sim, model, { ...st }); if (s.vis) buildStatic(); } showOut(); staticUI(); });
+}
+const showOut = () => { for (const s of SL) { $('in-' + s.key).value = s.o[s.key]; $('out-' + s.key).textContent = fmt(s.o[s.key], s.d) + (s.unit ? '\u00a0' + s.unit : ''); } };
+const pushCmd = () => { sim.cible.adv = cmd.adv; sim.cible.lift = cmd.lift; sim.cible.roll = cmd.roll * Math.PI / 180; };
+const setCmd = c => { Object.assign(cmd, c); pushCmd(); showOut(); };
+const setVac = (k, on) => { sim.cups[k].vac = on; document.querySelector(`[data-vac="${k}"]`).setAttribute('aria-pressed', on); };
+document.querySelectorAll('[data-vac]').forEach(b => b.addEventListener('click', () => { seq = null; setVac(+b.dataset.vac, b.getAttribute('aria-pressed') !== 'true'); }));
+$('vacAll').addEventListener('click', () => { seq = null; const on = !sim.cups.every(c => c.vac); for (let k = 0; k < 3; k++) setVac(k, on); });
+for (const id of ['pla']) $(id).addEventListener('change', e => { st[id] = e.target.checked; Rig.setModel(sim, model, { ...st }); buildStatic(); staticUI(); });
+$('resetAct').addEventListener('click', () => { seq = null; setCmd({ adv: -12, lift: 0, roll: 0 }); });
+const dejaTenue = [false, false, false];
+const remettre = () => { Rig.resetMur(sim); dejaTenue.fill(false); for (let k = 0; k < 3; k++) setVac(k, false); };
+$('reset').addEventListener('click', () => { seq = null; remettre(); if (cmd.adv > -5) setCmd({ adv: -12, lift: 0, roll: 0 }); });
+
+// ---------------- séquences ----------------
+let seq = null;
+const depart = { go: () => { remettre(); setCmd({ adv: -12, lift: 0, roll: 0 }); }, hold: 0.6 };
+const appui = () => st.pla ? Math.max(1, st.padR - 0.5) : 2;      // avance d'approche : la lèvre appuie, l'appui PLA ne pousse pas encore
+const tout = on => { for (let k = 0; k < 3; k++) setVac(k, on); };
+const lance = steps => { seq = { i: 0, t: 0, on: false, steps: [depart, ...steps] }; };
+$('seqMur').addEventListener('click', () => lance([{ go: () => setCmd({ adv: appui() }), hold: 0.8 }, { go: () => tout(true), hold: 1.2 }, { go: () => setCmd({ lift: 40 }), hold: 1 }]));
+$('seqHaut').addEventListener('click', () => lance([{ go: () => setCmd({ adv: appui() }), hold: 0.8 }, { go: () => setVac(2, true), hold: 1.2 }, { go: () => setCmd({ lift: 30 }), hold: 0.6 },
+  { go: () => setCmd({ adv: -130 }), hold: 0.4 }, { go: () => setCmd({ roll: 90 }), hold: 0.6 }, { go: () => setCmd({ lift: -4 }), hold: 0.8 }, { go: () => setVac(2, false), hold: 0.5 }]));
+$('seqTri').addEventListener('click', () => lance([{ go: () => setCmd({ roll: 90, lift: 110 }), hold: 0.5 }, { go: () => setCmd({ adv: appui() }), hold: 0.8 }, { go: () => tout(true), hold: 1.2 },
+  { go: () => setCmd({ lift: 135 }), hold: 0.6 }, { go: () => setCmd({ adv: -90 }), hold: 0.6 }]));
+function seqTick(dt) {
+  if (!seq) return; const s = seq.steps[seq.i];
+  if (!seq.on) { s.go(); seq.on = true; seq.t = 0; }
+  seq.t += dt; const c = sim.car, g = sim.cible;
+  if (Math.abs(c.adv - g.adv) < 0.3 && Math.abs(c.lift - g.lift) < 0.3 && Math.abs(c.roll - g.roll) < 0.01 && seq.t >= s.hold) { seq.i++; seq.on = false; if (seq.i >= seq.steps.length) seq = null; }
+}
+
+// ---------------- scène 3D ----------------
+const canvas = $('view');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+renderer.outputEncoding = THREE.sRGBEncoding;
+renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(30, 1, 10, 9000);
+const controls = new THREE.OrbitControls(camera, canvas);
+controls.enableDamping = true; controls.dampingFactor = 0.12; controls.minDistance = 120; controls.maxDistance = 3000;
+scene.add(new THREE.HemisphereLight(0xffffff, 0x6f7a89, 0.62));
+const sun = new THREE.DirectionalLight(0xffffff, 0.5); sun.position.set(380, 620, -340); scene.add(sun);
+const fill = new THREE.DirectionalLight(0xffffff, 0.2); fill.position.set(-300, 120, 260); scene.add(fill);
+const M = {
+  tpu: new THREE.MeshStandardMaterial({ color: 0xF28C1B, roughness: 0.75, flatShading: true, side: THREE.DoubleSide }),
+  metal: new THREE.MeshStandardMaterial({ color: 0xCDD3DA, roughness: 0.42, metalness: 0.25, flatShading: true }),
+  vis: new THREE.MeshStandardMaterial({ color: 0x5B6777, roughness: 0.45, metalness: 0.2 }),
+  cup: new THREE.MeshStandardMaterial({ color: 0xF6F5EE, roughness: 0.5, transparent: true, opacity: 0.8, side: THREE.DoubleSide }),
+  pla: new THREE.MeshStandardMaterial({ color: 0x1FA3B8, roughness: 0.6, transparent: true, opacity: 0.92 }),
+  cupOn: new THREE.MeshStandardMaterial({ color: 0x8FD9B0, roughness: 0.5, transparent: true, opacity: 0.85, side: THREE.DoubleSide }),
+  bracket: new THREE.MeshStandardMaterial({ color: 0x8591A0, roughness: 0.6, transparent: true, opacity: 0.3, depthWrite: false, side: THREE.DoubleSide }),
+  table: new THREE.MeshStandardMaterial({ color: 0xD5DDE5, roughness: 1 }),
+};
+const table = new THREE.Mesh(new THREE.PlaneGeometry(3000, 3000), M.table); table.rotation.x = -Math.PI / 2; table.position.y = -0.4; scene.add(table);
+let grid = null;
+function themeScene() {
+  M.table.color.set(css('--table') || '#D5DDE5');
+  if (grid) { scene.remove(grid); grid.geometry.dispose(); grid.material.dispose(); }
+  grid = new THREE.GridHelper(3000, 30, css('--grid') || '#B9C5D1', css('--grid') || '#B9C5D1'); grid.position.y = -0.2; scene.add(grid);
+}
+const stoneGeo = new THREE.BoxGeometry(320, 110, 110), stoneEdge = new THREE.EdgesGeometry(stoneGeo);
+const stones = [0xC79F68, 0xD2AC78, 0xBE9760].map(c => { const m = new THREE.Mesh(stoneGeo, new THREE.MeshStandardMaterial({ color: c, roughness: 0.9 }));
+  m.add(new THREE.LineSegments(stoneEdge, new THREE.LineBasicMaterial({ color: 0x6E5330 }))); scene.add(m); return m; });
+const car = new THREE.Group(); scene.add(car);
+const carStatic = new THREE.Group(); car.add(carStatic);
+
+const axeZ = g => { g.rotateX(Math.PI / 2); return g; }, axeX = g => { g.rotateZ(-Math.PI / 2); return g; };
+function roundedRect(w, h, r) {
+  const s = new THREE.Shape(), a = w / 2, b = h / 2;
+  s.moveTo(-a + r, -b); s.lineTo(a - r, -b); s.absarc(a - r, -b + r, r, -Math.PI / 2, 0); s.lineTo(a, b - r); s.absarc(a - r, b - r, r, 0, Math.PI / 2);
+  s.lineTo(-a + r, b); s.absarc(-a + r, b - r, r, Math.PI / 2, Math.PI); s.lineTo(-a, -b + r); s.absarc(-a + r, -b + r, r, Math.PI, 1.5 * Math.PI);
+  return s;
+}
+const hole = (x, y, r) => { const p = new THREE.Path(); p.absarc(x, y, r, 0, 2 * Math.PI, true); return p; };
+function clearGroup(g) { while (g.children.length) { const c = g.children.pop(); if (c.geometry) c.geometry.dispose(); } }
+const CUP_PROF = [[2.5, 0], [7.5, 0], [7.5, 6.5], [11.5, 9.3], [11.5, 9.9], [8.4, 12.2], [15, 17.6], [15, 18], [14, 18], [5.25, 12.6], [5.25, 11.8], [9.8, 9.7], [9.8, 9.2], [2, 7.6]];
+const Z_CUP = Core.Z_LEVRE - 18;
+const units = [0, 1, 2].map(k => { const g = new THREE.Group(); g.position.y = (k - 1) * Rig.PAS; car.add(g);
+  const st0 = new THREE.Group(), hub = new THREE.Group(); g.add(st0); g.add(hub);
+  const seg = 40, np = CUP_PROF.length, pos = new Float32Array(np * (seg + 1) * 3), idx = [], base = new Float32Array(pos.length), wgt = new Float32Array(np * (seg + 1));
+  for (let j = 0; j <= seg; j++) for (let i = 0; i < np; i++) { const ph = 2 * Math.PI * j / seg, o = (j * np + i) * 3, [r, zc] = CUP_PROF[i];
+    base[o] = r * Math.cos(ph); base[o + 1] = r * Math.sin(ph); base[o + 2] = Z_CUP + zc; wgt[j * np + i] = Math.min(1, Math.max(0, (zc - 6.5) / 11.5)); }
+  for (let j = 0; j < seg; j++) for (let i = 0; i < np - 1; i++) { const A = j * np + i, B = A + 1, Cc = A + np + 1, D = A + np; idx.push(A, D, Cc, A, Cc, B); }
+  const cg = new THREE.BufferGeometry(); cg.setAttribute('position', new THREE.BufferAttribute(pos, 3)); cg.setIndex(idx);
+  const cup = new THREE.Mesh(cg, M.cup); cup.frustumCulled = false; cup.renderOrder = 1; g.add(cup);
+  return { g, st: st0, hub, cup, base, wgt, arms: [] }; });
+
+let model = null, sim = null;
+function buildStatic() {
+  const t = st.t, zr = model.zRef;
+  clearGroup(carStatic);
+  const dc = st.decal, wq = 64 + Math.abs(dc), bs = roundedRect(wq, 284, 4); for (let k = -1; k <= 1; k++) bs.holes.push(hole((k === 0 ? dc : 0) - dc / 2, k * Rig.PAS, 22));
+  const br = new THREE.Mesh(new THREE.ExtrudeGeometry(bs, { depth: 3, bevelEnabled: false, curveSegments: 28 }), M.bracket); br.position.set(dc / 2, 0, -t - 3); br.renderOrder = 2; carStatic.add(br);
+  for (const sx of [-1, 1]) { const rail = new THREE.Mesh(new THREE.BoxGeometry(6, 284, 22), M.bracket); rail.position.set(dc / 2 + sx * (wq / 2 - 3), 0, -t - 3 - 11); rail.renderOrder = 2; carStatic.add(rail); }
+  const axe = new THREE.Mesh(axeZ(new THREE.CylinderGeometry(14, 14, 70, 24)), M.bracket); axe.position.z = -t - 25 - 35; axe.renderOrder = 2; carStatic.add(axe);
+  const pont = new THREE.Mesh(new THREE.BoxGeometry(wq, 30, 4), M.bracket); pont.position.x = dc / 2; pont.position.z = -t - 25 - 2; pont.renderOrder = 2; carStatic.add(pont);
+  units.forEach((u, ku) => {
+    clearGroup(u.st); clearGroup(u.hub); u.arms = []; u.g.position.x = ku === 1 ? dc : 0;
+    if (st.pla) { // appui PLA : cadre avant percé + 4 colonnes jusqu'à la plaque
+      const zp = Core.Z_LEVRE - st.padR, ps = roundedRect(st.padW, st.padW, 4); ps.holes.push(hole(0, 0, 17.5));
+      const pf = new THREE.Mesh(new THREE.ExtrudeGeometry(ps, { depth: 4, bevelEnabled: false, curveSegments: 28 }), M.pla); pf.position.z = zp - 4; u.st.add(pf);
+      for (const sx of [-1, 1]) for (const sy of [-1, 1]) { const col = new THREE.Mesh(axeZ(new THREE.CylinderGeometry(3, 3, zp - 4, 10)), M.pla); col.position.set(sx * (st.padW / 2 - 4), sy * (st.padW / 2 - 4), (zp - 4) / 2); u.st.add(col); }
+    }
+    const sh = roundedRect(50, 50, 5); sh.holes.push(hole(0, 0, Core.R_CAVITE));
+    for (const sx of [-1, 1]) for (const sy of [-1, 1]) sh.holes.push(hole(20 * sx, 20 * sy, 1.7));
+    const frame = new THREE.Mesh(new THREE.ExtrudeGeometry(sh, { depth: t, bevelEnabled: false, curveSegments: 32 }), M.tpu); frame.position.z = -t; u.st.add(frame);
+    for (const sx of [-1, 1]) for (const sy of [-1, 1]) { const v = new THREE.Mesh(axeZ(new THREE.CylinderGeometry(2.75, 2.75, 2, 12)), M.vis); v.position.set(20 * sx, 20 * sy, 1); u.st.add(v); }
+    for (let a = 0; a < Core.N_BRAS; a++) {
+      const n = model.nel + 1, g = new THREE.BufferGeometry(), idx = [];
+      g.setAttribute('position', new THREE.BufferAttribute(new Float32Array(n * 4 * 3), 3));
+      for (let i = 0; i < n - 1; i++) for (let q = 0; q < 4; q++) { const q2 = (q + 1) % 4, A = i * 4 + q, B = i * 4 + q2, Cc = (i + 1) * 4 + q2, D = (i + 1) * 4 + q; idx.push(A, B, Cc, A, Cc, D); }
+      g.setIndex(idx); const m = new THREE.Mesh(g, M.tpu); m.frustumCulled = false; u.st.add(m); u.arms.push(m);
+    }
+    const hs = new THREE.Shape(); hs.absarc(0, 0, Core.R_MOYEU, 0, 2 * Math.PI, false); hs.holes.push(hole(0, 0, 2.65));
+    const hm = new THREE.Mesh(new THREE.ExtrudeGeometry(hs, { depth: t, bevelEnabled: false, curveSegments: 24 }), M.tpu); hm.position.z = -t / 2; u.hub.add(hm);
+    const addm = (geo, z, x = 0, mat = M.metal) => { const m = new THREE.Mesh(geo, mat); m.position.set(x, 0, z - zr); u.hub.add(m); };
+    const hex = axeZ(new THREE.CylinderGeometry(12 / Math.sqrt(3), 12 / Math.sqrt(3), 8, 6)); hex.rotateZ(Math.PI / 2); addm(hex, 4);
+    addm(axeZ(new THREE.CylinderGeometry(2.5, 2.5, 7, 16)), -3.5); addm(axeZ(new THREE.CylinderGeometry(2.5, 2.5, 6, 16)), 11); addm(axeZ(new THREE.CylinderGeometry(5.5, 5.5, 2, 24)), 15);
+    for (const sx of [-1, 1]) { addm(axeX(new THREE.CylinderGeometry(2, 2, 10.8, 12)), 4, sx * 11.4);
+      for (let q = 0; q < 3; q++) addm(axeX(new THREE.CylinderGeometry(sx > 0 ? 2 : 2.5, sx > 0 ? 2.5 : 2, 2.6, 12)), 4, sx * (10.3 + 2.6 * q)); }
+    addm(axeZ(new THREE.CylinderGeometry(8 / Math.sqrt(3), 8 / Math.sqrt(3), 4, 6)), -4, 0, M.vis);
+  });
+}
+function rebuild() {
+  model = Core.build({ t: st.t, w: st.w, sweepDeg: st.sweepDeg, E: st.E });
+  if (!sim) sim = Rig.create(model, { ...st }); else Rig.setModel(sim, model, { ...st });
+  buildStatic(); staticUI();
+}
+
+// ---------------- pose affichée ----------------
+const rigid = (q, c, p) => { const r = Core.rotVec([q[3], q[4], q[5]], [p[0] - c[0], p[1] - c[1], p[2] - c[2]]); return [c[0] + q[0] + r[0], c[1] + q[1] + r[1], c[2] + q[2] + r[2]]; };
+const quat = th => { const a = Math.hypot(th[0], th[1], th[2]); return a < 1e-9 ? new THREE.Quaternion() : new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(th[0] / a, th[1] / a, th[2] / a), a); };
+const borne = q => { const a = Math.hypot(q[3], q[4], q[5]), f = a > 1.2 ? 1.2 / a : 1, u = Math.hypot(q[0], q[1], q[2]), fu = u > 40 ? 40 / u : 1; return [q[0] * fu, q[1] * fu, q[2] * fu, q[3] * f, q[4] * f, q[5] * f]; };
+function poseUnit(u, c) {
+  const zr = model.zRef, t = st.t, qh = borne(c.qh), qL = c.qL, ref = [0, 0, zr], lc = [0, 0, Core.Z_LEVRE];
+  for (let a = 0; a < Core.N_BRAS; a++) {
+    const arm = model.arms[a], d = Core.armDisp(model, a, qh), pos = u.arms[a].geometry.attributes.position, n = model.nel + 1;
+    for (let i = 0; i < n; i++) {
+      const p = arm.nodes[i], pa = arm.nodes[Math.max(0, i - 1)], pb = arm.nodes[Math.min(n - 1, i + 1)];
+      let tx = pb[0] - pa[0], ty = pb[1] - pa[1]; const tl = Math.hypot(tx, ty); tx /= tl; ty /= tl;
+      const th = [d[i][3], d[i][4], d[i][5]], nv = Core.rotVec(th, [-ty, tx, 0]), zv = Core.rotVec(th, [0, 0, 1]);
+      const cc = [p[0] + d[i][0], p[1] + d[i][1], zr + d[i][2]], w = arm.widths[i] / 2, h = t / 2, sg = [[1, 1], [-1, 1], [-1, -1], [1, -1]];
+      for (let q = 0; q < 4; q++) pos.setXYZ(i * 4 + q, cc[0] + sg[q][0] * w * nv[0] + sg[q][1] * h * zv[0], cc[1] + sg[q][0] * w * nv[1] + sg[q][1] * h * zv[1], cc[2] + sg[q][0] * w * nv[2] + sg[q][1] * h * zv[2]);
+    }
+    pos.needsUpdate = true; u.arms[a].geometry.computeVertexNormals();
+  }
+  u.hub.position.set(qh[0], qh[1], zr + qh[2]); u.hub.quaternion.copy(quat([qh[3], qh[4], qh[5]]));
+  const pos = u.cup.geometry.attributes.position;
+  for (let i = 0; i < u.wgt.length; i++) {
+    const p = [u.base[i * 3], u.base[i * 3 + 1], u.base[i * 3 + 2]], A = rigid(qh, ref, p), B = rigid(qL, lc, p), s = u.wgt[i];
+    pos.setXYZ(i, A[0] + s * (B[0] - A[0]), A[1] + s * (B[1] - A[1]), A[2] + s * (B[2] - A[2]));
+  }
+  pos.needsUpdate = true; u.cup.geometry.computeVertexNormals();
+  u.cup.material = c.bonded ? M.cupOn : M.cup;
+}
+function applyPose() {
+  const c = sim.car; car.position.set(0, 165 + c.lift, -Core.Z_LEVRE + c.adv); car.rotation.z = c.roll;
+  sim.stones.forEach((b, k) => { stones[k].position.set(b.p[0], b.p[1], b.p[2]); stones[k].quaternion.set(b.q[0], b.q[1], b.q[2], b.q[3]); });
+  for (let k = 0; k < 3; k++) poseUnit(units[k], sim.cups[k]);
+}
+function setCamera(v) {
+  const flottant = getComputedStyle(document.querySelector('.panel')).position === 'absolute', k = flottant ? 1.5 : 1;   // plein écran : on recule pour tout voir
+  const [p, c] = v === 'cote' ? [[880, 270, 35], [0, 160, 35]] : v === 'face' ? [[-140, 260, -820], [0, 160, 0]] : [[520, 330, -560], [0, 160, 15]];
+  camera.position.set(c[0] + (p[0] - c[0]) * k, c[1] + (p[1] - c[1]) * k, c[2] + (p[2] - c[2]) * k); controls.target.set(c[0], c[1], c[2]);
+  controls.update();
+}
+document.querySelectorAll('[data-v]').forEach(b => b.addEventListener('click', () => setCamera(b.dataset.v)));
+
+// ---------------- affichage des résultats ----------------
+const ETAT = { libre: 'libre', bord: 'touche par un bord', inegal: 'plaquée, appui inégal', plaque: 'plaquée', fuit: 'vide activé, pas étanche', tenue: 'tient la pierre', decrochee: 'a décroché' };
+function staticUI() {
+  $('stiff').innerHTML = `<dt>Raideur axiale d'un support</dt><dd>${fmt(gramme(model.kz))} g/mm</dd><dt>Raideur de rotule</dt><dd>${fmt(model.ktilt * Math.PI / 180, 2)} N·mm/°</dd>` +
+    `<dt>Raideur radiale</dt><dd>${fmt(gramme(model.kr), 0)} g/mm</dd><dt>Fente entre bras</dt><dd>${fmt(model.fente)} mm</dd>`;
+  $('script').textContent = `Script CadQuery : EPAISSEUR = ${st.t.toFixed(1)}, LARGEUR = ${st.w.toFixed(1)}, BALAYAGE = ${st.sweepDeg.toFixed(0)}` + (model.fente < 1.5 ? ' (bras trop serrés : réduisez la largeur ou l\u2019angle)' : '');
+  const rg = $('regle'), serr = gramme(model.kz) * (st.retr - st.padR);
+  if (!st.pla) { rg.className = 'regle'; rg.textContent = 'Sans appui, la pierre n\u2019est tenue que par le ressort TPU.'; }
+  else if (serr <= 0) { rg.className = 'regle w'; rg.textContent = `La ventouse s'écrase de ${fmt(st.retr)} mm au plus : avec ${fmt(st.padR)} mm de retrait, elle arrive à fond avant que la pierre touche l'appui. Réduisez le retrait.`; }
+  else { rg.className = 'regle'; rg.textContent = `Sous vide, la pierre est serrée sur l'appui par le ressort TPU : environ ${fmt(serr, 0)} g par ventouse (${fmt(st.retr - st.padR)} mm d'allongement). Une pierre tenue par une seule ventouse penche encore ; à 3 ventouses en triangle elle reste droite.`; }
+  const ks = gramme(1 / sim.M.CLu[2][2]), sb = st.mObj / 3, sg = st.muT * st.mObj, sc2 = st.muC * st.mObj, mn = Math.min(sb, sg, sc2);
+  $('seuils').textContent = `Si les 3 ventouses poussent autant : le mur bascule au-delà de ${fmt(sb, 0)} g par ventouse, glisse sur la table au-delà de ${fmt(sg, 0)} g, et les cartons glissent entre eux au-delà de ${fmt(sc2, 0)} g. ` +
+    `Avec ce support (${fmt(ks)} g par mm, ventouse comprise), la marge est d'environ ${fmt(mn / ks)} mm d'avance après le contact.`;
+}
+function liveUI() {
+  const ms = Rig.mesure(sim), rows = [], V = []; let etat = 'libre', txt = 'Pas de contact';
+  const tenue = k => sim.cups.find(c => c.bonded && c.stone === sim.stones[k]);
+  for (let k = 2; k >= 0; k--) {
+    const c = sim.cups[k], m = ms[k], cl = c.etat === 'decrochee' ? 'b' : (c.etat === 'bord' || c.etat === 'inegal' || c.etat === 'fuit') ? 'k' : c.etat === 'tenue' ? 'o' : '';
+    let f = c.etat === 'libre' || c.etat === 'decrochee' ? '' : c.N >= 0 ? `, pousse ${fmt(gramme(c.N), 0)} g` : `, tire ${fmt(-gramme(c.N), 0)} g`;
+    if (c.bonded && c.ecrasee) f += ', ventouse écrasée à fond';
+    const moved = m.d > 0.5 || m.tilt > 0.3, t = tenue(k); if (t) dejaTenue[k] = true;
+    const cart = !moved ? 'immobile' : `${t ? 'tenu, ' : dejaTenue[k] ? 'déposé, ' : ''}déplacé de ${fmt(m.d)} mm, incliné de ${fmt(m.tilt)}°`;
+    rows.push(`<tr><td>${NOM[k]}</td><td class="${cl}">${c.bonded ? 'tient la pierre ' + NIV[sim.stones.indexOf(c.stone)] : ETAT[c.etat]}${f}</td><td class="${moved && !dejaTenue[k] ? 'k' : ''}">${cart}</td></tr>`);
+  }
+  $('rows').innerHTML = rows.join('');
+  const lost = sim.cups.filter(c => c.etat === 'decrochee'), held = sim.cups.filter(c => c.bonded), touch = sim.cups.filter(c => c.N > 0 && !c.bonded);
+  const pend = held.filter(c => Math.hypot(c.qL[3], c.qL[4]) * 180 / Math.PI > 4 && c.stone.p[1] - sim.init[sim.stones.indexOf(c.stone)].p[1] > 1);
+  const bouge = [0, 1, 2].filter(k => !dejaTenue[k] && (ms[k].d > 1 || ms[k].tilt > 0.5));
+  const depose = [0, 1, 2].filter(k => dejaTenue[k] && !tenue(k) && (ms[k].d > 1 || ms[k].tilt > 0.5));
+  if (lost.length) { etat = 'alerte'; txt = 'Ventouse décrochée'; V.push(`<span class="b">La ventouse ${lost.map(c => NIV[c.k]).join(' et ')} a décroché : l'effort dépasse ce que la dépression peut tenir. Coupez son vide pour réessayer.</span>`); }
+  if (pend.length) { etat = 'alerte'; txt = 'Les pierres pendent';
+    const conseil = !st.pla ? 'Activez l\u2019appui PLA.' : 'Le vide écrase la ventouse en tirant le moyeu vers l\u2019avant, donc la pierre n\u2019est serrée sur l\u2019appui que par le ressort TPU. Prenez-la à 3 ventouses en triangle, ou épaississez le TPU.';
+    V.push(`<span class="b">La pierre ${[...new Set(pend.map(c => NIV[sim.stones.indexOf(c.stone)]))].join(', ')} pend de ${fmt(Math.max(...pend.map(c => Math.hypot(c.qL[3], c.qL[4]) * 180 / Math.PI)), 0)}° sous son poids. ${conseil}</span>`); }
+  if (bouge.length) { if (etat !== 'alerte') { etat = 'bord'; txt = 'Le mur a bougé'; }
+    V.push(`<span class="w">Déplacé sans être tenu : ${bouge.map(k => `pierre ${NIV[k]} ${fmt(ms[k].d)} mm` + (ms[k].tilt > 0.5 ? `, ${fmt(ms[k].tilt)}°` : '')).join(' ; ')}.</span>`); }
+  if (!V.length && depose.length && !held.length) { etat = 'tenu'; txt = 'Pierre déposée'; V.push(`Pierre ${depose.map(k => NIV[k]).join(' et ')} déposée à ${depose.map(k => fmt(ms[k].d, 0) + ' mm, tournée de ' + fmt(ms[k].tilt, 0) + '°').join(' ; ')}. Le reste du mur n'a pas bougé.`); }
+  if (!V.length) {
+    if (held.length) { etat = 'tenu'; const ks = [...new Set(held.map(c => sim.stones.indexOf(c.stone)))]; txt = ks.length === 3 ? 'Mur tenu' : `${ks.length} pierre${ks.length > 1 ? 's' : ''} tenue${ks.length > 1 ? 's' : ''}`;
+      V.push(`${ks.length === 3 ? 'Les 3 pierres sont tenues' : ks.map(k => 'La pierre ' + NIV[k]).join(' et ') + (ks.length > 1 ? ' sont tenues' : ' est tenue')} par ${held.length} ventouse${held.length > 1 ? 's' : ''}, rien d'autre n'a bougé.`); }
+    else if (touch.length) { etat = 'plaque'; txt = 'Appui sans déplacement'; V.push(`${touch.length} ventouse${touch.length > 1 ? 's appuient' : ' appuie'} (${touch.map(c => fmt(gramme(c.N))).join(' / ')} g), le mur n'a pas bougé.`); }
+    else V.push('Les ventouses ne touchent pas le mur.');
+  }
+  $('chip').dataset.s = etat; $('chipTxt').textContent = txt; $('verdict').innerHTML = V.join('');
+}
+
+// ---------------- boucle ----------------
+const panel = document.querySelector('.panel'), results = document.querySelector('.results');
+function resize() { const w = canvas.clientWidth, h = canvas.clientHeight; if (!w || !h) return; renderer.setSize(w, h, false); camera.aspect = w / h;
+  if (getComputedStyle(panel).position === 'absolute') camera.setViewOffset(w, h, Math.round((panel.offsetWidth + 12) / 2), Math.round(Math.min(results.offsetHeight, h * 0.2) / 3), w, h); else camera.clearViewOffset();
+  camera.updateProjectionMatrix(); }
+$('tbl').addEventListener('toggle', () => setTimeout(resize, 0));
+window.addEventListener('resize', resize);
+let last = 0, acc = 0, nf = 0;
+function frame(tm) {
+  const dt = last ? Math.min(0.05, (tm - last) / 1000) : 0; last = tm;
+  seqTick(dt); acc += dt; let n = Math.floor(acc / Rig.DT); acc -= n * Rig.DT; n = Math.min(n, 10);
+  if (n) Rig.advance(sim, n);
+  applyPose(); controls.update(); renderer.render(scene, camera);
+  if (nf++ % 6 === 0) liveUI();
+  requestAnimationFrame(frame);
+}
+new ResizeObserver(resize).observe(canvas);
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', themeScene);
+new MutationObserver(themeScene).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+themeScene(); rebuild(); showOut(); pushCmd(); setCamera('3d'); resize();
+requestAnimationFrame(frame);
+window.__sim = { get sim() { return sim; }, st, cmd };
+})();
+
+</script>
+</body>
+</html>
