@@ -13,6 +13,7 @@ fr:
   menu_open: Ouvrir le menu
   skip: Aller au contenu
   back_to_top: Haut de page
+  open_full: Ouvrir en plein écran
   cta_projects: Voir les projets
   cta_about: Qui suis-je
   featured: "À la une"
@@ -102,6 +103,7 @@ en:
   menu_open: Open menu
   skip: Skip to content
   back_to_top: Back to top
+  open_full: Open full screen
   cta_projects: See the projects
   cta_about: About me
   featured: Featured

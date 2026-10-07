@@ -61,3 +61,13 @@
   figcaption { display: flex; justify-content: space-between; gap: 12px; padding: 10px 14px; border-top: var(--rule); font-size: 12px; line-height: 1.4; }
   figcaption a { text-decoration: none; white-space: nowrap; }
 }
+
+// Page HTML autonome intégrée (_includes/embed-html.html) : cadre isolé, hauteur fixe (--embed-h).
+// Dans un log ou une doc, le cadre prend toute la largeur de la colonne (pas la limite de 780 px du texte).
+.content .embed-html {
+  margin: 0 0 1.5em; border: var(--rule); background: var(--paper);
+  iframe { display: block; width: 100%; height: min(var(--embed-h, 720px), 85vh); min-height: 480px; aspect-ratio: auto; border: 0; background: var(--paper); }
+  figcaption { display: flex; justify-content: space-between; gap: 12px; padding: 10px 14px; border-top: var(--rule); font-size: 12px; line-height: 1.4; }
+  figcaption a { text-decoration: none; white-space: nowrap; }
+}
+.with-aside > .content.prose > .embed-html, .with-toc > .content.prose > .embed-html { max-width: none; }

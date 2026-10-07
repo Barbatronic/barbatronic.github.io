@@ -1,0 +1,17 @@
+{%- comment -%}
+  Page HTML autonome (simulation, démo) intégrée dans un log, une doc ou un article, dans un cadre isolé :
+  ses styles et scripts ne touchent pas au site.
+  Paramètres : src (chemin de la page depuis la racine), title (titre du cadre, obligatoire),
+  caption (légende, optionnel), height (hauteur du cadre, optionnel, défaut "720px" ; limitée à 85 % de l'écran).
+  Sortie : <figure class="embed-html"> avec l'iframe et un lien pour ouvrir la page seule.
+  La page intégrée gère son propre défilement si elle dépasse la hauteur du cadre.
+{%- endcomment -%}
+{%- assign _src = include.src | relative_url -%}
+{%- assign _h = include.height | default: "720px" -%}
+<figure class="embed-html" style="--embed-h: {{ _h }}">
+  <iframe src="{{ _src }}" title="{{ include.title | escape }}" loading="lazy"></iframe>
+  <figcaption class="mono">
+    <span>{% if include.caption %}{{ include.caption }}{% else %}{{ include.title }}{% endif %}</span>
+    <a href="{{ _src }}" target="_blank" rel="noopener">{{ site.data.i18n[page.lang].open_full | default: "Ouvrir en plein écran" | upcase }} &nearr;</a>
+  </figcaption>
+</figure>
