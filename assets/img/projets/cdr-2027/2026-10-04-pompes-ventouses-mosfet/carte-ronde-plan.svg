@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-17 -17 70 34" width="1400" height="680" font-family="JetBrains Mono, ui-monospace, monospace">
+<rect x="-17" y="-17" width="62" height="34" fill="#ffffff"/>
+<circle r="13.0" fill="#f1f1f1" stroke="#0e0e0e" stroke-width="0.3"/>
+<circle r="5.5" fill="#ffffff" stroke="#0e0e0e" stroke-width="0.2"/>
+<circle r="13.84" fill="none" stroke="#6b6b6b" stroke-width="0.12" stroke-dasharray="0.8 0.5"/>
+<circle r="12.065" fill="none" stroke="#6b6b6b" stroke-width="0.12" stroke-dasharray="0.2 0.4"/>
+<circle r="4.945" fill="none" stroke="#6b6b6b" stroke-width="0.1" stroke-dasharray="0.6 0.4"/>
+<circle r="3.195" fill="none" stroke="#6b6b6b" stroke-width="0.1" stroke-dasharray="0.2 0.3"/>
+<rect x="-2.5" y="-12.399999999999999" width="5.0" height="3.6" rx="0.4" fill="#b7b7b7" stroke="#0e0e0e" stroke-width="0.08"/>
+<rect x="-1.8" y="-11.7" width="3.6" height="2.2" rx="0.3" fill="#ffffff" stroke="#0e0e0e" stroke-width="0.12"/>
+<rect x="-1.52" y="-11.4" width="3.04" height="0.4" fill="#0e0e0e"/>
+<rect x="-0.94" y="-10.165" width="1.88" height="0.4" fill="#6b6b6b"/>
+<rect x="-2.5" y="8.8" width="5.0" height="3.6" rx="0.4" fill="#b7b7b7" stroke="#0e0e0e" stroke-width="0.08"/>
+<rect x="-1.8" y="9.5" width="3.6" height="2.2" rx="0.3" fill="#ffffff" stroke="#0e0e0e" stroke-width="0.12"/>
+<rect x="-1.52" y="11.000000000000002" width="3.04" height="0.4" fill="#0e0e0e"/>
+<rect x="-0.94" y="9.765" width="1.88" height="0.4" fill="#6b6b6b"/>
+<text x="17" y="-11.0" font-size="1.25" font-weight="700" fill="#0e0e0e">CARTE</text>
+<text x="17" y="-9.4" font-size="1.1" fill="#0e0e0e">Ø 26 mm, trou central Ø 11 mm</text>
+<text x="17" y="-7.4" font-size="1.25" font-weight="700" fill="#0e0e0e">FENTES</text>
+<text x="17" y="-5.800000000000001" font-size="1.1" fill="#0e0e0e">3,6 × 2,2 mm métallisées, à r = 10,6 mm</text>
+<text x="17" y="-3.8" font-size="1.25" font-weight="700" fill="#0e0e0e">MF360S</text>
+<text x="17" y="-2.1999999999999997" font-size="1.1" fill="#0e0e0e">carter Ø 27,7 · bossage Ø 9,9 · cosse 3,0 mm</text>
+<text x="17" y="-0.1999999999999993" font-size="1.25" font-weight="700" fill="#0e0e0e">POMPE</text>
+<text x="17" y="1.4000000000000008" font-size="1.1" fill="#0e0e0e">carter Ø 24,1 · bossage Ø 6,4 · cosse 1,9 mm</text>
+<text x="17" y="3.4000000000000004" font-size="1.25" font-weight="700" fill="#0e0e0e">COSSES</text>
+<text x="17" y="5.0" font-size="1.1" fill="#0e0e0e">noir : MF360S, r ≈ 11,2 · gris : pompe, r ≈ 10,0</text>
+<text x="17" y="7.0" font-size="1.25" font-weight="700" fill="#0e0e0e">TRAITS</text>
+<text x="17" y="8.6" font-size="1.1" fill="#0e0e0e">tirets : MF360S · pointillés : pompe</text>
+<text x="17" y="11.600000000000001" font-size="1" fill="#6b6b6b">Vue de dessus, à l'échelle. Cotes en mm.</text>
+</svg>
