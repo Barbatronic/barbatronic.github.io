@@ -24,7 +24,7 @@ Les sources de la plupart des saisons sont publiques sur [GitHub](https://github
 
 | Année | Robot | Compétition | Résultat |
 |---|---|---|---|
-| 2026 | [PAMI Ninja]({{ '/projets/pami-ninja-2026/' | relative_url }}), [robot différentiel]({{ '/projets/robot-differentiel-2026/' | relative_url }}) | Coupe de France | [RÉSULTAT] |
+| 2026 | [PAMI Ninja]({{ '/projets/pami-ninja-2026/' | relative_url }}), [robot différentiel]({{ '/projets/robot-differentiel-2026/' | relative_url }}), [robot holonome]({{ '/projets/robot-holonome-2026/' | relative_url }}) | Coupe de France | [RÉSULTAT] |
 | 2025 | [Le Technicien de scène]({{ '/projets/karibous-2025-technicien-de-scene/' | relative_url }}), [Le groupe de rock]({{ '/projets/karibous-2025-groupe-de-rock/' | relative_url }}) (PAMI) | Belgique / France | 2e des invités / 2e Légendes, 15e au général |
 | 2024 | [Le Jardinier]({{ '/projets/karibous-2024-jardinier/' | relative_url }}), [La Coccinelle]({{ '/projets/karibous-2024-coccinelle/' | relative_url }}) (PAMI) | Belgique / France | 2e des invités / 5e Légendes, 9e au général |
 | 2023 | [Mary and Dary]({{ '/projets/karibous-2023-mary-and-dary/' | relative_url }}) | Belgique / France | 3e des étrangers, prix de la communication / 22e |
