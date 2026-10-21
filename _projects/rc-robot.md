@@ -10,8 +10,8 @@ stack: [FreeCAD, KiCad, iBus]
 featured: false
 featured_order: 99
 repo: "https://github.com/Barbatronic/RC-Robot"
-image: "/assets/img/projets/rc-robot/cover.jpg"
-image_caption: "Carte iBus-interpreter, rendu KiCad"
+image: "/assets/img/projets/rc-robot/robot-et-radio.jpg"
+image_caption: "Le robot RC et sa radiocommande"
 links: []
 ---
 
@@ -22,3 +22,6 @@ Le dépôt contient :
 - **MCAD** : assemblage du robot et de sa structure, POC de motorisation, carters et bumpers imprimés en 3D, supports batterie et interrupteur, vérin linéaire 100 mm, clip de panneau LED.
 - **ECAD** : carte `iBus-interpreter`, qui lit la sortie iBus du récepteur de radiocommande.
 - **FIRMWARE** : programme de test iBus.
+
+![Rendu KiCad de la carte iBus-interpreter]({{ '/assets/img/projets/rc-robot/carte-ibus.jpg' | relative_url }})
+*Carte iBus-interpreter, rendu KiCad.*

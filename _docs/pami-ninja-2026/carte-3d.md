@@ -11,4 +11,4 @@ Carte principale `NinjaPAMI-2026`, export 3D depuis KiCad. Sources dans le dép�
 
 Cliquer-glisser pour tourner, molette ou pincement pour zoomer.
 
-{% include model-3d.html src="/assets/img/projets/pami-ninja-2026/3d/NinjaPAMI-2026.glb" alt="Modèle 3D de la carte NinjaPAMI-2026" poster="/assets/img/projets/pami-ninja-2026/cover.jpg" caption="Carte NinjaPAMI-2026" %}
+{% include model-3d.html src="/assets/img/projets/pami-ninja-2026/3d/NinjaPAMI-2026.glb" alt="Modèle 3D de la carte NinjaPAMI-2026" poster="/assets/img/projets/pami-ninja-2026/carte-kicad.jpg" caption="Carte NinjaPAMI-2026" %}
