@@ -2,6 +2,7 @@
 published: true
 title: "Robot 2025 : cartes électroniques"
 project: karibous-2025-technicien-de-scene
+date: 2026-09-29
 order: 1
 description: "Carte principale, adaptation écran, IHM et carte Lidar du robot 2025"
 ---

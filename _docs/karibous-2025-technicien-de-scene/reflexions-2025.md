@@ -2,6 +2,7 @@
 published: true
 title: "Réflexions et idées 2025"
 project: karibous-2025-technicien-de-scene
+date: 2026-09-29
 order: 2
 description: "Pistes pour les PAMI et le robot 2025 : batteries, arrêt d'urgence, choix des moteurs, odométrie"
 ---

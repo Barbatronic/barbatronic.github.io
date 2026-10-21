@@ -2,6 +2,7 @@
 published: true
 title: "Le robot en 3D"
 project: karibous-2023-mary-and-dary
+date: 2026-09-29
 order: 2
 description: "Modèle 3D de Mary and Dary et de ses sous-ensembles : balise, caisse batterie, actionneurs"
 ---

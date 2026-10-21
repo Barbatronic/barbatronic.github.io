@@ -2,6 +2,7 @@
 published: true
 title: "La carte NinjaPAMI en 3D"
 project: pami-ninja-2026
+date: 2026-09-29
 order: 1
 description: "Modèle 3D de la carte principale NinjaPAMI-2026"
 ---

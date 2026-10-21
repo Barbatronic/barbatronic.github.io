@@ -2,6 +2,7 @@
 published: true
 title: "Base des robots holonomes"
 project: karibous-2023-mary-and-dary
+date: 2026-09-29
 order: 1
 description: "Roues holonomes, colonnes moteur, motorisation NEMA 23 + MKS Servo 57B, structure MakerBeam"
 ---

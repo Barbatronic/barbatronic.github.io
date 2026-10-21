@@ -2,6 +2,7 @@
 published: true
 title: "Guide d'utilisation du firmware"
 project: robot-differentiel-2026
+date: 2026-09-29
 order: 1
 description: "Configuration, stratégies, actionneurs I2C, LEDs, tâches et calibration du firmware ESP32-S3"
 ---

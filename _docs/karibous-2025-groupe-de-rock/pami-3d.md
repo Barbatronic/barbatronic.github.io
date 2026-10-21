@@ -2,6 +2,7 @@
 published: true
 title: "Le PAMI en 3D"
 project: karibous-2025-groupe-de-rock
+date: 2026-09-29
 order: 1
 description: "Modèle 3D du PAMI 2025 et de sa carte principale"
 ---
