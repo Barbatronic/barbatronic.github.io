@@ -47,6 +47,17 @@
     .card-title { font-size: 30px; }
   }
 }
+// Liste du blog : même carte, plus compacte.
+.post-list { display: flex; flex-direction: column; gap: var(--gap); }
+.project-card.is-post.is-compact {
+  .card-media { max-width: 300px; min-height: 200px; }
+  .card-title { font-size: 30px; }
+  .card-text { font-size: 15px; }
+  @media screen and (max-width: 768px) {
+    .card-media { min-height: 0; height: 180px; max-width: none; }
+    .card-title { font-size: 26px; }
+  }
+}
 
 // Filtres
 .filters { display: flex; flex-direction: column; gap: 12px; }

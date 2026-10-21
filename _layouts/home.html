@@ -35,18 +35,7 @@ layout: default
 <section class="block">
   {%- capture _all_posts_label %}{{ t.all_posts }} ({{ items | size }}){% endcapture -%}
   {%- include section-title.html num="01" title=t.latest_post link_url=blog_url link_label=_all_posts_label -%}
-  <a class="project-card is-row is-post" href="{{ latest.url | relative_url }}">
-    <div class="card-media">
-      {%- if latest.image and latest.image != "" -%}<img src="{{ latest.image | relative_url }}" alt="" loading="lazy">{%- endif -%}
-    </div>
-    <div class="card-body">
-      <span class="mono card-meta">{{ t.types.post }} &middot; {{ latest.date | date: "%d/%m/%Y" }}{% if latest.lang != lang %} &middot; {{ latest.lang | upcase }}{% endif %}</span>
-      <h3 class="card-title">{{ latest.title }}</h3>
-      {%- if latest.description %}<p class="card-text">{{ latest.description }}</p>{% endif %}
-      <p class="card-tags mono">{% for tg in latest.tags %}#{{ tg }} {% endfor %}</p>
-      <span class="mono card-meta">{{ t.read_post | upcase }} &rarr;</span>
-    </div>
-  </a>
+  {%- include post-card.html post=latest variant="large" -%}
 </section>
 {%- endif -%}
 

@@ -1,0 +1,21 @@
+{%- comment -%}
+  Carte d'article de blog : image, date, titre, description, tags.
+  Paramètres :
+    post    : l'article
+    variant : "large" (dernier article de l'accueil) ou "row" (liste du blog, plus compacte)
+  Sortie : <a class="project-card is-row is-post[ is-compact]">. Sans image, cadre hachuré.
+  Prérequis : i18n/init.html (variables t et lang).
+{%- endcomment -%}
+{%- assign _post = include.post -%}
+<a class="project-card is-row is-post{% if include.variant == 'row' %} is-compact{% endif %}" href="{{ _post.url | relative_url }}">
+  <div class="card-media">
+    {%- if _post.image and _post.image != "" -%}<img src="{{ _post.image | relative_url }}" alt="" loading="lazy">{%- endif -%}
+  </div>
+  <div class="card-body">
+    <span class="mono card-meta">{{ t.types.post }} &middot; {{ _post.date | date: "%d/%m/%Y" }}{% if _post.lang != lang %} &middot; {{ _post.lang | upcase }}{% endif %}</span>
+    <h3 class="card-title">{{ _post.title }}</h3>
+    {%- if _post.description %}<p class="card-text">{{ _post.description }}</p>{% endif %}
+    <p class="card-tags mono">{% for tg in _post.tags %}#{{ tg }} {% endfor %}</p>
+    <span class="mono card-meta">{{ t.read_post | upcase }} &rarr;</span>
+  </div>
+</a>
