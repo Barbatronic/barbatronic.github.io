@@ -7,11 +7,11 @@ status: en-cours
 updated: 2026-10-18   # dernière activité : ordre de /projets/
 tags: [logiciel, impression-3d, open-source]
 stack: [TypeScript, Open CASCADE (WASM), three.js, Preact]
-featured: false
-featured_order: 99
+featured: true
+featured_order: 1
 repo: "https://github.com/Barbatronic/VibeCAD"
-image: "/assets/img/projets/vibecad/cover.jpg"
-image_caption: "Assemblage d'une petite voiture : châssis, paliers, essieux, quatre roues et carrosserie en tôle pliée"
+image: "/assets/img/projets/vibecad/simulation-bras.jpg"
+image_caption: "Simulation d'un bras en acier : 4 kg au bout, la pièce tient"
 links:
   - { label: "Ouvrir VibeCAD", url: "https://barbatronic.fr/VibeCAD/" }
   - { label: "Documentation", url: "https://github.com/Barbatronic/VibeCAD/tree/main/docs" }
@@ -46,7 +46,8 @@ Trois niveaux (Débutant, Intermédiaire, Expert) dévoilent les outils progress
 - **Volumes** : extrusion, poche, révolution, lissage, balayage, perçages normalisés M2 à M12, répétitions, symétrie, coque, congés et chanfreins.
 - **Historique modifiable** : double-clic sur une étape pour la reprendre, frise pour rejouer la construction pas à pas.
 - **Générateurs** : roues dentées, crémaillères, poulies GT2 et T.
-- **Assemblage** : liaisons pivot, glissière, pivot glissant, boucles fermées, engrenages, visserie normalisée, vue éclatée, détection des collisions.
+- **Assemblage** : liaisons pivot, glissière, pivot glissant, rotule, boucles fermées, engrenages, vue éclatée, détection des collisions.
+- **Visserie normalisée** : vis CHC, BHC, FHC, H, écrous et rondelles de M2 à M12, posés d'un clic dans un trou. La taille est déduite du diamètre du trou, la longueur choisie parmi celles de la norme, et tout part dans la nomenclature.
 - **Fabrication** : plateau d'impression 3D en 3MF, découpe laser avec imbrication (SVG, DXF), mise en plan cotée en PDF, nomenclature.
 - **Simulation** : calcul par éléments finis indicatif (« la pièce tient », « risque de casser ») et allègement par optimisation topologique.
 - **Tôlerie** : plis, bords pliés et développé à plat.
@@ -57,8 +58,11 @@ Trois niveaux (Débutant, Intermédiaire, Expert) dévoilent les outils progress
 ![Pièce Roue et son historique]({{ '/assets/img/projets/vibecad/roue-historique.jpg' | relative_url }})
 *Pièce « Roue » isolée avec son historique : esquisse, extrusion, trou d'allègement répété cinq fois.*
 
-![Assemblage de la petite voiture]({{ '/assets/img/projets/vibecad/voiture-assemblage.jpg' | relative_url }})
-*Assemblage : la première pièce sert de référence, les autres sont reliées par des liaisons.*
+![Quadrilatère articulé avec sa visserie]({{ '/assets/img/projets/vibecad/assemblage-visserie.jpg' | relative_url }})
+*Assemblage : quadrilatère articulé en liaisons pivot, avec la visserie normalisée posée dans les trous.*
+
+![Simulation d'un bras en acier]({{ '/assets/img/projets/vibecad/simulation-bras.jpg' | relative_url }})
+*Simulation : bras en acier fixé d'un côté, 4 kg au bout. La pièce tient, marge × 9,9.*
 
 ![Carrosserie en tôle dépliée]({{ '/assets/img/projets/vibecad/tolerie-deplie.jpg' | relative_url }})
 *Tôlerie : carrosserie en acrylique 3 mm, dépliée avec ses lignes de pli.*
