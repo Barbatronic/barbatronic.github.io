@@ -1,0 +1,29 @@
+{%- comment -%}
+  Commentaires sous un article ou un log, via giscus (stockés dans les GitHub Discussions du dépôt).
+  Réglages : `giscus` dans _config.yml. Rien n'est affiché tant que `category_id` est vide.
+  Désactiver sur une page : `comments: false` dans son front matter.
+  Une discussion par URL (mapping pathname) ; il faut un compte GitHub pour commenter.
+  Prérequis : i18n/init.html (variables t et lang).
+{%- endcomment -%}
+{%- assign _g = site.giscus -%}
+{%- if _g.category_id and _g.category_id != "" and page.comments != false -%}
+<section class="comments" id="commentaires">
+  <p class="mono side-title">{{ t.comments | upcase }}</p>
+  <script src="https://giscus.app/client.js"
+    data-repo="{{ _g.repo }}"
+    data-repo-id="{{ _g.repo_id }}"
+    data-category="{{ _g.category }}"
+    data-category-id="{{ _g.category_id }}"
+    data-mapping="pathname"
+    data-strict="1"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="{{ lang }}"
+    data-loading="lazy"
+    crossorigin="anonymous"
+    async></script>
+  <noscript><p class="mono muted">{{ t.comments_noscript }}</p></noscript>
+</section>
+{%- endif -%}

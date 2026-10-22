@@ -3,7 +3,7 @@ layout: default
 ---
 {%- comment -%}
   Article de blog. Front matter : title, date, description, tags, project (slug, optionnel),
-  image (optionnel). Le sommaire est généré en JS à partir des titres h2 (main.js).
+  image (optionnel), comments (false pour masquer les commentaires). Le sommaire est généré en JS à partir des titres h2 (main.js).
 {%- endcomment -%}
 {%- include i18n/init.html -%}
 {%- assign words = content | strip_html | number_of_words -%}
@@ -48,3 +48,5 @@ layout: default
   </a>
 </section>
 {%- endif %}
+
+{%- include comments.html -%}

@@ -73,6 +73,14 @@ plugins:
 feed:
   path: /feed.xml
 
+# Commentaires sous les articles (giscus, GitHub Discussions). category_id vide = désactivé.
+# Identifiants : https://giscus.app (dépôt + catégorie), ou `gh api graphql`.
+giscus:
+  repo: Barbatronic/barbatronic.github.io
+  repo_id: R_kgDOPLAYWw
+  category: Announcements
+  category_id: DIC_kwDOPLAYW84DJUAE
+
 sass:
   style: compressed
 

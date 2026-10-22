@@ -132,4 +132,6 @@ $desktop: 1024px;
 .related-project { display: flex; flex-direction: column; gap: 4px; }
 .related-title { font-family: var(--font-display); font-weight: 700; font-size: 28px; text-transform: uppercase; }
 
+.comments { border-top: var(--rule); padding: 32px var(--gutter); .giscus { max-width: 760px; margin-top: 12px; } }
+
 .year { margin: 32px 0 8px; font-weight: 700; &:first-child { margin-top: 0; } }

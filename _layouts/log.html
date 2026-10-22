@@ -3,7 +3,8 @@ layout: default
 ---
 {%- comment -%}
   Entrée de log. Numéro (L01, L02...) calculé par date dans le projet.
-  Front matter : title, date, project (obligatoires) ; session, state, next_step (optionnels).
+  Front matter : title, date, project (obligatoires) ; session, state, next_step,
+  comments (false pour masquer les commentaires) (optionnels).
 {%- endcomment -%}
 {%- include i18n/init.html -%}
 {%- include log-number.html item=page -%}
@@ -61,3 +62,5 @@ layout: default
   <a class="is-next" href="{{ next.url | relative_url }}"><span>{{ t.next | upcase }} &rarr;</span><b>{{ next.title }}</b></a>
   {%- else -%}<span class="is-next is-disabled"><span>{{ t.next | upcase }} &rarr;</span><b>{{ t.last_entry }}</b></span>{%- endif -%}
 </nav>
+
+{%- include comments.html -%}

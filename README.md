@@ -109,9 +109,18 @@ description: "..."
 tags: [robotique]
 project: robot-omni   # optionnel, relie l'article à la fiche projet
 image: ""             # optionnel
+comments: false       # optionnel, masque les commentaires
 ```
 
 URL : `/blog/AAAA/MM/<titre>/`.
+
+Flux Atom : `/feed.xml`, articles et logs mélangés (30 entrées), langue par défaut. Gabarit à la
+racine (`feed.xml`) : il remplace la génération de `jekyll-feed`, dont `{% feed_meta %}` reste utilisé
+dans le `<head>`. Lié aussi dans le pied de page et en tête des pages Blog et Logs.
+
+Commentaires (articles et logs) : giscus, stockés dans les GitHub Discussions du dépôt (une discussion
+par URL). `comments: false` dans le front matter les masque.
+Réglages dans `_config.yml > giscus`. Rien ne s'affiche tant que `category_id` est vide.
 
 ### Brouillons
 

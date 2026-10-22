@@ -45,6 +45,9 @@ fr:
   edit_on_github: Modifier sur GitHub
   reading_time: min
   toc: Sommaire
+  comments: Commentaires
+  comments_noscript: "Les commentaires (giscus) nécessitent JavaScript."
+  rss: Flux RSS
   entry: "Entrée"
   date: Date
   project: Projet
@@ -135,6 +138,9 @@ en:
   edit_on_github: Edit on GitHub
   reading_time: min
   toc: Contents
+  comments: Comments
+  comments_noscript: "Comments (giscus) require JavaScript."
+  rss: RSS feed
   entry: Entry
   date: Date
   project: Project

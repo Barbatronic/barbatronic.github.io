@@ -16,6 +16,7 @@ layout: default
     <h1 class="display" data-scroll-title>{{ page.title }}</h1>
     <span class="mono">{{ entries | size }}</span>
   </div>
+  <p class="mono"><a href="{{ '/feed.xml' | relative_url }}">{{ t.rss | upcase }} &rarr;</a></p>
   {%- assign _intro = content | strip -%}
   {%- if _intro != "" %}<div class="lead">{{ content }}</div>{% endif %}
 </section>
