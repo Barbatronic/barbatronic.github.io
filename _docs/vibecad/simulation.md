@@ -16,7 +16,7 @@ imprimée dépend aussi du remplissage et du sens des couches.
 
 ## Utilisation
 
-![Simulation d'un bras en acier : une face fixée, 4 kg posés au bout, la pièce tient (marge × 9,9)](/assets/img/projets/vibecad/simulation-bras.jpg)
+![Simulation d'un bras en acier : une face fixée, 4 kg posés au bout, la pièce tient (marge × 9,9)](/assets/img/projets/vibecad/docs/simulation-bras.jpg)
 
 1. Choisir la **pièce étudiée** (panneau de gauche) et son **matériau** (panneau de droite ; par
    défaut, la matière de la pièce choisie dans ses Propriétés).
@@ -196,7 +196,7 @@ amincirait la plaque par l'intérieur, ce qui ne se fabrique pas.
 
 ### Validation
 
-`tests/unit/topology.test.ts` : console 60 × 6 × 30 mm encastrée, chargée au bout : volume visé
+`tests/unit/topology.test.ts`, console 60 × 6 × 30 mm encastrée, chargée au bout : volume visé
 respecté (40 % ± 3), souplesse décroissante, matière sur les fibres haute et basse près de
 l'encastrement (là où la flexion tire et pousse), densités presque toutes tranchées, forme fermée
 d'un seul tenant ; environ 9 s pour 3 200 cubes.

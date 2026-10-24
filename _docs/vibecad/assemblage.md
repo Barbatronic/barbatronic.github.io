@@ -16,7 +16,7 @@ pièce fixe, chaque liaison ayant au plus deux mouvements simples.
 
 ## Ce que voit l'utilisateur
 
-![Quadrilatère articulé : quatre liaisons pivot, la pièce fixe en orange, la visserie posée sur les liaisons](/assets/img/projets/vibecad/assemblage-visserie.jpg)
+![Quadrilatère articulé : quatre liaisons pivot, la pièce fixe en orange, la visserie posée sur les liaisons](/assets/img/projets/vibecad/docs/assemblage-visserie.jpg)
 
 - Les ateliers, en icônes au début de la barre : **Pièces** (la modélisation) et **Assemblage**
   (puis Fabrication et Simulation).

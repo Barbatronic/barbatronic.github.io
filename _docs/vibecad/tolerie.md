@@ -4,21 +4,21 @@ title: "Tôlerie et pliage"
 project: vibecad
 order: 6
 date: 2026-10-21
-description: "Secteur « Tôle » de l'onglet Pièces (niveau Intermédiaire) : des pièces faites d'une plaque fine pliée (équerre, boîte, support, profilé en U), en métal (plieuse), en plastique (thermoplieuse) ou en carton."
+description: "Secteur « Tôle » de l'onglet Pièces (niveau Intermédiaire) : des pièces faites d'une plaque fine pliée (équerre, boîte, support, profilé en U) en métal (plieuse), en plastique (thermoplieuse) ou en carton."
 ---
 
 <!-- Page générée par scripts/sync-site-docs.mjs depuis VibeCAD/docs/tolerie.md : modifier la source, pas cette page. -->
 
 {% raw %}
 Secteur « Tôle » de l'onglet Pièces (niveau Intermédiaire) : des pièces faites d'une plaque fine
-pliée (équerre, boîte, support, profilé en U), en métal (plieuse), en plastique (thermoplieuse) ou
+pliée (équerre, boîte, support, profilé en U) en métal (plieuse), en plastique (thermoplieuse) ou
 en carton. La pièce garde sa **forme à plat** (le développé), qui se découpe au laser.
 
 ## Utilisation
 
-![Capot en tôle d'acrylique 3 mm plié en U, fentes d'aération découpées après les plis](/assets/img/projets/vibecad/tolerie.jpg)
+![Capot en tôle d'acrylique 3 mm plié en U, fentes d'aération découpées après les plis](/assets/img/projets/vibecad/docs/tolerie.jpg)
 
-![La même pièce dépliée (outil Déplier) : développé à plat et lignes de pli à 90°](/assets/img/projets/vibecad/tolerie-deplie.jpg)
+![La même pièce dépliée (outil Déplier) : développé à plat et lignes de pli à 90°](/assets/img/projets/vibecad/docs/tolerie-deplie.jpg)
 
 1. **Esquisse** : dessiner le contour de la tôle à plat (rectangle, contour quelconque, avec trous
    éventuels).
@@ -90,9 +90,9 @@ avertissement dans l'historique et l'aperçu.
 
 ## Validation
 
-`tests/geometry/sheet-fold.test.ts` : tôle 100 × 40 × 2 : pli à 90° vers le haut (volume conservé
+`tests/geometry/sheet-fold.test.ts`, tôle 100 × 40 × 2 : pli à 90° vers le haut (volume conservé
 avec K = 0,5 ; rebord entre x = 62 et 64, de la hauteur attendue), vers le bas, profil en U (deux
-plis), pli à 45°. `tests/geometry/sheet-metal.test.ts` : par l'historique : tôle, bord plié
+plis), pli à 45°. `tests/geometry/sheet-metal.test.ts`, par l'historique : tôle, bord plié
 (développé allongé de θ · (r + K t) + longueur, rebord à la bonne place), boîte (quatre bords en une
 étape), pli sur un trait, avertissement de rayon, pli qui traverse un bord plié refusé, faces de
 chaque rebord retrouvées, trou fait après le pli reporté sur le développé (et gardé par un pli
@@ -100,7 +100,7 @@ suivant), chanfrein et congé d'un coin de rebord reportés, trou qui touche un 
 format
 natif relu à l'identique et conforme au schéma. `tests/unit/sheet-metal.test.ts` : longueur
 développée, facteur K, limites, lignes de pli coupées au contour (trous compris).
-`tests/e2e/sheet-metal.spec.ts` : dans l'application : tôle, pli sur un trait, bord plié cliqué
+`tests/e2e/sheet-metal.spec.ts`, dans l'application : tôle, pli sur un trait, bord plié cliqué
 dans la vue, esquisse sur la face pliée et trou percé après le pli, avertissement de rayon,
 dépliage (lignes et angles), export laser du développé (contour, trou) avec ses lignes de pli.
 
