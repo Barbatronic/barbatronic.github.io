@@ -1,5 +1,5 @@
 ---
-published: false
+published: true
 title: "Interface flottante, une seule barre d'outils et propriétés des pièces"
 date: 2026-10-24
 project: vibecad
