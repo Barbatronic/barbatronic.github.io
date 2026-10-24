@@ -16,7 +16,7 @@ imprimée dépend aussi du remplissage et du sens des couches.
 
 ## Utilisation
 
-![Simulation d'un bras en acier : une face fixée, 4 kg posés au bout, la pièce tient (marge × 9,9)](/assets/img/projets/vibecad/docs/simulation-bras.png)
+![Simulation d'un bras en acier : une face fixée, 4 kg posés au bout, la pièce tient (marge × 9,9)](/assets/img/projets/vibecad/simulation-bras.jpg)
 
 1. Choisir la **pièce étudiée** (panneau de gauche) et son **matériau** (panneau de droite ; par
    défaut, la matière de la pièce choisie dans ses Propriétés).

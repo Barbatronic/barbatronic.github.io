@@ -16,9 +16,9 @@ en carton. La pièce garde sa **forme à plat** (le développé), qui se découp
 
 ## Utilisation
 
-![Capot en tôle d'acrylique 3 mm plié en U, fentes d'aération découpées après les plis](/assets/img/projets/vibecad/docs/tolerie.png)
+![Capot en tôle d'acrylique 3 mm plié en U, fentes d'aération découpées après les plis](/assets/img/projets/vibecad/tolerie.jpg)
 
-![La même pièce dépliée (outil Déplier) : développé à plat et lignes de pli à 90°](/assets/img/projets/vibecad/docs/tolerie-deplie.png)
+![La même pièce dépliée (outil Déplier) : développé à plat et lignes de pli à 90°](/assets/img/projets/vibecad/tolerie-deplie.jpg)
 
 1. **Esquisse** : dessiner le contour de la tôle à plat (rectangle, contour quelconque, avec trous
    éventuels).

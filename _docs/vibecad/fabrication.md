@@ -66,7 +66,7 @@ qui a été conçu. Les réglages sont enregistrés dans le projet (champ `fabri
   `placements` du matériau dans le projet) ; une pièce ajoutée ensuite se loge autour des autres.
   « Ranger automatiquement » revient au rangement par rangées.
 
-  ![Plaques en grand : capots développés imbriqués sur une plaque d'acrylique 3 mm](/assets/img/projets/vibecad/docs/laser-plaques.png)
+  ![Plaques en grand : capots développés imbriqués sur une plaque d'acrylique 3 mm](/assets/img/projets/vibecad/laser-plaques.jpg)
 
 - **Export** à l'échelle 1:1 en millimètres, **un fichier par matériau** (ses plaques posées côte
   à côte, séparées de 20 mm ; boutons SVG / DXF de la page, ou « Exporter tout ») : SVG (traits rouges de 0,1 mm = découpe, textes
