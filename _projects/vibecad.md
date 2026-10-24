@@ -4,7 +4,7 @@ title: "VibeCAD"
 code: P-28
 description: "CAO 3D paramétrique dans le navigateur, pensée pour apprendre la conception mécanique, avec export vers FreeCAD."
 status: en-cours
-updated: 2026-10-18   # dernière activité : ordre de /projets/
+updated: 2026-10-24   # dernière activité : ordre de /projets/
 tags: [logiciel, impression-3d, open-source]
 stack: [TypeScript, Open CASCADE (WASM), three.js, Preact]
 featured: true
