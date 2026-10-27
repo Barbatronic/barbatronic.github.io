@@ -3,6 +3,7 @@ title: "Simulation de la prise des cubes en carton avec des ventouses"
 date: 2026-10-06
 project: cdr-2027
 description: "Un préhenseur à ventouses sur support souple, pour attraper des cartons dont on ne connaît pas l'orientation, testé d'abord en simulation faute d'imprimante assez grande."
+image: "/assets/img/projets/cdr-2027/2026-10-06-simulation-ventouse-cartons/tableau-principes.jpg"
 session: ""
 state: "validé en simulation"
 next_step: "Imprimer le support en TPU et tester le préhenseur sur de vrais cartons."

@@ -3,6 +3,7 @@ title: "Première séquence de match sur une table complète"
 date: 2026-09-30
 project: cdr-2027
 description: "Test rapide d'un premier scénario de match sur la table complète d'UniMakers (UniLaSalle Amiens) : le système fonctionne, reste à optimiser l'actionneur, l'angle de tir et les trajectoires."
+image: "/assets/img/projets/cdr-2027/2026-09-30-premier-match-unimakers/pm-apercu.jpg"
 session: ""
 state: "à optimiser"
 next_step: "Changer de type d'actionneur pour les pierres, baisser le canon, accélérer les trajectoires."

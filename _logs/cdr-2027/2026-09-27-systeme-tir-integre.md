@@ -3,6 +3,7 @@ title: "Vers un système de tir intégré : ventilateur et lanceur en une seule 
 date: 2026-09-27
 project: cdr-2027
 description: "Premiers essais de modélisation et d'impression d'un système intégrant le ventilateur de poussée et les deux roues de tir en une seule pièce, et découverte d'un blocage des boulets dans les coudes."
+image: "/assets/img/projets/cdr-2027/2026-09-27-systeme-tir-integre/sti-canon-integre-1.jpg"
 session: ""
 state: ""
 next_step: ""

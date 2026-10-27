@@ -4,6 +4,7 @@ title: "Interface flottante, une seule barre d'outils et propriétés des pièce
 date: 2026-10-24
 project: vibecad
 description: "La vue 3D occupe tout l'écran, avec des panneaux translucides qui flottent par-dessus. Une seule barre d'outils, des sections repliables, et un nouvel outil Propriétés pour choisir la matière d'une pièce et lire sa masse."
+image: "/assets/img/projets/vibecad/2026-10-24-interface-flottante-et-proprietes/interface-flottante.jpg"
 session: ""
 state: "en cours"
 next_step: "Publier la nouvelle version sur barbatronic.fr/VibeCAD, puis refaire les captures de la documentation avec la nouvelle interface."

@@ -3,6 +3,7 @@ title: "Essais des éléments de jeu : portes et colonnes"
 date: 2026-09-22
 project: cdr-2027
 description: "Premiers essais des portes et des colonnes, éléments de jeu de la Coupe de France de robotique 2027."
+image: "/assets/img/projets/cdr-2027/2026-09-22-portes-et-colonnes/porte-vue-ensemble.jpg"
 session: ""
 state: ""
 next_step: ""

@@ -3,6 +3,7 @@ title: "Réception des éléments de jeu : boulets et pierres"
 date: 2026-09-21
 project: cdr-2027
 description: "Premières observations sur les éléments de jeu reçus pour la Coupe de France de robotique 2027 : les boulets (balles de 45 mm) et les pierres (cartons de 32 × 11 × 11 cm)."
+image: "/assets/img/projets/cdr-2027/2026-09-21-elements-de-jeu/boulets-sur-tapis.jpg"
 session: ""
 state: ""
 next_step: ""

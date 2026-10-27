@@ -3,6 +3,7 @@ title: "Essai du tir intégré complet, avec 6 boulets stockés"
 date: 2026-09-28
 project: cdr-2027
 description: "Un système de tir intégré, imprimé en une seule pièce, qui stocke et tire 6 boulets sans blocage, testé seul puis monté sur le robot."
+image: "/assets/img/projets/cdr-2027/2026-09-28-tir-integre-6-boulets/t6-sur-robot.jpg"
 session: ""
 state: ""
 next_step: ""

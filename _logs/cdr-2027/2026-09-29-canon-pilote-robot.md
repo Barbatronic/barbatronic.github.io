@@ -3,6 +3,7 @@ title: "Canon intégré au robot, piloté par la carte du robot et un ESC"
 date: 2026-09-29
 project: cdr-2027
 description: "Le canon à 6 boulets est piloté par la carte du robot : un ESC bimoteur via le PCA9685 pour les roues à inertie, et une sortie PWM directe pour le ventilateur."
+image: "/assets/img/projets/cdr-2027/2026-09-29-canon-pilote-robot/cp-canon-sur-robot.jpg"
 session: ""
 state: ""
 next_step: ""

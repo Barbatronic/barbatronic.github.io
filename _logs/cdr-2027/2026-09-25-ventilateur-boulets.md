@@ -3,6 +3,7 @@ title: "Essai d'un ventilateur pour alimenter le lanceur en boulets"
 date: 2026-09-25
 project: cdr-2027
 description: "Un ventilateur 12 V de 40 × 40 mm pousse les boulets à la verticale dans un tube, pour alimenter le lanceur à deux roues."
+image: "/assets/img/projets/cdr-2027/2026-09-25-ventilateur-boulets/ventilateur-scotche-tube.jpg"
 session: ""
 state: ""
 next_step: ""

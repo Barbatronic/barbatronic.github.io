@@ -3,6 +3,7 @@ title: "Essai d'un lanceur de boulets à deux moteurs"
 date: 2026-09-22
 project: cdr-2027
 description: "Premier essai rapide d'un lanceur de boulets à deux roues motorisées, en boucle ouverte à 12 V."
+image: "/assets/img/projets/cdr-2027/2026-09-22-lanceur-deux-moteurs/lanceur-boulet-charge.jpg"
 session: ""
 state: ""
 next_step: ""

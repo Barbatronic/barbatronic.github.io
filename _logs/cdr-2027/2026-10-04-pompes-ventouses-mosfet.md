@@ -3,6 +3,7 @@ title: "Pompes, ventouses et électronique de commande en 12 V"
 date: 2026-10-04
 project: cdr-2027
 description: "Retour aux ventouses et micropompes pour prendre les pierres, passage des pompes et électrovannes en 12 V, et circuit de commande à MOSFET piloté en I2C par un PCA9685."
+image: "/assets/img/projets/cdr-2027/2026-10-04-pompes-ventouses-mosfet/micropompe.jpg"
 session: ""
 state: "en cours"
 next_step: "Mesurer la hauteur des cosses et du bossage, puis router la carte ronde Ø 26 mm sous KiCad."
