@@ -1,7 +1,33 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-{%- comment -%} jekyll-seo-tag : title, description, Open Graph, JSON-LD. {%- endcomment -%}
-{% seo %}
+{%- comment -%}
+  jekyll-seo-tag : title, description, Open Graph, JSON-LD.
+  Aperçu des liens (Discord, réseaux) : `image` du front matter, sinon la
+  couverture du projet lié (`project`), injectée dans la sortie du plugin.
+{%- endcomment -%}
+{%- assign og_image = nil -%}{%- assign og_project = nil -%}
+{%- if page.image == nil or page.image == "" -%}
+  {%- if page.project and page.project != "" -%}
+    {%- if page.lang == "en" -%}{%- assign og_project = site.projects_en | where: "slug", page.project | first -%}{%- endif -%}
+    {%- unless og_project -%}{%- assign og_project = site.projects | where: "slug", page.project | first -%}{%- endunless -%}
+    {%- if og_project.image and og_project.image != "" -%}{%- assign og_image = og_project.image | absolute_url -%}{%- endif -%}
+  {%- endif -%}
+{%- endif -%}
+{%- capture seo_tags -%}{% seo %}{%- endcapture -%}
+{%- if page.image == nil or page.image == "" -%}
+  {%- comment -%} `image: ""` : le plugin pointe og:image sur la racine du site, on retire ces balises. {%- endcomment -%}
+  {%- assign og_root = "/" | absolute_url -%}
+  {%- capture og_bad -%}<meta property="og:image" content="{{ og_root }}" />{%- endcapture -%}
+  {%- capture tw_bad -%}<meta property="twitter:image" content="{{ og_root }}" />{%- endcapture -%}
+  {%- assign seo_tags = seo_tags | replace: og_bad, "" | replace: tw_bad, "" | replace: '<meta name="twitter:card" content="summary_large_image" />', '<meta name="twitter:card" content="summary" />' -%}
+  {%- if og_image -%}
+    {%- capture og_image_tags -%}<meta property="og:image" content="{{ og_image }}" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content="{{ og_image }}" />{%- endcapture -%}
+    {%- assign seo_tags = seo_tags | replace: '<meta name="twitter:card" content="summary" />', og_image_tags -%}
+  {%- endif -%}
+{%- endif %}
+{{ seo_tags }}
 {%- if translation %}
 <link rel="alternate" hreflang="{{ other_lang }}" href="{{ translation.url | absolute_url }}">
 {%- endif %}
