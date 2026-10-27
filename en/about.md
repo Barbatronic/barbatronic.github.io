@@ -31,3 +31,9 @@ Each tool links to the projects that use it.
 ## Workshop
 
 {% include atelier-grid.html %}
+
+## This site
+
+This site measures its audience with [GoatCounter](https://www.goatcounter.com), an open source tool
+hosted in the European Union. No cookies, no personal data: only aggregate figures
+(page views, referring sites, countries, browsers) are kept, which helps me see what interests you.

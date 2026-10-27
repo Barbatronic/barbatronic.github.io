@@ -31,3 +31,9 @@ Chaque outil renvoie aux projets qui l'utilisent.
 ## Atelier
 
 {% include atelier-grid.html %}
+
+## Ce site
+
+Le site mesure son audience avec [GoatCounter](https://www.goatcounter.com), un outil open source
+hébergé dans l'Union européenne. Aucun cookie, aucune donnée personnelle : seuls des chiffres agrégés
+(pages vues, sites d'origine, pays, navigateurs) sont conservés, ce qui m'aide à savoir ce qui vous intéresse.

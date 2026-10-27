@@ -81,6 +81,10 @@ giscus:
   category: Announcements
   category_id: DIC_kwDOPLAYW84DJUAE
 
+# Mesure d'audience GoatCounter, sans cookie (https://barbatronic.goatcounter.com).
+# Code du site GoatCounter ; vide = désactivé. Script chargé en production uniquement.
+goatcounter: barbatronic
+
 sass:
   style: compressed
 
