@@ -5,14 +5,9 @@
   Aperçu des liens (Discord, réseaux) : `image` du front matter, sinon la
   couverture du projet lié (`project`), injectée dans la sortie du plugin.
 {%- endcomment -%}
-{%- assign og_image = nil -%}{%- assign og_project = nil -%}
-{%- if page.image == nil or page.image == "" -%}
-  {%- if page.project and page.project != "" -%}
-    {%- if page.lang == "en" -%}{%- assign og_project = site.projects_en | where: "slug", page.project | first -%}{%- endif -%}
-    {%- unless og_project -%}{%- assign og_project = site.projects | where: "slug", page.project | first -%}{%- endunless -%}
-    {%- if og_project.image and og_project.image != "" -%}{%- assign og_image = og_project.image | absolute_url -%}{%- endif -%}
-  {%- endif -%}
-{%- endif -%}
+{%- include item-image.html item=page -%}
+{%- assign og_image = nil -%}
+{%- if item_image -%}{%- assign og_image = item_image | absolute_url -%}{%- endif -%}
 {%- capture seo_tags -%}{% seo %}{%- endcapture -%}
 {%- if page.image == nil or page.image == "" -%}
   {%- comment -%} `image: ""` : le plugin pointe og:image sur la racine du site, on retire ces balises. {%- endcomment -%}

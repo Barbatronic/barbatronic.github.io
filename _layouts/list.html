@@ -2,7 +2,7 @@
 layout: default
 ---
 {%- comment -%}
-  Index chronologique (blog ou logs). Blog : cartes avec image (post-card), logs : fil texte.
+  Index chronologique (blog ou logs) : cartes avec image (post-card).
   Front matter de la page :
     list_type : posts | logs
     title     : titre affiché
@@ -25,15 +25,9 @@ layout: default
   {%- assign by_year = entries | group_by_exp: "e", "e.date | date: '%Y'" -%}
   {%- for y in by_year -%}
   <h2 class="year mono">{{ y.name }}</h2>
-  {%- if page.list_type == "posts" -%}
   <div class="post-list">
     {%- for item in y.items -%}{%- include post-card.html post=item variant="row" -%}{%- endfor -%}
   </div>
-  {%- else -%}
-  <div class="feed">
-    {%- for item in y.items -%}{%- include feed-row.html item=item -%}{%- endfor -%}
-  </div>
-  {%- endif -%}
   {%- else -%}
   <p class="mono muted">{{ t.nothing_yet }}</p>
   {%- endfor -%}

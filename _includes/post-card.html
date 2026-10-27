@@ -1,21 +1,33 @@
 {%- comment -%}
-  Carte d'article de blog : image, date, titre, description, tags.
+  Carte d'article de blog ou de log : image, date, titre, description, tags.
   Paramètres :
-    post    : l'article
-    variant : "large" (dernier article de l'accueil) ou "row" (liste du blog, plus compacte)
+    post    : l'article ou le log
+    variant : "large" (dernier article de l'accueil) ou "row" (listes blog et logs, plus compactes)
+  Image : celle du contenu, sinon la couverture du projet lié (item-image.html).
   Sortie : <a class="project-card is-row is-post[ is-compact]">. Sans image, cadre hachuré.
   Prérequis : i18n/init.html (variables t et lang).
 {%- endcomment -%}
 {%- assign _post = include.post -%}
+{%- assign _is_log = false -%}
+{%- assign _ctype = _post.collection | remove: "_en" -%}
+{%- if _ctype == "logs" -%}{%- assign _is_log = true -%}{%- endif -%}
+{%- include item-image.html item=_post -%}
 <a class="project-card is-row is-post{% if include.variant == 'row' %} is-compact{% endif %}" href="{{ _post.url | relative_url }}">
   <div class="card-media">
-    {%- if _post.image and _post.image != "" -%}<img src="{{ _post.image | relative_url }}" alt="" loading="lazy">{%- endif -%}
+    {%- if item_image -%}<img src="{{ item_image | relative_url }}" alt="" loading="lazy">{%- endif -%}
   </div>
   <div class="card-body">
+    {%- if _is_log -%}
+      {%- comment -%} Code projet et numéro de log : identiques dans toutes les langues. {%- endcomment -%}
+      {%- assign _cproj = site.projects | where: "slug", _post.project | first -%}
+      {%- include log-number.html item=_post -%}
+    <span class="mono card-meta">{{ t.types.log }} &middot; {% if _cproj %}{{ _cproj.code }} &middot; {% endif %}{{ log_code }} &middot; {{ _post.date | date: "%d/%m/%Y" }}{% if _post.lang != lang %} &middot; {{ _post.lang | upcase }}{% endif %}</span>
+    {%- else %}
     <span class="mono card-meta">{{ t.types.post }} &middot; {{ _post.date | date: "%d/%m/%Y" }}{% if _post.lang != lang %} &middot; {{ _post.lang | upcase }}{% endif %}</span>
+    {%- endif %}
     <h3 class="card-title">{{ _post.title }}</h3>
     {%- if _post.description %}<p class="card-text">{{ _post.description }}</p>{% endif %}
     <p class="card-tags mono">{% for tg in _post.tags %}#{{ tg }} {% endfor %}</p>
-    <span class="mono card-meta">{{ t.read_post | upcase }} &rarr;</span>
+    <span class="mono card-meta">{% if _is_log %}{{ t.read_log | upcase }}{% else %}{{ t.read_post | upcase }}{% endif %} &rarr;</span>
   </div>
 </a>

@@ -21,6 +21,7 @@ fr:
   latest_post: Dernier article
   all_posts: Tous les articles
   read_post: "Lire l'article"
+  read_log: Lire le log
   activity: "Activité récente"
   projects_title: Projets
   blog_title: Blog
@@ -114,6 +115,7 @@ en:
   latest_post: Latest post
   all_posts: All posts
   read_post: Read the post
+  read_log: Read the log
   activity: Recent activity
   projects_title: Projects
   blog_title: Blog
