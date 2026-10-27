@@ -3,6 +3,7 @@ title: "Ventouse sur support souple en TPU"
 date: 2026-10-27
 project: cdr-2027
 description: "Prototype de ventouse montée sur une pièce souple en TPU 95A, pour mieux épouser les cartons. Ça marche sur les deux premiers, mais le carton du haut n'est maintenu qu'avec un léger poids posé dessus."
+image: "/assets/img/projets/cdr-2027/2026-10-27-ventouses-support-souple/vs-assemblage.jpg"
 session: ""
 state: "à poursuivre"
 next_step: "Monter trois ventouses sur une plaque complète pour prendre les trois cartons en même temps."
