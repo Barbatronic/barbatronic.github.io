@@ -14,6 +14,9 @@ CLAUDE.md
 # Archives de livraison de l'outillage (zip). Aussi exclues du build dans _config.yml.
 Claude outputs/
 
+# Dossiers de session DocMate (médias bruts et consignes pour l'agent). Ignorés aussi par Jekyll (dossier en point).
+.docmate/
+
 # Système
 .DS_Store
 Thumbs.db
