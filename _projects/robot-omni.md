@@ -4,7 +4,7 @@ title: Robot omnidirectionnel RC
 code: P-01
 description: "Robot 4 roues omnidirectionnel, piloté en radiocommande."
 status: en-cours
-updated: 2026-09-18   # tri de /projets/ : dernier commit
+updated: 2026-10-29   # tri de /projets/ : dernier commit
 tags: [robotique, electronique]
 stack: [ESP32-S3, PlatformIO, SBUS, FreeCAD, KiCad]
 featured: true
