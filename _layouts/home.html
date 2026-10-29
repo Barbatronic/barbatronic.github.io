@@ -6,7 +6,7 @@ layout: default
     hero_lines : lignes du grand titre
     intro      : phrase sous le titre
     hero_image : image de droite (optionnel, chemin). Sans image, cadre hachuré.
-  Dernier article : l'article de blog le plus récent (langue de la page, sinon repli).
+  Derniers articles : les deux articles de blog les plus récents (langue de la page, sinon repli).
   Projets à la une : `featured: true` dans le projet, triés par `featured_order`, 3 max.
 {%- endcomment -%}
 {%- include i18n/init.html -%}
@@ -29,13 +29,15 @@ layout: default
 </section>
 
 {%- include i18n/items.html type="posts" -%}
-{%- assign latest = items | sort: "date" | last -%}
-{%- if latest -%}
+{%- assign latest = items | sort: "date" | reverse -%}
+{%- if latest.size > 0 -%}
 {%- assign blog_url = t.nav[1].url -%}
 <section class="block">
   {%- capture _all_posts_label %}{{ t.all_posts }} ({{ items | size }}){% endcapture -%}
-  {%- include section-title.html num="01" title=t.latest_post link_url=blog_url link_label=_all_posts_label -%}
-  {%- include post-card.html post=latest variant="large" -%}
+  {%- include section-title.html num="01" title=t.latest_posts link_url=blog_url link_label=_all_posts_label -%}
+  <div class="post-list">
+    {%- for _lp in latest limit: 2 -%}{%- include post-card.html post=_lp variant="row" -%}{%- endfor -%}
+  </div>
 </section>
 {%- endif -%}
 

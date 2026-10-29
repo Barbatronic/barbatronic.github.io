@@ -1,6 +1,7 @@
 {%- comment -%}
   Ligne du fil "Activité récente" et des listes blog / logs.
   Paramètre : item (post, log ou doc). Le type est déduit de la collection.
+  Vignette : image du contenu, sinon couverture du projet lié (item-image.html). Sans image, cadre hachuré.
 {%- endcomment -%}
 {%- assign item = include.item -%}
 {%- assign _type = item.collection | remove: "_en" -%}
@@ -12,7 +13,9 @@
 {%- comment -%} Le code projet (P-01) est le même dans toutes les langues : on lit la collection par défaut. {%- endcomment -%}
 {%- assign _proj = nil -%}
 {%- if item.project -%}{%- assign _proj = site.projects | where: "slug", item.project | first -%}{%- endif -%}
+{%- include item-image.html item=item -%}
 <a class="feed-row" href="{{ item.url | relative_url }}">
+  <span class="feed-thumb">{% if item_image %}<img src="{{ item_image | relative_url }}" alt="" loading="lazy">{% endif %}</span>
   <span class="type-badge{% if _type == 'logs' %} is-dark{% endif %} mono">{{ _label }}</span>
   <span class="feed-date mono">{{ item.date | date: "%d/%m/%Y" }}</span>
   <span class="feed-title">{{ item.title }}{% if item.lang != lang %} <span class="mono lang-mark">{{ item.lang | upcase }}</span>{% endif %}</span>
