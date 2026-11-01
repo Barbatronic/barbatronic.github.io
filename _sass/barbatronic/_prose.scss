@@ -41,6 +41,29 @@
     figcaption { margin-top: 6px; font-style: normal; font-family: var(--font-mono); font-size: 13px; line-height: 1.4; color: var(--muted); }
   }
 
+  // Guide pas à pas : <ol class="steps"><li><div class="step-text"><h3>…</h3><p>…</p></div>
+  // <div class="step-media"><img>…</div></li></ol>. Numéro automatique (ÉTAPE 01), texte à gauche
+  // et photos à droite sur grand écran, empilés sur mobile.
+  ol.steps {
+    list-style: none; margin: 0 0 1.5em; padding: 0; counter-reset: step;
+    > li {
+      counter-increment: step; margin: 0; padding: 28px 0; border-top: var(--rule);
+      display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px;
+      @media screen and (min-width: 900px) { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: 28px; }
+      &:last-child { border-bottom: var(--rule); }
+    }
+    .step-text {
+      &::before { content: "ÉTAPE " counter(step, decimal-leading-zero); display: block; margin-bottom: 8px;
+        font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.06em; color: var(--muted); }
+      h3 { margin: 0 0 10px; }
+      p, ul { font-size: 16px; line-height: 1.6; margin-bottom: 0.6em; }
+    }
+    .step-media {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; align-content: start;
+      img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; margin: 0; }
+    }
+  }
+
   // Légende de média : `*Texte.*` sur la ligne sous une image ou une vidéo.
   // Deux formes produites par kramdown : collée à l'image dans le même paragraphe
   // (`img + em`), ou seule dans son paragraphe après une vidéo (`em:only-child`).
