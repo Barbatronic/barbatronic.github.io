@@ -1,0 +1,131 @@
+/* Habillage de la page explicative aux couleurs du site barbatronic.fr (_sass/barbatronic/_tokens.scss) :
+   noir et blanc, traits de 2 px, titres en Barlow Condensed capitales, libellés en JetBrains Mono. Une seule couleur
+   d'accent, l'ambre, pour ce qui est sous tension ou actif. Surcharge le style du kit teardown (#app plein écran). */
+:root {
+  --ink: #0e0e0e; --paper: #ffffff; --muted: #555555; --grid-line: #ededed; --hatch: #dedede; --live: #e09a1a;
+  --font-display: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --font-body: "Barlow", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --rule: 2px solid var(--ink); --rule-thin: 1px solid var(--ink);
+}
+html, body { margin: 0; background: var(--paper); color: var(--ink); }
+#app { font-family: var(--font-body); color: var(--ink); }
+button { font: inherit; color: inherit; }
+.mono { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.04em; text-transform: uppercase; }
+
+/* en-tête et chapitres */
+.hd { padding: 14px 20px 12px; border-bottom: var(--rule); }
+.hd .kicker, .hd p { color: var(--muted); }
+.hd h1 { margin: 2px 0 0; font: 700 34px/0.92 var(--font-display); text-transform: uppercase; }
+.hd p { margin: 6px 0 0; }
+.embedded .hd { display: none; }
+.chap { display: flex; flex-wrap: wrap; border-bottom: var(--rule); }
+.tab { border: 0; border-right: var(--rule-thin); background: var(--paper); padding: 10px 14px; cursor: pointer; font: inherit; font-weight: 700; }
+.tab span { color: var(--muted); font-weight: 400; margin-right: 4px; }
+.tab i { font-style: normal; font-weight: 400; color: var(--muted); }
+.tab.on { background: var(--ink); color: var(--paper); }
+.tab.on span { color: #bdbdbd; }
+.tab:disabled { cursor: default; color: #9a9a9a; }
+
+/* scène et colonne */
+.main { display: grid; grid-template-columns: minmax(0, 1fr) 360px; }
+.stagecol { padding: 16px 20px 18px; border-right: var(--rule); min-width: 0; }
+.q { margin: 0 0 10px; font: 700 28px/1 var(--font-display); text-transform: uppercase; }
+.q .mono { font-size: 13px; color: var(--muted); vertical-align: middle; margin-right: 6px; }
+.stage svg { display: block; width: 100%; height: auto; }
+.ctrl { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; align-items: center; }
+.bt { min-height: 36px; padding: 6px 14px; border: var(--rule); background: var(--paper); cursor: pointer; font-family: var(--font-mono); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
+.bt:hover { background: #f2f2f2; }
+.bt.on { background: var(--ink); color: var(--paper); }
+.bt.big { min-height: 44px; padding: 8px 18px; }
+.rng { display: flex; align-items: center; gap: 10px; border: var(--rule); padding: 6px 12px; min-height: 36px; box-sizing: border-box; }
+.rng input { width: 180px; accent-color: var(--ink); }
+.rng b { min-width: 72px; text-align: right; font-size: 12px; }
+.chain { margin: 10px 0 0; font-size: 11px; line-height: 1.6; text-transform: none; letter-spacing: 0; }
+.chain b { background: var(--ink); color: var(--paper); padding: 1px 5px; }
+
+.expl { padding: 16px 18px 18px; min-width: 0; }
+.kick { color: var(--muted); margin: 0 0 4px; }
+.lead { margin: 0 0 12px; font-size: 16px; line-height: 1.5; }
+.keep { border: var(--rule); padding: 10px 14px; }
+.keep h4 { margin: 0 0 6px; font: 700 12px/1.2 var(--font-mono); text-transform: uppercase; letter-spacing: 0.06em; }
+.keep ul { margin: 0; padding-left: 18px; font-size: 14px; line-height: 1.45; }
+.keep li + li { margin-top: 4px; }
+.hint { margin: 8px 0 0; font-size: 12px; color: var(--muted); }
+.oncard { margin: 14px 0 0; }
+.oncard figcaption { display: flex; gap: 8px; align-items: baseline; margin-bottom: 6px; }
+.oncard .note { color: var(--muted); text-transform: none; letter-spacing: 0; }
+.faces { display: grid; gap: 8px; }
+.cface.empty { display: none; }
+.cface { position: relative; border: var(--rule-thin); }
+.cface img { display: block; width: 100%; height: auto; }
+.cface svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.cface > span { position: absolute; left: 6px; top: 6px; background: var(--paper); padding: 1px 5px; font-size: 10px; }
+.cface .hl { fill: none; stroke: var(--live); stroke-width: 1.2; }
+.cface .hlt { font: 700 3.4px var(--font-mono); fill: #fff; stroke: var(--ink); stroke-width: 0.9; paint-order: stroke; text-anchor: middle; }
+
+/* dessins */
+.syn { font-family: var(--font-body); }
+.bx rect { fill: var(--paper); stroke: var(--ink); stroke-width: 2; }
+.bx .t { font: 700 17px var(--font-display); text-transform: uppercase; text-anchor: middle; fill: var(--ink); }
+.bx .s { font: 400 12px var(--font-body); text-anchor: middle; fill: var(--muted); }
+.bx.src rect { fill: var(--ink); }
+.bx.src .t, .bx.src .s { fill: var(--paper); }
+.bx.reg rect { stroke-width: 2; fill: #f4f4f4; }
+.bx.load { transition: opacity 0.3s; }
+.bx.off { opacity: 0.3; }
+.wr .base { fill: none; stroke: #c9c9c9; stroke-width: 3; }
+.wr .flow { fill: none; stroke: var(--live); stroke-width: 3; stroke-dasharray: 4 10; opacity: 0; }
+.wr.on .base { stroke: var(--ink); }
+.wr.on .flow { opacity: 1; animation: flow 0.7s linear infinite; }
+.wr.on.rev .flow { animation-direction: reverse; }
+.wr.pulse.on .flow { stroke-dasharray: 2 6; animation-duration: 0.35s; }
+.wr.bus .base { stroke-width: 5; }
+.wr.en .base { stroke-dasharray: 4 4; }
+@keyframes flow { to { stroke-dashoffset: -14; } }
+.lab { font: 400 12px var(--font-mono); fill: var(--muted); }
+.lab.c { text-anchor: middle; }
+.lab.r { text-anchor: end; }
+.lab.strong { fill: var(--ink); font-weight: 700; }
+.capt { font: 700 12px var(--font-mono); letter-spacing: 0.08em; fill: var(--muted); }
+.pin { font: 700 11px var(--font-mono); text-anchor: end; fill: var(--paper); }
+.pin.l { text-anchor: start; fill: var(--ink); }
+.led { fill: #ddd; stroke: var(--ink); stroke-width: 1; }
+.led.on { fill: var(--live); }
+.row { cursor: pointer; outline: none; }
+.row .hit { fill: transparent; }
+.row:hover .hit, .row:focus-visible .hit { fill: #f6f6f6; }
+.row.sel .hit { fill: #fff4dc; }
+.row.dim { opacity: 0.35; }
+.node { fill: var(--ink); }
+.term { fill: var(--paper); stroke: var(--ink); stroke-width: 2; }
+.lever { stroke: var(--ink); stroke-width: 4; stroke-linecap: round; transition: all 0.08s; }
+.cap-btn { fill: #c4261d; stroke: var(--ink); stroke-width: 2; transition: y 0.08s; }
+.coil { fill: var(--paper); stroke: var(--ink); stroke-width: 2; }
+.turn { fill: none; stroke: var(--ink); stroke-width: 2; }
+.mech { stroke: #bbb; stroke-width: 2; stroke-dasharray: 3 4; }
+.mech.on { stroke: var(--live); }
+.diode { fill: var(--paper); stroke: var(--ink); stroke-width: 2; }
+.diode-k { stroke: var(--ink); stroke-width: 3; }
+.gnd { stroke: var(--ink); stroke-width: 2; fill: none; }
+.cutmark { stroke: #c4261d; stroke-width: 4; }
+.syn .mface { fill: #3a3d42; stroke: var(--ink); stroke-width: 2; }
+.rotor { fill: #c9ccd0; stroke: var(--ink); stroke-width: 2; }
+.tick { stroke: var(--ink); stroke-width: 2; }
+.mark { stroke: #c4261d; stroke-width: 4; stroke-linecap: round; }
+.pul { fill: #d4d7db; stroke: var(--ink); stroke-width: 2; }
+.belt { stroke: var(--ink); stroke-width: 3; fill: none; }
+.wheel { fill: #3b3e43; stroke: var(--ink); stroke-width: 2; }
+.roller { fill: #9a9ea4; stroke: var(--ink); stroke-width: 1; }
+.scope { fill: #fafafa; stroke: var(--ink); stroke-width: 2; }
+.grid { stroke: #e3e3e3; stroke-width: 1; }
+.trace { fill: none; stroke: var(--ink); stroke-width: 2.5; stroke-linejoin: round; }
+
+/* écran étroit : la colonne passe sous la scène */
+@media (max-width: 900px) {
+  .main { grid-template-columns: 1fr; }
+  .stagecol { border-right: 0; border-bottom: var(--rule); padding: 12px; }
+  .expl { padding: 12px; }
+  .q { font-size: 22px; }
+  .rng input { width: 120px; }
+}
