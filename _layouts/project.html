@@ -7,6 +7,9 @@ layout: default
     - les logs  (_logs/<slug>/*.md, triés par date)
     - les articles de blog (_posts, champ `project`)
   Front matter du projet : voir README.md (section Modèle de contenu).
+  `poster` (image/pdf) : grand aperçu sous l'en-tête, avant le texte, cliquable vers le PDF.
+  Bandeau de droite : `results` (liste event/result), `rules` (lien règlement),
+  `repos` (plusieurs dépôts, label/url) ou à défaut `repo` (un seul dépôt), puis `links`.
 {%- endcomment -%}
 {%- include i18n/init.html -%}
 {%- include i18n/items.html type="docs" project=page.slug -%}{%- assign docs = items | sort: "order" -%}
@@ -34,12 +37,28 @@ layout: default
     <div><span>{{ t.tags | upcase }}</span><span>{% for tg in page.tags %}#{{ tg }} {% endfor %}</span></div>
     {%- if page.stack %}<div><span>STACK</span><span>{{ page.stack | join: ", " }}</span></div>{% endif %}
     <div><span>{{ t.content | upcase }}</span><span>{{ docs | size }} DOC &middot; {{ logs | size }} LOG &middot; {{ posts | size }} ART</span></div>
+    {%- if page.results and page.results.size > 0 %}
+    <div class="meta-results"><span>{{ t.results | upcase }}</span>
+      <ul>{% for r in page.results %}<li><span>{{ r.event }}</span><b>{{ r.result }}</b></li>{% endfor %}</ul>
+    </div>
+    {%- endif %}
     <div class="meta-actions">
-      {%- if page.repo %}<a class="btn is-dark" href="{{ page.repo }}">{{ t.code | upcase }} &rarr;</a>{% endif -%}
+      {%- if page.repos and page.repos.size > 0 -%}
+        {%- for r in page.repos %}<a class="btn is-dark" href="{{ r.url }}">{{ t.code | upcase }} &middot; {{ r.label | upcase }} &rarr;</a>{% endfor -%}
+      {%- elsif page.repo and page.repo != "" %}<a class="btn is-dark" href="{{ page.repo }}">{{ t.code | upcase }} &rarr;</a>{% endif -%}
+      {%- if page.rules and page.rules != "" %}<a class="btn" href="{{ page.rules }}">{{ t.rules | upcase }} &rarr;</a>{% endif -%}
       {%- for l in page.links %}<a class="btn" href="{{ l.url }}">{{ l.label | upcase }} &rarr;</a>{% endfor -%}
     </div>
   </aside>
 </section>
+
+{%- if page.poster and page.poster.image %}
+{%- assign _poster_url = page.poster.pdf | default: page.poster.image | relative_url %}
+<section class="block project-poster">
+  <a href="{{ _poster_url }}"><img src="{{ page.poster.image | relative_url }}" alt="{{ t.poster }} : {{ page.title | escape }}"></a>
+  <a class="btn" href="{{ _poster_url }}">{{ t.poster | upcase }}{% if page.poster.pdf %} &middot; PDF{% endif %} &rarr;</a>
+</section>
+{%- endif %}
 
 {%- assign _body = content | strip -%}
 {%- if _body != "" %}

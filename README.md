@@ -58,21 +58,37 @@ Tout est relié par le **slug** du projet (nom du fichier dans `_projects/`, san
 title: Robot omnidirectionnel RC
 code: P-01                 # identifiant affiché, incrémental
 description: "Une phrase."
-status: en-cours           # clé de _data/i18n.yml > statuses
+status: en-cours           # en-cours | termine | archive | abandonne ; les deux derniers sont masqués de /projets/ par défaut
 updated: 2026-09-27        # dernière activité : ordre de /projets/ (le plus récent en premier)
 tags: [robotique, esp32]   # clés de _data/tags.yml
 stack: [C++, ESP32]        # optionnel
 featured: true             # affiché "À la une" sur l'accueil (3 max)
 featured_order: 1
-repo: https://github.com/...   # optionnel
+repo: https://github.com/...   # optionnel : un seul dépôt
+repos: [{ label: PAMI, url: "https://..." }]   # optionnel : plusieurs dépôts, remplace `repo`
+results: [{ event: Coupe de France 2025, result: "15e" }]   # optionnel, bandeau de droite
+poster: { image: /assets/img/projets/<slug>/poster.jpg, pdf: /assets/img/projets/<slug>/poster.pdf }   # optionnel, grand aperçu sous l'en-tête de la fiche
+rules: https://...         # optionnel : lien vers le règlement
 image: /assets/img/projets/<slug>/cover.jpg   # optionnel
 image_caption: ""
 links: [{ label: Site, url: "https://..." }]  # optionnel
 external_url: /CDR-2027/   # optionnel : la carte pointe ailleurs que la fiche
+redirect_from: [/projets/ancien-slug/]   # optionnel : ancienne URL après renommage ou fusion
 ```
 
 URL : `/projets/<slug>/`. Le corps Markdown (optionnel) s'affiche sous la photo.
 La fiche liste automatiquement docs, logs et articles du projet.
+
+#### Saisons de compétition (Karibous)
+
+Une fiche par saison et par compétition, pas une par robot :
+
+- Coupe de France : slug `cdr-<année>`, titre `CDR <année> - <thème Eurobot>`.
+- MakerFight : slug `mkf-<année>`, titre `MKF <année> - <nom du robot>`.
+- Corps : une phrase d'intro, puis une section `## <robot>` par robot, PAMI ou firmware.
+- Bandeau : `results` (une ligne par épreuve), `rules`, `repos` (un dépôt par robot ou firmware).
+- Images : `/assets/img/projets/<slug>/`, avec un sous-dossier par robot si la saison en a plusieurs.
+- Règlements et archives des coupes : dépôt séparé `Barbatronic/archives-coupes`, un dossier `<année>-<thème>` par édition. `rules` pointe vers ce dossier.
 
 ### Log : `_logs/<slug-projet>/AAAA-MM-JJ-<titre>.md`
 

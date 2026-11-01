@@ -3,7 +3,7 @@
   Logo : assets/img/logo.png (carré, silhouette sur fond transparent). Sans fichier, un carré hachuré le remplace.
   En-tête collant. Barre de titre réduite (.scroll-title) remplie et affichée par main.js
   quand le h1 marqué data-scroll-title sort de l'écran (texte : valeur de l'attribut, sinon celui du h1).
-  La barre porte le bouton Code source (champ `repo` du projet : la page elle-même, ou le projet lié
+  La barre porte le bouton Code source (premier de `repos`, sinon `repo` du projet : la page elle-même, ou le projet lié
   par `project` pour un log, une doc, un article) et une flèche de retour en haut de page.
 {%- endcomment -%}
 {%- assign logo = site.static_files | where: "path", "/assets/img/logo.png" | first -%}
@@ -34,11 +34,12 @@
   </nav>
   <div class="scroll-title" data-scroll-bar>
     <span class="scroll-title-text" aria-hidden="true"></span>
-    {%- assign _repo = page.repo -%}
+    {%- assign _rp = page -%}
     {%- if page.project and page.project != "" -%}
       {%- assign _rp = site.projects | where: "slug", page.project | first -%}
-      {%- assign _repo = _rp.repo -%}
     {%- endif -%}
+    {%- assign _repo = _rp.repo -%}
+    {%- if _rp.repos and _rp.repos.size > 0 -%}{%- assign _repo = _rp.repos.first.url -%}{%- endif -%}
     {%- if _repo and _repo != "" %}
     <a class="btn is-dark is-small" href="{{ _repo }}">{{ t.code | upcase }} &rarr;</a>
     {%- endif %}

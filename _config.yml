@@ -69,6 +69,7 @@ plugins:
   - jekyll-seo-tag
   - jekyll-feed
   - jekyll-sitemap
+  - jekyll-redirect-from   # `redirect_from` : anciennes URL après fusion ou renommage de fiches
 
 feed:
   path: /feed.xml

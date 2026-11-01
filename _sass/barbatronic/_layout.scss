@@ -58,6 +58,10 @@ $desktop: 1024px;
   > div { display: flex; justify-content: space-between; gap: 12px; padding: 15px 24px; border-bottom: var(--rule-thin); }
   > div > span:first-child { color: var(--muted); }
   .meta-actions { flex-direction: column; border-bottom: 0; padding: 20px 24px; gap: 8px; }
+  // Résultats de compétition : une ligne par épreuve, résultat sous le nom.
+  .meta-results { flex-direction: column; gap: 10px;
+    ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+    li { display: flex; flex-direction: column; gap: 2px; } }
 }
 
 .cover {
@@ -68,6 +72,11 @@ $desktop: 1024px;
 }
 
 .content-block { border-bottom: var(--rule); }
+// Poster d'équipe (fiche projet) : grand aperçu centré sous l'en-tête, bouton vers le PDF.
+.project-poster {
+  border-bottom: var(--rule); display: flex; flex-direction: column; align-items: center; gap: 16px;
+  img { display: block; max-width: 100%; max-height: 85vh; width: auto; height: auto; border: var(--rule); }
+}
 // Fiche projet : texte limité à 780 px et centré, comme les logs et les articles.
 .content-block.is-centered > .content.prose { max-width: none; > * { max-width: 780px; margin-left: auto; margin-right: auto; } }
 
@@ -109,10 +118,18 @@ $desktop: 1024px;
   > .content.prose { max-width: none; > * { max-width: 780px; margin-left: auto; margin-right: auto; } }
   // Page À propos : grilles et frise, colonne de 960 px.
   > .content.prose.is-wide > * { max-width: 960px; }
+  // Grand écran : marge droite = largeur du sommaire, pour centrer le texte sur la page et non sur
+  // la colonne. Réduite si l'écran manque de place pour le texte (780 ou 960 px). Chaîne interpolée :
+  // libsass ne sait pas évaluer min()/max() CSS avec des unités mêlées.
+  --toc-w: 280px; --text-w: 780px;
+  > .content.prose.is-wide { --text-w: 960px; }
+  @include desktop {
+    > .prose { padding-right: #{"max(var(--gutter), min(calc(var(--gutter) + var(--toc-w)), calc(100vw - var(--toc-w) - var(--gutter) - var(--text-w))))"}; }
+  }
 }
 .toc {
   padding: 32px var(--gutter) 0;
-  @include desktop { width: 280px; flex-shrink: 0; padding: 48px 32px 48px var(--gutter); border-right: var(--rule); position: sticky; top: var(--sticky-top, 0px); align-self: flex-start; transition: top 0.2s ease; }
+  @include desktop { width: var(--toc-w, 280px); flex-shrink: 0; padding: 48px 32px 48px var(--gutter); border-right: var(--rule); position: sticky; top: var(--sticky-top, 0px); align-self: flex-start; transition: top 0.2s ease; }
   a { display: block; padding: 10px 0; border-top: var(--rule-thin); font-size: 16px; }
   a:last-child { border-bottom: var(--rule-thin); }
 }
