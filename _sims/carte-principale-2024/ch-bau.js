@@ -1,7 +1,7 @@
 // Chapitre 2 : comment l'arrêt d'urgence coupe tout. Schéma de deux boucles, d'après le fichier KiCad : la puissance
 // (batterie, F1, contact du relais K2, +24V) et la commande (bobine de K2, diode D4 en parallèle, bouton J21, masse).
 // Boutons : appuyer sur l'arrêt d'urgence, arracher un fil du bouton.
-// Sorties : bau(api) -> {mount(stage, ctrl), tick(t)}.
+// Sorties : bau(api) -> {mount(stage, ctrl), tick(t), parts, extracts}.
 import {box, S, wire} from './svg.js';
 
 const LEAD = `<p class="lead">L'arrêt d'urgence ne coupe pas lui-même le courant des moteurs. Il coupe le petit courant de la bobine d'un relais ; c'est le relais qui coupe la puissance.</p>`;
@@ -11,7 +11,14 @@ const KEEP = `<div class="keep"><h4>À retenir</h4><ul>
   <li>Un fil du bouton arraché fait la même chose : une panne de câblage arrête le robot au lieu de le laisser tourner.</li>
   <li>La diode D4, en parallèle de la bobine, absorbe la surtension que la bobine produit quand on la coupe.</li>
   <li>Le fusible F1 est avant le relais : il protège aussi la bobine.</li>
+  <li>Contacts de K2 : le commun 11 est sur /24VD, le contact travail 14 donne +24V ; le contact repos 12 n'est pas câblé.</li>
+  <li>La LED D5 s'allume dès que la batterie est branchée ; D1 seulement quand le relais est fermé.</li>
 </ul></div>`;
+const PARTS = ['J1', 'F1', 'K2', 'D4', 'J21', 'D5', 'R3', 'D1', 'R1'];
+const EXTRACTS = [
+  {t: 'Batterie, fusible, relais', block: 'Gestion Batterie'},
+  {t: 'LED témoins', block: 'Indicateurs'},
+];
 
 export function bau(api) {
   let pressed = false;
@@ -80,7 +87,6 @@ export function bau(api) {
     el.b1 = b1;
     el.b2 = b2;
     api.side(LEAD + KEEP);
-    api.show(['J1', 'F1', 'K2', 'D4', 'J21'], 'Arrêt d\'urgence : fusible, relais, diode et connecteur du bouton');
   };
 
   const tick = (t) => {
@@ -116,5 +122,5 @@ export function bau(api) {
     el.b2.classList.toggle('on', broken);
   };
 
-  return {mount, tick};
+  return {mount, tick, parts: PARTS, extracts: EXTRACTS};
 }

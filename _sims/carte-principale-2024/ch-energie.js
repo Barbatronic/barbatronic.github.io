@@ -1,6 +1,6 @@
 // Chapitre 1 : d'où vient l'énergie. Synoptique de l'alimentation : batterie, fusible, relais, puis une ligne par
 // tension avec son régulateur et ses consommateurs. Un clic sur une ligne l'explique et la montre sur la carte.
-// Sorties : energie(api) -> {mount(stage, ctrl), tick(t)} ; api : {side(html), show(refs, note)}.
+// Sorties : energie(api) -> {mount(stage, ctrl), tick(t), parts, extracts} ; api : {side(html), focus(refs, extrait)}.
 import {RAILS} from './kin.js';
 import {box, S, wire} from './svg.js';
 
@@ -10,9 +10,25 @@ const KEEP = `<div class="keep"><h4>À retenir</h4><ul>
   <li>Le fusible F1 (5 A) protège tout ce qui suit.</li>
   <li>Le relais K2 laisse passer ou coupe toute la puissance : c'est l'arrêt d'urgence (chapitre 2).</li>
   <li>Trois régulateurs Recom fabriquent le 5, le 12 et le 3,3 V (2 A chacun) ; un convertisseur TRACO de 10 A sert les servos.</li>
-  <li>Une LED témoin par tension montre qu'elle est présente.</li>
-</ul><p class="hint">Cliquer une ligne pour la détailler.</p></div>`;
-const BASE_REFS = ['J1', 'F1', 'K2', 'U4', 'U3', 'U2', 'PS1'];
+  <li>Chaque régulateur Recom a un condensateur de 22 µF sur son entrée et une diode entre sa sortie et son entrée : elle le protège si la sortie reste plus haute que l'entrée.</li>
+  <li>Une LED témoin par tension, chacune avec sa résistance, montre qu'elle est présente.</li>
+</ul><p class="hint">Cliquer une ligne pour la détailler ; voir aussi les vues Schéma KiCad et Carte.</p></div>`;
+const PARTS = ['J1', 'F1', 'K2', 'U4', 'C1', 'D2', 'U3', 'C2', 'D9', 'U2', 'C7', 'D7', 'PS1', 'C6'];
+// composants et extrait du schéma de chaque ligne
+const FOCUS = {
+  p24: [['J1', 'F1', 'K2', 'J7', 'J16', 'J17', 'D1', 'R1'], 0],
+  v5: [['U4', 'C1', 'D2', 'D3', 'R2', 'J4', 'J9', 'J10'], 1],
+  v12: [['U3', 'C2', 'D9', 'D10', 'R5', 'J23', 'J28', 'J29'], 1],
+  v33: [['U2', 'C7', 'D7', 'D8', 'R17'], 1],
+  v5p: [['PS1', 'C6', 'J20', 'J26', 'J27', 'D6', 'R4'], 2],
+};
+const EXTRACTS = [
+  {t: 'Batterie, fusible, relais', block: 'Gestion Batterie'},
+  {t: 'Régulateurs 3,3 / 5 / 12 V', block: 'DC-DC'},
+  {t: 'Convertisseur 5 V servos', block: 'Regulateur TEN50', note: 'La mention « ! - TODO - GND2 - ! » est une note laissée dans le schéma d\'origine.'},
+  {t: 'LED témoins', block: 'Indicateurs'},
+  {t: 'Sorties 5 V et 12 V', refs: ['J4', 'J9', 'J10', 'J23', 'J28', 'J29']},
+];
 
 export function energie(api) {
   let sel = null;
@@ -25,13 +41,13 @@ export function energie(api) {
     const r = RAILS.find((x) => x.key === sel);
     if (!r) {
       api.side(LEAD + KEEP);
-      api.show(BASE_REFS, 'Alimentation : entrée, fusible, relais et régulateurs');
+      api.focus(PARTS, 0);
       return;
     }
     api.side(`<p class="kick mono">${r.name === r.volt ? r.volt : r.volt + ' · ' + r.name}</p><p class="lead">${r.text}</p>
       <div class="keep"><h4>Alimente</h4><ul>${r.loads.map((l) => `<li>${l}</li>`).join('')}</ul>
       <p class="hint">Cliquer à nouveau pour revenir à l'ensemble.</p></div>`);
-    api.show(r.refs, `${r.volt} : ${r.reg ? r.reg + ' et ' : ''}consommateurs`);
+    api.focus(...FOCUS[r.key]);
   };
 
   const mount = (stage, ctrl) => {
@@ -104,5 +120,5 @@ export function energie(api) {
     mount.b2.classList.toggle('on', estop);
   };
 
-  return {mount, tick};
+  return {mount, tick, parts: PARTS, extracts: EXTRACTS};
 }

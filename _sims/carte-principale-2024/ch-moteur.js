@@ -1,7 +1,7 @@
 // Chapitre 3 : comment le Teensy fait tourner un moteur. Chaîne Teensy, connecteur J5, driver, moteur, courroie, roue,
 // et un oscilloscope des trois fils EN, DIR et STEP. Curseur de vitesse de roue, driver activé ou non, impulsion à la
 // main. Calculs : motorChain() de kin.js (cotes de la base holonome).
-// Sorties : moteur(api) -> {mount(stage, ctrl), tick(t, dt)}.
+// Sorties : moteur(api) -> {mount(stage, ctrl), tick(t, dt), parts, extracts}.
 import {motorChain, MOTOR} from './kin.js';
 import {box, fr, S, wire} from './svg.js';
 
@@ -11,8 +11,14 @@ const KEEP = `<div class="keep"><h4>À retenir</h4><ul>
   <li>Le driver MKS SERVO57B transforme ces ordres en courant dans les bobines du moteur, à partir du 22,2 V.</li>
   <li>Un tour de moteur fait 200 pas ; avec 16 micro-pas, 3 200 impulsions.</li>
   <li>La courroie (14 et 28 dents) divise par 2 : un tour de roue, deux tours de moteur.</li>
-  <li>Trois moteurs, trois connecteurs : J5, J3, J6, marqués Stepper 1, 2 et 3 sur la carte.</li>
+  <li>Trois moteurs, trois connecteurs : J5, J3, J6, marqués Stepper 1, 2 et 3 sur la carte. Brochage : 1 DIR, 2 STEP, 3 EN, 4 GND, 5 +5V, 6 +24V.</li>
+  <li>Broches du Teensy : STEP sur 5, 6 et 9 ; DIR sur 10, 11 et 12 ; EN sur 24, commun aux trois drivers.</li>
 </ul><p class="hint">16 micro-pas : réglage pris pour l'exemple.</p></div>`;
+const PARTS = ['U1', 'J5', 'J3', 'J6'];
+const EXTRACTS = [
+  {t: 'Connecteurs des drivers', block: 'Driver stepper'},
+  {t: 'Teensy : STEP, DIR, EN', box: [26, 52, 112, 90], note: 'Côté gauche du Teensy : STEP_1 à STEP_3, DIR_1 à DIR_3 et EN, avec le numéro de broche Arduino.'},
+];
 
 // oscilloscope : place sur l'écran, traces
 const SC = {x: 130, y: 300, w: 840, h: 190};
@@ -34,7 +40,7 @@ export function moteur(api) {
     S('rect', {x: 20, y: 50, width: 140, height: 160}, tb);
     S('text', {x: 34, y: 76, class: 't', style: 'text-anchor: start'}, tb).textContent = 'Teensy 3.5';
     const ys = [90, 130, 170];
-    const names = [MOTOR.step, MOTOR.dir, MOTOR.en];
+    const names = [`${MOTOR.step} · 5`, `${MOTOR.dir} · 10`, `${MOTOR.en} · 24`];
     el.w = names.map((n, i) => {
       S('text', {x: 150, y: ys[i] + 4, class: 'pin'}, svg).textContent = n;
       return wire(svg, [[160, ys[i]], [250, ys[i]]], i === 0 ? 'pulse' : '');
@@ -102,7 +108,6 @@ export function moteur(api) {
     el.chain.className = 'chain mono';
     ctrl.after(el.chain);
     api.side(LEAD + KEEP);
-    api.show(['U1', 'J5', 'J3', 'J6'], 'Teensy et connecteurs des trois drivers (Stepper 1, 2, 3)');
   };
 
   const tick = (t, dt) => {
@@ -154,5 +159,5 @@ export function moteur(api) {
     el.chain.innerHTML = `${fr(Math.abs(v), 0)} mm/s à la roue → ${fr(Math.abs(c.wheelRpm), 0)} tr/min de roue → ×${MOTOR.ratio} : ${fr(Math.abs(c.motorRpm), 0)} tr/min de moteur → ×${c.pulsesPerTurn} impulsions par tour : <b>${fr(c.hz / 1000, 2)} kHz sur STEP</b>`;
   };
 
-  return {mount, tick};
+  return {mount, tick, parts: PARTS, extracts: EXTRACTS};
 }

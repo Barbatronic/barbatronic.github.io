@@ -2,8 +2,8 @@
 // Build (depuis n'importe quel dossier, le HTML sort dans ./teardown-out/dist/) :
 //   node .claude/skills/teardown/sims/build.mjs _sims/carte-principale-2024
 //   cp teardown-out/dist/carte-principale-2024.html assets/img/projets/cdr-2024/carte-principale/simulateur.html
-//   cp _sims/carte-principale-2024/carte-*.jpg assets/img/projets/cdr-2024/carte-principale/
-//   (rendus de la carte par kicad-cli pcb render, chargés à côté de la page)
+//   cp _sims/carte-principale-2024/carte-*.jpg _sims/carte-principale-2024/schema.svg assets/img/projets/cdr-2024/carte-principale/
+//   (rendus de la carte par kicad-cli pcb render et schéma par kicad-cli sch export svg, chargés à côté de la page)
 // Polices du site embarquées (OFL) : la page marche dans son cadre sans charger Google Fonts.
 import barlowCondensed700 from './fonts/barlow-condensed-latin-700-normal.woff2';
 import barlow400 from './fonts/barlow-latin-400-normal.woff2';

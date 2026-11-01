@@ -7,9 +7,15 @@ order: 3
 description: "Simulateur 3D de la carte principale du Jardinier : alimentation, Teensy 3.5, moteurs et capteurs, signal par signal."
 ---
 
+<div class="callout" markdown="1">
+<p class="callout-title">En travaux</p>
+
+Cette page est en cours d'écriture. Les chapitres sur l'énergie, l'arrêt d'urgence et les moteurs sont prêts ; ceux sur les capteurs, les actionneurs et le déroulé d'un match restent à faire.
+</div>
+
 La carte principale est le cœur électronique du Jardinier. Elle reçoit la batterie, coupe tout quand on appuie sur l'arrêt d'urgence, fabrique les tensions dont le robot a besoin et porte le Teensy 3.5 qui pilote les moteurs, lit le lidar et commande les actionneurs.
 
-La page ci-dessous l'explique en six questions, une par chapitre : un schéma animé, un ou deux boutons pour essayer, l'essentiel à retenir, et les composants concernés entourés sur la vraie carte, dessus et dessous. Les trois premiers chapitres sont prêts : l'énergie, l'arrêt d'urgence, les moteurs.
+La page ci-dessous l'explique en six questions, une par chapitre, avec trois vues : le principe en schéma animé, avec un ou deux boutons pour essayer ; les extraits du vrai schéma KiCad ; et la carte, dessus et dessous. Les composants du chapitre sont entourés dans le schéma et sur la carte ; un tableau donne le rôle de chacun, et un clic sur un composant liste ses broches et leurs signaux. Les trois premiers chapitres sont prêts : l'énergie, l'arrêt d'urgence, les moteurs.
 
 {% include embed-html.html src="/assets/img/projets/cdr-2024/carte-principale/simulateur.html" title="La carte principale 2024 en six questions" caption="Page interactive : énergie, arrêt d'urgence et commande des moteurs, schémas animés et vraie carte." height="760px" %}
 
@@ -44,4 +50,4 @@ Les pistes, les composants et leurs liaisons viennent du fichier KiCad `MainBoar
 
 ## À propos de la page
 
-La page est assemblée avec le build de [teardown](https://github.com/elvarofficial/teardown) (MIT). Les liaisons et les composants viennent du fichier KiCad de la carte, les vues de la carte de `kicad-cli pcb render`, la chaîne du moteur des mêmes calculs que la page de la base holonome. Sources dans le dépôt du site, dossier `_sims/carte-principale-2024/`.
+La page est assemblée avec le build de [teardown](https://github.com/elvarofficial/teardown) (MIT). Le schéma est exporté du fichier KiCad (`kicad-cli sch export svg`), les liaisons, valeurs, boîtiers et broches viennent du schéma et de sa netlist, les vues de la carte de `kicad-cli pcb render`, la chaîne du moteur des mêmes calculs que la page de la base holonome. Sources dans le dépôt du site, dossier `_sims/carte-principale-2024/`.
