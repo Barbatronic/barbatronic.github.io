@@ -95,6 +95,6 @@ Les premiers doigts, en orange, sont des prototypes : le dernier s'enroule presq
 
 Photos de l'[album de préparation](https://photos.app.goo.gl/pAHjJQ31H2oJCa348) et des galeries des Karibous : [Coupe de Belgique](https://leskaribous.fr/galleries/belgique-2024/), [Coupe de France](https://leskaribous.fr/galleries/cdr-2024/).
 
-## Fabrication de la page
+## À propos du simulateur
 
 La page est construite avec [teardown](https://github.com/elvarofficial/teardown) (MIT). Un seul fichier de calcul donne les cotes et l'état de la pince en fonction du temps de la séquence. La 3D, les panneaux et la coupe du doigt lisent ce même fichier. Sources dans le dépôt du site, dossier `_sims/pince-doigts-souples/`.

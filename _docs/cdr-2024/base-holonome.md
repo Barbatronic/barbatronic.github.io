@@ -71,6 +71,6 @@ La base est née en 2022, sur des roues omnidirectionnelles du commerce. Elle a 
 
 Photos des albums de préparation [2022](https://photos.app.goo.gl/jg3NgF4W8UGjeSXU9) et [2024](https://photos.app.goo.gl/pAHjJQ31H2oJCa348).
 
-## Fabrication de la page
+## À propos du simulateur
 
 La page est construite avec [teardown](https://github.com/elvarofficial/teardown) (MIT). Un seul fichier de calcul donne les cotes et l'état de la base en fonction du temps de la boucle. La 3D, les panneaux et la vue de dessus lisent ce même fichier. Sources dans le dépôt du site, dossier `_sims/base-holonome/`.

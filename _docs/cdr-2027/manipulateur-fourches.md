@@ -29,6 +29,6 @@ Le simulateur rejoue la séquence « saisir le mur » de l'étude. Laissé seul,
 
 Cotes de l'étude du 24/09/2026 : pierres 320 × 110 × 110 mm, axes des servos à 70 mm du bout des pierres. Servo à 75 °/s, consigne 8° au-delà du contact pour caler. Aucun effort n'est calculé : sans mesure sur un prototype, une valeur de serrage ou de tenue ne serait pas fiable. Le châssis du robot est schématique.
 
-## Fabrication de la page
+## À propos du simulateur
 
 La page est construite avec [teardown](https://github.com/elvarofficial/teardown) (MIT). Un seul fichier de calcul donne les cotes et l'état de la machine en fonction du temps de la séquence. La 3D, les panneaux et la courbe lisent ce même fichier : aucun chiffre affiché ne peut contredire le mouvement. Sources dans le dépôt du site, dossier `_sims/manipulateur-fourches/`.
