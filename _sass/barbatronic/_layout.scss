@@ -142,8 +142,17 @@ $desktop: 1024px;
 .sidebar-project { display: flex; flex-direction: column; gap: 4px; padding: 22px 32px 22px var(--gutter); border-bottom: var(--rule); }
 .sidebar-project-title { font-family: var(--font-display); font-weight: 700; font-size: 26px; line-height: 1; text-transform: uppercase; }
 .sidebar-nav { padding: 24px 32px 24px var(--gutter); }
-.doc-main { flex: 1; min-width: 0; padding: 44px var(--gutter); display: flex; flex-direction: column; gap: 22px; }
-.doc-meta { display: flex; flex-wrap: wrap; gap: 28px; color: #333; margin: 0; a { text-decoration: underline; text-underline-offset: 4px; } }
+.doc-main {
+  flex: 1; min-width: 0; padding: 44px var(--gutter); display: flex; flex-direction: column; gap: 22px;
+  // Comme pour les articles : en-tête, texte et pager limités à 780 px et centrés sur la page.
+  // Grand écran : marge droite = largeur du menu, réduite si l'écran manque de place.
+  --side-w: 300px; --text-w: 780px;
+  > * { width: 100%; max-width: var(--text-w); margin-left: auto; margin-right: auto; }
+  @include desktop {
+    padding-right: #{"max(var(--gutter), min(calc(var(--gutter) + var(--side-w)), calc(100vw - var(--side-w) - var(--gutter) - var(--text-w))))"};
+  }
+}
+.doc-meta { display: flex; flex-wrap: wrap; gap: 28px; color: #333; margin-top: 0; margin-bottom: 0; a { text-decoration: underline; text-underline-offset: 4px; } }
 
 .related { border-top: var(--rule); padding: 32px var(--gutter); }
 .related-project { display: flex; flex-direction: column; gap: 4px; }
