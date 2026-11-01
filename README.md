@@ -43,6 +43,7 @@ _projects/ _projects_en/   projets
 _logs/ _logs_en/           logs, un dossier par projet
 _docs/ _docs_en/           documentation, un dossier par projet
 _posts/ _posts/en/         articles de blog
+_sims/                 sources des simulateurs 3D (non publiées)
 index.html, projets/, blog/, logs/, a-propos.md    pages FR
 en/                                                 pages EN
 assets/                css, js, images
@@ -155,6 +156,29 @@ Fichier `.glb` rangé dans `assets/img/projets/<slug>/3d/`, puis dans le Markdow
 
 `poster` et `caption` sont optionnels. Le script model-viewer (`assets/js/vendor/`, Apache-2.0)
 n'est chargé que sur les pages qui contiennent un modèle.
+
+### Page HTML autonome : simulation, simulateur 3D (log, doc, article)
+
+Page rangée à côté des images du contenu, puis intégrée dans un cadre isolé :
+
+```liquid
+{% include embed-html.html src="/assets/img/projets/<slug>/<dossier>/simulation.html"
+   title="Titre du cadre" caption="Légende" height="720px" %}
+```
+
+Les simulateurs 3D construits avec le skill teardown gardent leurs sources dans
+`_sims/<nom>/` (ignoré par Jekyll : dossier en `_`). Le build produit un seul HTML, three.js
+et polices compris, à copier dans `assets/img/projets/<slug>/<nom>/` :
+
+```sh
+node .claude/skills/teardown/sims/build.mjs _sims/<nom>     # -> teardown-out/dist/<nom>.html
+```
+
+Un simulateur qui affiche les pièces d'une CAO charge un modèle `.glb` placé à côté de sa page (même
+dossier d'assets) : copier aussi ce fichier, la commande exacte est en tête du `main.js` du simulateur.
+Une telle page se teste servie en http (site local), pas ouverte en `file://`.
+
+`teardown-out/` est un dossier de travail : ne pas le committer.
 
 ## Langues
 

@@ -103,3 +103,4 @@ exclude:
   - vendor/
   - node_modules/
   - Claude outputs/
+  - teardown-out/

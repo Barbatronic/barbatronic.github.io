@@ -14,6 +14,9 @@ CLAUDE.md
 # Archives de livraison de l'outillage (zip). Aussi exclues du build dans _config.yml.
 Claude outputs/
 
+# Build des simulateurs 3D (skill teardown). Aussi exclu du build dans _config.yml.
+teardown-out/
+
 # Dossiers de session DocMate (médias bruts et consignes pour l'agent). Ignorés aussi par Jekyll (dossier en point).
 .docmate/
 
