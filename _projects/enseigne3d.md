@@ -3,7 +3,7 @@ published: true
 title: "Enseigne3D"
 code: P-29
 description: "Générateur d'enseignes en relief à imprimer en 3D : un texte, une police, et des blocs multicolores prêts à visser."
-status: open-source
+status: en-cours
 updated: 2026-10-21   # tri de /projets/ : dernier commit
 tags: [impression-3d, logiciel, open-source]
 stack: [JavaScript, manifold-3d, three.js, opentype.js]

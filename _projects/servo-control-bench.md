@@ -3,7 +3,7 @@ published: true
 title: "Banc de test servomoteurs"
 code: P-13
 description: "Banc autonome sur ESP32 pour piloter et régler jusqu'à quatre servomoteurs."
-status: en-cours
+status: archive
 updated: 2026-01-04   # tri de /projets/ : dernier commit
 tags: [electronique, esp32, atelier]
 stack: [ESP32, KiCad]

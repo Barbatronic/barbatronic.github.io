@@ -3,7 +3,7 @@ published: true
 title: "KiCad Toolkit"
 code: P-09
 description: "Mes librairies, blocs de conception et réglages KiCad, installables depuis le gestionnaire de contenu de KiCad."
-status: open-source
+status: archive
 updated: 2026-09-13   # tri de /projets/ : dernier commit
 tags: [electronique, open-source]
 stack: [KiCad, Python]

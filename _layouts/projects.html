@@ -5,16 +5,21 @@ layout: default
   Liste de tous les projets + filtres (tags, statut, recherche) gérés par assets/js/main.js.
   Sans JavaScript, tous les projets restent visibles et les filtres sont masqués.
   Ordre : `updated` décroissant (dernière activité en premier) ; projets sans `updated` en fin de liste.
+  Statuts (clés de _data/i18n.yml > statuses, dans cet ordre) : en-cours, termine, archive, abandonne.
+  Projets archivés ou abandonnés : exclus du compteur et du filtre "Tous", visibles via leur puce
+  ou /projets/?status=archive (ou abandonne).
 {%- endcomment -%}
 {%- include i18n/init.html -%}
 {%- include i18n/items.html type="projects" -%}
 {%- assign projects = items | sort: "updated", "first" | reverse -%}
-{%- assign statuses = projects | map: "status" | uniq -%}
+{%- assign hidden = "archive abandonne" | split: " " -%}
+{%- assign active = projects | where_exp: "p", "p.status != 'archive'" | where_exp: "p", "p.status != 'abandonne'" -%}
+{%- assign present = projects | map: "status" | uniq -%}
 
 <section class="page-head">
   <div class="page-head-row">
     <h1 class="display" data-scroll-title>{{ t.projects_title }}</h1>
-    <span class="mono">{{ projects | size }} {{ t.projects_title | upcase }}</span>
+    <span class="mono">{{ active | size }} {{ t.projects_title | upcase }}</span>
   </div>
   <div class="filters" data-filters hidden>
     <div class="filter-row">
@@ -30,9 +35,9 @@ layout: default
       <span class="mono filter-label">{{ t.status | upcase }}</span>
       <div class="chips" data-filter-group="status">
         <button type="button" class="chip is-active" data-value="">{{ t.all }}</button>
-        {%- for s in statuses -%}
-        <button type="button" class="chip" data-value="{{ s }}">{{ t.statuses[s] | default: s }}</button>
-        {%- endfor -%}
+        {%- for s in t.statuses -%}{%- if present contains s[0] -%}
+        <button type="button" class="chip" data-value="{{ s[0] }}">{{ s[1] }}</button>
+        {%- endif -%}{%- endfor -%}
       </div>
       <label class="search mono">{{ t.search | upcase }}
         <input type="search" data-filter-search placeholder="{{ t.search_placeholder }}">
@@ -42,8 +47,11 @@ layout: default
 </section>
 
 <section class="block">
-  <div class="project-grid" data-project-grid>
+  <div class="project-grid" data-project-grid data-hidden-statuses="{{ hidden | join: ' ' }}">
     {%- for p in projects -%}{%- include project-card.html p=p level="h2" -%}{%- endfor -%}
   </div>
   <p class="mono no-result" data-no-result hidden>{{ t.no_result }}</p>
+  {%- for h in hidden -%}{%- assign _hp = projects | where: "status", h -%}{%- if _hp.size > 0 %}
+  <p class="mono no-result" data-show-hidden="{{ h }}"><a href="?status={{ h }}">{{ t.show_hidden[h] }} ({{ _hp | size }}) &rarr;</a></p>
+  {%- endif -%}{%- endfor %}
 </section>

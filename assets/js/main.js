@@ -37,17 +37,20 @@
     var state = { tag: "", status: "", q: "" };
     var cards = Array.prototype.slice.call(grid.querySelectorAll(".project-card"));
     var empty = document.querySelector("[data-no-result]");
+    var hidden = (grid.dataset.hiddenStatuses || "").split(" "); // statuts masqués de "Tous"
+    var hiddenLinks = Array.prototype.slice.call(document.querySelectorAll("[data-show-hidden]"));
 
     var apply = function () {
       var shown = 0;
       cards.forEach(function (c) {
         var ok = (!state.tag || (" " + c.dataset.tags + " ").indexOf(" " + state.tag + " ") !== -1)
-          && (!state.status || c.dataset.status === state.status)
+          && (state.status ? c.dataset.status === state.status : hidden.indexOf(c.dataset.status) === -1)
           && (!state.q || c.dataset.search.indexOf(state.q) !== -1);
         c.hidden = !ok;
         if (ok) shown++;
       });
       if (empty) empty.hidden = shown !== 0;
+      hiddenLinks.forEach(function (l) { l.hidden = state.status === l.dataset.showHidden; });
     };
 
     filters.querySelectorAll("[data-filter-group]").forEach(function (group) {
@@ -67,19 +70,20 @@
     var search = filters.querySelector("[data-filter-search]");
     if (search) search.addEventListener("input", function () { state.q = search.value.trim().toLowerCase(); apply(); });
 
-    // Filtre initial par URL : /projets/?tag=esp32 ou /projets/?q=freecad (liens de la grille Stack)
+    // Filtre initial par URL : /projets/?tag=esp32, ?q=freecad (liens de la grille Stack), ?status=archive
     var params = new URLSearchParams(location.search);
     var q = params.get("q");
     if (q && search) {
       search.value = q;
       state.q = q.trim().toLowerCase();
-      apply();
     }
-    var initial = params.get("tag");
-    if (initial) {
-      var b = filters.querySelector('[data-filter-group="tag"] [data-value="' + CSS.escape(initial) + '"]');
+    apply(); // masque les projets archivés et abandonnés par défaut
+    ["tag", "status"].forEach(function (key) {
+      var initial = params.get(key);
+      if (!initial) return;
+      var b = filters.querySelector('[data-filter-group="' + key + '"] [data-value="' + CSS.escape(initial) + '"]');
       if (b) b.click();
-    }
+    });
   }
 
   // 4. Sommaire des articles (titres h2) ------------------------------------

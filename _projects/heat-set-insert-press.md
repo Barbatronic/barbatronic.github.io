@@ -3,7 +3,7 @@ published: true
 title: "Presse à inserts"
 code: P-11
 description: "Presse pour poser des inserts filetés à chaud dans les pièces imprimées en 3D."
-status: open-source
+status: en-cours
 updated: 2025-11-26   # tri de /projets/ : dernier commit
 tags: [atelier, impression-3d, open-source]
 stack: [FreeCAD, impression 3D, découpe laser]

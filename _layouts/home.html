@@ -43,7 +43,7 @@ layout: default
 
 {%- assign projects_url = t.nav[0].url -%}
 {%- include i18n/items.html type="projects" -%}
-{%- assign all_projects = items -%}
+{%- assign all_projects = items | where_exp: "p", "p.status != 'archive'" | where_exp: "p", "p.status != 'abandonne'" -%}
 {%- assign featured = items | where: "featured", true | sort: "featured_order" -%}
 <section class="block has-border-top">
   {%- capture _all_label %}{{ t.all_projects }} ({{ all_projects | size }}){% endcapture -%}

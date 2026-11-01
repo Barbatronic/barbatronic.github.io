@@ -9,4 +9,5 @@ esp32: { fr: ESP32, en: ESP32 }
 atelier: { fr: Atelier, en: Workshop }
 open-source: { fr: Open source, en: Open source }
 karibous: { fr: Karibous, en: Karibous }
+competition: { fr: "Compétition", en: Competition }
 logiciel: { fr: Logiciel, en: Software }

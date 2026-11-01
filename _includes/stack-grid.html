@@ -3,7 +3,7 @@
   Données : _data/stack.yml. Aucun paramètre ; s'insère dans le Markdown d'une page
   ({% include stack-grid.html %}).
   Compteur : nombre de projets (langue par défaut) dont le `stack` ou les tags contiennent
-  le terme `q` (ou `name`). Lien : page Projets filtrée par ?q=<terme>.
+  le terme `q` (ou `name`), hors projets archivés ou abandonnés. Lien : page Projets filtrée par ?q=<terme>.
   Sortie : <div class="stack-grid">, une tuile par catégorie.
 {%- endcomment -%}
 {%- include i18n/init.html -%}
@@ -17,6 +17,7 @@
     {%- assign _label = it.name -%}{%- if lang != site.default_lang and it[lang] -%}{%- assign _label = it[lang] -%}{%- endif -%}
     {%- assign _n = 0 -%}
     {%- for p in site.projects -%}
+      {%- if p.status == "archive" or p.status == "abandonne" -%}{%- continue -%}{%- endif -%}
       {%- capture _hay -%}{{ p.stack | join: " | " }} | {% for tg in p.tags %}{{ site.data.tags[tg].fr | default: tg }} | {% endfor %}{%- endcapture -%}
       {%- assign _hay = _hay | downcase -%}
       {%- if _hay contains _q -%}{%- assign _n = _n | plus: 1 -%}{%- endif -%}

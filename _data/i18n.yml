@@ -36,8 +36,12 @@ fr:
   search: Recherche
   search_placeholder: "esp32, robot..."
   no_result: Aucun projet ne correspond au filtre.
+  show_hidden: { archive: "Voir les projets archivés", abandonne: "Voir les projets abandonnés" }
   content: Contenu
   code: Code source
+  results: "Résultats"
+  poster: Poster
+  rules: "Règlement"
   previous: "Précédent"
   next: Suivant
   last_entry: "Dernière entrée"
@@ -92,9 +96,8 @@ fr:
   statuses:
     en-cours: En cours
     termine: "Terminé"
-    open-source: Open source
-    pause: En pause
-    competition: "Compétition"
+    archive: "Archivé"
+    abandonne: "Abandonné"
 
 en:
   locale: en_US
@@ -130,8 +133,12 @@ en:
   search: Search
   search_placeholder: "esp32, robot..."
   no_result: No project matches this filter.
+  show_hidden: { archive: See archived projects, abandonne: See abandoned projects }
   content: Content
   code: Source code
+  results: Results
+  poster: Poster
+  rules: Rules
   previous: Previous
   next: Next
   last_entry: Latest entry
@@ -156,6 +163,5 @@ en:
   statuses:
     en-cours: In progress
     termine: Done
-    open-source: Open source
-    pause: On hold
-    competition: Competition
+    archive: Archived
+    abandonne: Abandoned
