@@ -1,5 +1,5 @@
 ---
-published: false
+published: true
 title: "La carte principale"
 project: cdr-2024
 date: 2023-08-02

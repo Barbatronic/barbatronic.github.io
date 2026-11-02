@@ -1,5 +1,5 @@
 ---
-published: false
+published: true
 title: "La base holonome"
 project: cdr-2024
 date: 2024-05-06

@@ -1,5 +1,5 @@
 ---
-published: false
+published: true
 title: "Manipulateur à fourches"
 project: cdr-2027
 date: 2026-11-01

@@ -1,5 +1,5 @@
 ---
-published: false
+published: true
 title: "La pince à doigts souples"
 project: cdr-2024
 date: 2024-04-14
