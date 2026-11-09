@@ -156,6 +156,23 @@ Fichier `.glb` rangé dans `assets/img/projets/<slug>/3d/`, puis dans le Markdow
 
 `poster` et `caption` sont optionnels. Le script model-viewer (`assets/js/vendor/`, Apache-2.0)
 n'est chargé que sur les pages qui contiennent un modèle.
+Pour un modèle lourd, ajouter `load_on_click=true` avec un `poster` : l'aperçu reste visible
+et la 3D n'est téléchargée qu'après un clic sur « Explorer en 3D ».
+Les modèles compressés avec Draco utilisent le décodeur local dans `assets/js/vendor/draco/`.
+
+### Schéma et PCB interactifs (log, doc, article)
+
+Conserver les fichiers KiCad dans `assets/files/projets/<slug>/<date-session>/` pour garder
+une version distincte à chaque étape, puis intégrer un schéma ou un PCB :
+
+```liquid
+{% include kicanvas.html src="/assets/files/projets/<slug>/<date-session>/carte.kicad_sch" caption="Schéma de la carte." %}
+{% include kicanvas.html src="/assets/files/projets/<slug>/<date-session>/carte.kicad_pcb" caption="Implantation et routage." %}
+```
+
+KiCanvas est conservé dans `assets/js/vendor/` avec sa licence MIT et chargé uniquement
+sur les pages concernées. Les fichiers restent téléchargeables sans JavaScript.
+Source : [documentation d'intégration KiCanvas](https://kicanvas.org/embedding/).
 
 ### Page HTML autonome : simulation, simulateur 3D (log, doc, article)
 

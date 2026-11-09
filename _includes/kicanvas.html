@@ -1,0 +1,12 @@
+{%- comment -%}
+  Visionneuse KiCad (KiCanvas, script chargé par default.html si nécessaire).
+  Paramètres : src (chemin du .kicad_sch ou .kicad_pcb), caption (légende).
+  Le lien de téléchargement reste disponible sans JavaScript.
+{%- endcomment -%}
+<figure class="kicanvas">
+  <kicanvas-embed src="{{ include.src | relative_url }}" controls="full" aria-label="{{ include.caption | escape }}"></kicanvas-embed>
+  <figcaption class="mono">
+    <span>{{ include.caption | escape }}</span>
+    <a href="{{ include.src | relative_url }}" download>Télécharger &darr;</a>
+  </figcaption>
+</figure>

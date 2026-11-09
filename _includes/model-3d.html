@@ -3,6 +3,7 @@
   Paramètres : src (chemin du .glb depuis la racine), alt (texte alternatif, obligatoire),
   poster (image affichée pendant le chargement, optionnel), caption (légende, optionnel),
   orbit (camera-orbit de départ, optionnel, ex. "-30deg 70deg auto").
+  load_on_click (optionnel) : afficher le poster et charger la 3D au clic.
   Sortie : <figure class="model-3d"> avec lien de téléchargement du .glb.
 {%- endcomment -%}
 <figure class="model-3d">
@@ -10,7 +11,14 @@
     {%- if include.poster %} poster="{{ include.poster | relative_url }}"{% endif %}
     {%- if include.orbit %} camera-orbit="{{ include.orbit }}"{% endif %}
     camera-controls touch-action="pan-y" auto-rotate auto-rotate-delay="1500" interaction-prompt="none"
-    shadow-intensity="1" exposure="1.1" environment-image="neutral" loading="lazy" reveal="auto"></model-viewer>
+    shadow-intensity="1" exposure="1.1" environment-image="neutral" loading="lazy" reveal="{% if include.load_on_click %}manual{% else %}auto{% endif %}">
+    {%- if include.load_on_click %}
+    <div slot="poster" class="model-3d-poster">
+      {%- if include.poster %}<img src="{{ include.poster | relative_url }}" alt="{{ include.alt | escape }}" loading="lazy" decoding="async">{% endif %}
+      <button type="button" class="model-3d-load mono" data-load-model aria-live="polite">Explorer en 3D</button>
+    </div>
+    {%- endif %}
+  </model-viewer>
   <figcaption class="mono">
     <span>{% if include.caption %}{{ include.caption }}{% else %}{{ include.alt }}{% endif %}</span>
     <a href="{{ include.src | relative_url }}" download>.GLB &darr;</a>

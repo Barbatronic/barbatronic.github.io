@@ -94,7 +94,21 @@
   model-viewer { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; background: var(--paper); --poster-color: var(--paper); }
   figcaption { display: flex; justify-content: space-between; gap: 12px; padding: 10px 14px; border-top: var(--rule); font-size: 12px; line-height: 1.4; }
   figcaption a { text-decoration: none; white-space: nowrap; }
+  .model-3d-poster { position: absolute; inset: 0; background: var(--paper); }
+  .model-3d-poster img { display: block; width: 100%; height: 100%; object-fit: contain; border: 0; }
+  .model-3d-load { position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%); padding: 12px 18px; border: var(--rule); background: var(--paper); color: var(--ink); font-size: 13px; cursor: pointer; white-space: nowrap; }
+  .model-3d-load:hover, .model-3d-load:focus-visible { background: var(--ink); color: var(--paper); }
+  .model-3d-load:disabled { cursor: progress; }
 }
+
+// Schémas et PCB interactifs (_includes/kicanvas.html).
+.content .kicanvas {
+  margin: 0 0 1.5em; border: var(--rule); background: var(--paper);
+  kicanvas-embed { display: block; width: 100%; height: min(640px, 80vh); min-height: 360px; }
+  figcaption { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 12px; padding: 10px 14px; border-top: var(--rule); font-size: 12px; line-height: 1.4; }
+  figcaption a { text-decoration: none; white-space: nowrap; }
+}
+.with-aside > .content.prose > .kicanvas { max-width: none; }
 
 // Page HTML autonome intégrée (_includes/embed-html.html) : cadre isolé, hauteur fixe (--embed-h).
 // Dans un log ou une doc, le cadre prend toute la largeur de la colonne (pas la limite de 780 px du texte).

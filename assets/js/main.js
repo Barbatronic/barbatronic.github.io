@@ -3,6 +3,31 @@
 (function () {
   "use strict";
 
+  // Modèles 3D chargés à la demande : garder l'aperçu pendant le chargement.
+  document.querySelectorAll("[data-load-model]").forEach(function (button) {
+    var viewer = button.closest("model-viewer");
+    viewer.addEventListener("error", function () {
+      viewer.dataset.modelFailed = "true";
+      button.disabled = false;
+      button.textContent = "Réessayer la 3D";
+      button.removeAttribute("aria-busy");
+    });
+    button.addEventListener("click", async function () {
+      button.disabled = true;
+      button.textContent = "Chargement de la 3D…";
+      button.setAttribute("aria-busy", "true");
+      await customElements.whenDefined("model-viewer");
+      // Un nouvel essai doit relancer la requête après une erreur réseau.
+      if (viewer.dataset.modelFailed) {
+        var source = new URL(viewer.getAttribute("src"), document.baseURI);
+        source.searchParams.set("retry", Date.now());
+        viewer.setAttribute("src", source.href);
+      }
+      viewer.dismissPoster();
+    });
+    viewer.addEventListener("load", function () { delete viewer.dataset.modelFailed; });
+  });
+
   // 1. Menu mobile (burger Bulma) ------------------------------------------
   document.querySelectorAll(".navbar-burger").forEach(function (burger) {
     var menu = document.getElementById(burger.dataset.target);
