@@ -1,5 +1,5 @@
 ---
-published: false
+published: true
 title: "Carte CDR 2027 : schéma et premier routage"
 date: 2026-11-08
 project: cdr-2027

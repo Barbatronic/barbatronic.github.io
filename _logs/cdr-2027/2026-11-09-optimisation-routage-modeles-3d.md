@@ -1,5 +1,5 @@
 ---
-published: false
+published: true
 title: "Carte CDR 2027 : optimisation du routage et modèles 3D"
 date: 2026-11-09
 project: cdr-2027
