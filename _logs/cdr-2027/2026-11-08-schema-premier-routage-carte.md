@@ -4,6 +4,7 @@ title: "Carte CDR 2027 : schéma et premier routage"
 date: 2026-11-08
 project: cdr-2027
 description: "Une carte principale sur ESP32-S3-WROOM-1U-N16R2, issue des robots et PAMI précédents : alimentations, interfaces du robot et ajout de l'Ethernet avec un W5500. Schéma et premier routage du week-end."
+image: "/assets/img/projets/cdr-2027/2026-11-08-schema-premier-routage-carte/routage-placement-general.png"
 session: ""
 state: "premier routage"
 next_step: "Optimiser le routage."
