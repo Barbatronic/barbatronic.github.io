@@ -157,4 +157,61 @@
     window.addEventListener("resize", request);
     update();
   }
+
+  // 6. Agrandir les images des articles ------------------------------------
+  // Un clic sur une image du contenu l'ouvre en entier (les vignettes de .gallery
+  // sont recadrées), avec sa légende. Flèches : image précédente / suivante.
+  // Fermeture : Échap, bouton, ou clic hors de l'image.
+  var zoomable = Array.prototype.slice.call(document.querySelectorAll(".prose img"))
+    .filter(function (img) { return !img.closest("a"); });
+  if (zoomable.length && window.HTMLDialogElement) {
+    var box = document.createElement("dialog");
+    box.className = "lightbox";
+    box.setAttribute("aria-label", "Image agrandie");
+    box.innerHTML = '<figure><img alt=""><figcaption></figcaption></figure>'
+      + '<button type="button" class="lightbox-close" aria-label="Fermer">×</button>'
+      + '<button type="button" class="lightbox-prev" aria-label="Image précédente">‹</button>'
+      + '<button type="button" class="lightbox-next" aria-label="Image suivante">›</button>';
+    document.body.appendChild(box);
+    var boxImg = box.querySelector("img");
+    var boxCaption = box.querySelector("figcaption");
+    var current = 0;
+
+    // Légende : figcaption d'une galerie, sinon l'italique qui suit l'image, sinon le texte alternatif.
+    var captionOf = function (img) {
+      var fig = img.closest("figure");
+      if (fig && fig.querySelector("figcaption")) return fig.querySelector("figcaption").textContent;
+      var em = img.parentElement && img.parentElement.querySelector("em");
+      return em ? em.textContent : img.alt;
+    };
+    var show = function (i) {
+      current = (i + zoomable.length) % zoomable.length;
+      var img = zoomable[current];
+      boxImg.src = img.currentSrc || img.src;
+      boxImg.alt = img.alt;
+      boxCaption.textContent = captionOf(img);
+    };
+    var several = zoomable.length > 1;
+    box.querySelector(".lightbox-prev").hidden = !several;
+    box.querySelector(".lightbox-next").hidden = !several;
+
+    zoomable.forEach(function (img, i) {
+      img.classList.add("is-zoomable");
+      img.tabIndex = 0;
+      img.setAttribute("role", "button");
+      var open = function () { show(i); box.showModal(); };
+      img.addEventListener("click", open);
+      img.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); } });
+    });
+    box.querySelector(".lightbox-close").addEventListener("click", function () { box.close(); });
+    box.querySelector(".lightbox-prev").addEventListener("click", function () { show(current - 1); });
+    box.querySelector(".lightbox-next").addEventListener("click", function () { show(current + 1); });
+    box.addEventListener("click", function (e) { if (e.target === box || e.target.tagName === "FIGURE") box.close(); });
+    box.addEventListener("keydown", function (e) {
+      if (!several) return;
+      if (e.key === "ArrowLeft") show(current - 1);
+      if (e.key === "ArrowRight") show(current + 1);
+    });
+    box.addEventListener("close", function () { zoomable[current].focus({ preventScroll: true }); });
+  }
 })();

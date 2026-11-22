@@ -27,6 +27,9 @@
   }
 
   img { border: var(--rule); }
+  // Images agrandissables au clic (main.js, bloc 6).
+  img.is-zoomable { cursor: zoom-in; }
+  img.is-zoomable:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 
   // Vidéos des logs : même cadre que les images, jamais plus large que la colonne.
   video { display: block; max-width: 100%; height: auto; border: var(--rule); background: var(--ink); }
@@ -119,3 +122,27 @@
   figcaption a { text-decoration: none; white-space: nowrap; }
 }
 .with-aside > .content.prose > .embed-html, .with-toc > .content.prose > .embed-html { max-width: none; }
+
+// Visionneuse d'images (main.js, bloc 6) : <dialog class="lightbox"> créé par le script.
+// Fond noir, image entière centrée, légende en mono, boutons carrés au trait.
+.lightbox {
+  width: 100vw; height: 100vh; max-width: none; max-height: none; margin: 0; padding: 16px;
+  border: 0; background: rgba(14, 14, 14, 0.97); color: var(--paper);
+  &[open] { display: flex; align-items: center; justify-content: center; }
+  &::backdrop { background: transparent; }
+  figure { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 10px; max-width: 100%; max-height: 100%; }
+  img { display: block; max-width: calc(100vw - 32px); max-height: calc(100vh - 96px); width: auto; height: auto; object-fit: contain; border: var(--rule); border-color: var(--paper); background: var(--ink); }
+  figcaption { max-width: 900px; font-family: var(--font-mono); font-size: 13px; line-height: 1.4; text-align: center; color: var(--paper); }
+  button {
+    position: absolute; width: 44px; height: 44px; padding: 0; cursor: pointer;
+    font: 700 26px/1 var(--font-mono); color: var(--paper); background: var(--ink); border: var(--rule); border-color: var(--paper);
+    &:hover, &:focus-visible { background: var(--paper); color: var(--ink); outline: none; }
+  }
+  .lightbox-close { top: 16px; right: 16px; }
+  .lightbox-prev { left: 16px; top: 50%; transform: translateY(-50%); }
+  .lightbox-next { right: 16px; top: 50%; transform: translateY(-50%); }
+  @media (max-width: 768px) {
+    .lightbox-prev, .lightbox-next { top: auto; bottom: 16px; transform: none; }
+    img { max-height: calc(100vh - 150px); }
+  }
+}
