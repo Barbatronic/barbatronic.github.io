@@ -1,5 +1,5 @@
 ---
-published: false
+published: true
 title: "VibeCAD, un mois plus tard"
 date: 2026-11-22
 description: "Un mois après sa sortie, VibeCAD a beaucoup changé. Je l'utilise maintenant pour mes propres projets, à commencer par Nimbot, un petit robot compagnon. Tour des nouveautés : esquisse, assemblage, fabrication, versions, import KiCad."
