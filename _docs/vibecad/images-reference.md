@@ -38,19 +38,12 @@ utilisée ni par les calculs, ni par les exports. Son fichier est enregistré da
 
 ## Calcul
 
-- Redressement (`src/app/images.ts`, `src/math/homography.ts`) : homographie (transformation
+- Redressement : homographie (transformation
   projective) qui envoie le rectangle de l'image redressée sur les 4 coins cliqués ; chaque pixel
   de l'image redressée (1 600 px de large au plus) va chercher sa couleur dans l'image d'origine
-  (`src/ui/image-cache.ts`, calculé une fois par réglage et mis en cache).
+  (calculé une fois par réglage et mis en cache).
 - Mise à l'échelle : distance des deux points sur l'image affichée (en mm, avec la largeur
   actuelle) → nouvelle largeur = largeur × distance réelle / distance mesurée.
 - Le support (plan, face) est retrouvé comme celui d'une esquisse (`resolveSupportFrame`).
 
-## Validation
-
-`tests/unit/homography.test.ts` (coins envoyés sur le rectangle, droites conservées, cas
-dégénéré ; taille, échelle par deux points, rotation, miroir, redressement d'un rectangle A4),
-`tests/unit/image-format.test.ts` (format relu à l'identique, conforme au schéma),
-`tests/e2e/reference-image.spec.ts` (import d'un PNG, mise à l'échelle et redressement à la
-souris, image visible pendant une esquisse sur son plan).
 {% endraw %}

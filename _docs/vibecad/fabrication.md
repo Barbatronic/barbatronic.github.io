@@ -56,7 +56,7 @@ qui a été conçu. Les réglages sont enregistrés dans le projet (champ `fabri
   moitié de l'espacement, est tracée sur une grille (environ 400 cases sur le grand côté de la
   plaque) pour 4 orientations ; des plus grandes aux plus petites, elle est posée là où son haut
   reste le plus bas, puis le plus à gauche, sur la première plaque où elle tient. Une petite pièce
-  peut se loger dans le trou d'une grande (`src/app/nesting.ts`).
+  peut se loger dans le trou d'une grande.
 - **Plaques en grand…** : la plaque à la taille de la fenêtre. Glisser une pièce la déplace ;
   **R** la tourne d'un quart de tour (Maj + R dans l'autre sens), l'angle se règle aussi au degré
   près ; les flèches la décalent de 1 mm (Maj : 10 mm) ; « Plaque » l'envoie sur une autre plaque

@@ -71,19 +71,19 @@ résistance retenue est bien inférieure aux 60 à 70 MPa des fiches techniques.
 
 ## Méthode
 
-- **Cubes (voxels)** : la pièce est découpée en cubes réguliers d'arête `h` (`src/sim/voxelize.ts`) ;
+- **Cubes (voxels)** : la pièce est découpée en cubes réguliers d'arête `h` ;
   un cube est plein si son centre est dans la pièce (rayons parallèles à x et parité des
   traversées du maillage fermé). Robuste sur toute forme, y compris un STL importé. La taille `h`
   vise le nombre de cubes de la précision choisie, et la plus petite dimension de la pièce (souvent
   son épaisseur) compte un nombre entier de cubes : sinon la grille l'épaissirait d'un demi-cube et
-  la pièce paraîtrait trop raide (`gridFor`, `src/sim/study.ts`).
-- **Éléments finis** (`src/sim/fea.ts`) : élasticité linéaire, petits déplacements ; chaque cube
+  la pièce paraîtrait trop raide.
+- **Éléments finis** : élasticité linéaire, petits déplacements ; chaque cube
   est un hexaèdre à 8 nœuds avec **modes incompatibles** (Wilson-Taylor) condensés, sans lesquels
   ces cubes seraient environ 30 % trop raides en flexion. Tous les cubes étant identiques, la
   raideur élémentaire (24 × 24) est calculée une fois.
 - **Résolution** sans matrice globale ; contraintes de von Mises au centre de chaque cube.
-  Au-delà de 1 000 cubes, le gradient conjugué est préconditionné par **multigrille**
-  (`src/sim/multigrid.ts`) : grilles 2h, 4h… (un cube grossier regroupe 2 × 2 × 2 cubes, raideur
+  Au-delà de 1 000 cubes, le gradient conjugué est préconditionné par **multigrille** :
+  grilles 2h, 4h… (un cube grossier regroupe 2 × 2 × 2 cubes, raideur
   proportionnelle à sa part de matière), interpolation trilinéaire, lissage de Jacobi amorti
   (4 / 3λmax, λmax estimée par la méthode de la puissance), grille la plus grossière (~400 cubes)
   résolue directement (Cholesky), cycle en V dans un gradient conjugué flexible. Le résultat est
@@ -96,36 +96,8 @@ résistance retenue est bien inférieure aux 60 à 70 MPa des fiches techniques.
   fente) ; chaque sommet reçoit le déplacement interpolé dans le cube plein le plus proche et la
   contrainte moyenne des cubes voisins. L'exagération porte le plus grand déplacement à environ
   8 % de la taille de la pièce.
-- Le calcul tourne dans un **worker dédié** (`src/workers/sim.worker.ts`) : l'interface et le
+- Le calcul tourne dans un **worker dédié** : l'interface et le
   worker géométrique restent disponibles ; « Annuler » arrête le worker.
-
-## Validation
-
-`tests/unit/fea.test.ts` : poutre 100 × 10 × 10 mm (E = 3 500 MPa, ν = 0,35), encastrée à une
-extrémité :
-
-| Cas | Théorie | Calcul (cubes de 2,5 / 1,25 / 0,625 mm) |
-| --- | --- | --- |
-| Traction 1 000 N : allongement F·L / (E·S) | 0,286 mm | à moins de 3 % |
-| Flexion 10 N : flèche F·L³ / (3·E·I) | 1,143 mm | 99,5 % / 99,7 % / 99,8 % |
-| Contrainte à l'encastrement M·c / I | 6 MPa | 4,4 / 5,1 / 5,9 MPa (au centre des cubes) |
-
-`tests/unit/sim-study.test.ts` : même poutre par l'étude complète (3 000 cubes, report sur le
-maillage) : flèche à ± 15 % de la théorie. `tests/e2e/simulation.spec.ts` : dans l'application,
-poutre en PLA chargée de 1 kg sur le dessus : 0,497 mm affichés pour 0,49 mm attendus
-(W·L³ / (8·E·I)) ; verdict « La pièce tient », puis « Risque de casser » à 100 kg.
-
-Durée de l'étude complète (découpe, calcul, report sur le maillage ; machine de développement),
-avant → après le multigrille :
-
-| Pièce | Rapide (~3 000 cubes) | Normale (~8 000) | Fine (~20 000) |
-| --- | --- | --- | --- |
-| Poutre 100 × 10 × 10 | 0,7 → 0,5 s | 1,8 → 1,1 s | 12,7 → 1,9 s |
-| Plaque 120 × 60 × 3 | 9,7 → 1,5 s | 8,5 → 1,5 s | 42 → 4,2 s |
-| Bloc 60 × 40 × 30 | 0,5 → 0,8 s | 2,3 → 0,5 s | 8,4 → 1,9 s |
-
-Une plaque mince demandait plus de 1 400 itérations ; elle en demande moins de 70. Un bloc de
-72 000 cubes se calcule en environ 4 s.
 
 ## Alléger la pièce (optimisation topologique)
 
@@ -164,7 +136,7 @@ amincirait la plaque par l'intérieur, ce qui ne se fabrique pas.
 
 ### Méthode
 
-`src/sim/topology.ts`, dans le worker de simulation :
+Le calcul tourne dans le worker de simulation :
 
 - **SIMP** (Bendsøe et Sigmund) sur la grille de cubes de l'étude : chaque cube de la pièce reçoit
   une densité ρ ∈ [0, 1] et la raideur E · (Emin + (1 − Emin) ρ³), Emin = 10⁻³. La pénalisation
@@ -189,24 +161,10 @@ amincirait la plaque par l'intérieur, ce qui ne se fabrique pas.
   sont comblés par un cube voisin, seuls les morceaux reliés par des faces et tenus par une face
   fixée sont gardés ; surface des cubes (chaque arête partagée par deux triangles exactement)
   lissée par la méthode de Taubin (lissage sans rétrécissement).
-- **Contour d'une pièce plate** (`src/sim/topology-outline.ts`) : courbes de niveau
+- **Contour d'une pièce plate** : courbes de niveau
   (« marching squares ») des densités par colonne, au seuil, en respectant les cubes gardés et
   écartés de la forme 3D (le contour suit les densités : biais lisses plutôt que marches) ;
   simplification de Douglas-Peucker (0,2 cube) ; trous et îlots de moins de 1,5 cube² ignorés.
-
-### Validation
-
-`tests/unit/topology.test.ts`, console 60 × 6 × 30 mm encastrée, chargée au bout : volume visé
-respecté (40 % ± 3), souplesse décroissante, matière sur les fibres haute et basse près de
-l'encastrement (là où la flexion tire et pousse), densités presque toutes tranchées, forme fermée
-d'un seul tenant ; environ 9 s pour 3 200 cubes.
-
-Durées mesurées (part gardée 40 %, machine de développement) : plaque 80 × 10 × 40 mm, ~7 000 cubes
-(Normale) : 22 s, 57 itérations, 39 % de la raideur ; ~23 000 cubes (Fine) : 82 s avant le
-réglage de précision ; bloc 60 × 40 × 30 mm en 3D, ~7 500 cubes : 20 s, 42 itérations, 34 % de la
-raideur. Le maillage de la forme (seuil) prend moins de 50 ms. `tests/e2e/topology.spec.ts` : dans
-l'application : plaque 80 × 10 × 40 mm tenue par un bout et chargée dessus, allègement, seuil,
-export STL, résultat périmé quand on change la part gardée, nouvelle pièce d'un seul solide.
 
 ## Suite possible
 

@@ -25,7 +25,7 @@ comme une pièce finie.
 
 - Les **études de simulation** : faces fixées, faces chargées, matériau (onglet Simulation). Ce
   sont exactement les données d'entrée d'une optimisation.
-- Le **calcul par cubes** (voxels) et son solveur **multigrille** (`src/sim`) : une optimisation
+- Le **calcul par cubes** (voxels) et son solveur **multigrille** : une optimisation
   demande 30 à 80 calculs successifs ; le multigrille les rend possibles dans le navigateur (une
   pièce de 8 000 cubes se calcule en environ une seconde).
 - La **face posée sur le plateau** (onglet Fabrication) : elle donne la direction d'impression.
@@ -76,22 +76,6 @@ le nombre d'itérations du solveur.
    - **l'ajouter à la pièce** comme étape « Solide optimisé » (maillage transformé en solide, non
      paramétrique, comme un STL importé), niveau Expert ;
    - l'**exporter** (3MF, STL) pour l'imprimer telle quelle.
-
-## Étapes de réalisation proposées
-
-1. **Carte d'utilité de la matière** (petit pas, utile tout de suite) : dans le résultat d'une
-   simulation, un affichage « énergie de déformation » qui montre la matière qui ne sert presque à
-   rien. Un seul calcul, aucune nouvelle géométrie.
-2. **Optimisation SIMP** sur la pièce elle-même (on ne fait qu'enlever de la matière), avec filtre
-   de taille, zones gardées, aperçu progressif dans le worker de simulation.
-3. **Contraintes de procédé** : impression 3D (porte-à-faux et direction), découpe laser
-   (extrusion).
-4. **Sortie** : surface lissée, gabarit transparent, étape « Solide optimisé », export.
-5. **Validation** : nouvelle simulation automatique sur la forme obtenue ; tests de référence
-   (poutre console, plaque trouée) comparés aux résultats publiés de la méthode (« 88 lignes »
-   de Sigmund).
-
-Niveau proposé : Expert (étapes 2 à 4) ; la carte d'utilité (étape 1) dès le niveau Intermédiaire.
 
 ## Limites à annoncer
 

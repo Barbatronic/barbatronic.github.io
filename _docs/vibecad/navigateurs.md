@@ -4,28 +4,19 @@ title: "Navigateurs testés et limites"
 project: vibecad
 order: 11
 date: 2026-10-10
-description: "Les parcours de tests/e2e/ (plaque percée de bout en bout, modification de la largeur, annuler / rétablir, erreur récupérable, enregistrement et rechargement, export puis import STEP persistant, deux pièces, mode hors…"
+description: "Navigateurs compatibles avec VibeCAD, technologies requises et limites connues : Chrome, Edge, Firefox et Safari."
 ---
 
 <!-- Page générée par scripts/sync-site-docs.mjs depuis VibeCAD/docs/navigateurs.md : modifier la source, pas cette page. -->
 
 {% raw %}
-## Tests automatisés
+## Navigateurs compatibles
 
-Les parcours de `tests/e2e/` (plaque percée de bout en bout, modification de la largeur,
-annuler / rétablir, erreur récupérable, enregistrement et rechargement, export puis import STEP
-persistant, deux pièces, mode hors ligne) passent sur :
-
-| Navigateur | Version | Commande |
-| --- | --- | --- |
-| Chromium (Playwright) | build 1243 (Playwright 1.63) | `npm run test:e2e` |
-| Firefox (Playwright) | 155.0 | `npm run test:e2e:firefox` |
-
-Firefox 156 est le navigateur installé sur la machine de développement ; Edge (Chromium) et
-Safari récents disposent des mêmes technologies mais ne sont pas testés automatiquement pour le
-moment. Les fonctions absentes de Safari (réenregistrer dans le même fichier, compression du 3MF)
-ont une solution de repli ; un essai sur un vrai Mac ou iPad reste conseillé avant un usage en
-classe.
+VibeCAD est vérifié à chaque version sur **Chrome (Chromium)** et **Firefox**. Edge (basé sur
+Chromium) et Safari récent disposent des mêmes technologies, mais ne sont pas encore vérifiés
+régulièrement. Les fonctions qui manquent à Safari (réenregistrer dans le même fichier,
+compression du 3MF) ont une solution de repli. Avant un usage en classe sur Mac ou iPad, un essai
+reste conseillé.
 
 ## Technologies requises
 
@@ -41,8 +32,8 @@ classe.
 ## Limites connues
 
 - **`file://` non pris en charge** : ouvrir `index.html` par un double-clic ne fonctionne pas
-  (workers et WASM interdits par les navigateurs). Utiliser `npm run dev`, `npm run preview` ou un
-  hébergement HTTPS.
+  (workers et WASM interdits par les navigateurs). Utiliser la version en ligne, ou
+  l'installer comme application.
 - **File System Access API** (réenregistrer dans le même fichier) : Chrome et Edge seulement ;
   ailleurs, « Enregistrer sous… » télécharge le fichier.
 - **Pavé tactile** : deux doigts = zoom (comme la molette), pincer = zoom, Maj + glisser ou clic

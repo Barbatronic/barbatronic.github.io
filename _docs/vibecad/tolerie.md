@@ -65,9 +65,8 @@ avertissement dans l'historique et l'aperçu.
 - **Longueur développée** d'un pli d'angle θ, de rayon intérieur r, dans une tôle d'épaisseur t :
   θ · (r + K · t). La fibre neutre (ni étirée ni écrasée) est à K · t de la face intérieure. K
   dépend du rapport r / t : celui du tableau pour r ≈ t, plus petit pour un pli serré (0,33 au
-  moins), 0,5 au-delà de r = 4 t ; toujours 0,5 pour les plastiques chauffés et le carton
-  (`src/domain/sheet-metal.ts`).
-- **Une seule source : la tôle à plat** (`src/features/sheet/fold.ts`). La pièce garde son
+  moins), 0,5 au-delà de r = 4 t ; toujours 0,5 pour les plastiques chauffés et le carton.
+- **Une seule source : la tôle à plat**. La pièce garde son
   développé et la liste de ses plis (ligne, côté plié, angle, rayon, K) ; la pièce pliée est
   reconstruite à chaque fois : la tôle est coupée à l'entrée et à la sortie de la bande de chaque
   pli ; la section à l'entrée tourne autour de l'axe du pli (l'arrondi : opération
@@ -87,22 +86,6 @@ avertissement dans l'historique et l'aperçu.
 - Un pli qui traverse l'arrondi d'un pli précédent est **refusé** (on ne plie pas à travers un
   pli), avec l'étape en cause.
 - **Export FreeCAD** : les étapes de tôlerie sont reprises comme formes figées.
-
-## Validation
-
-`tests/geometry/sheet-fold.test.ts`, tôle 100 × 40 × 2 : pli à 90° vers le haut (volume conservé
-avec K = 0,5 ; rebord entre x = 62 et 64, de la hauteur attendue), vers le bas, profil en U (deux
-plis), pli à 45°. `tests/geometry/sheet-metal.test.ts`, par l'historique : tôle, bord plié
-(développé allongé de θ · (r + K t) + longueur, rebord à la bonne place), boîte (quatre bords en une
-étape), pli sur un trait, avertissement de rayon, pli qui traverse un bord plié refusé, faces de
-chaque rebord retrouvées, trou fait après le pli reporté sur le développé (et gardé par un pli
-suivant), chanfrein et congé d'un coin de rebord reportés, trou qui touche un arrondi signalé,
-format
-natif relu à l'identique et conforme au schéma. `tests/unit/sheet-metal.test.ts` : longueur
-développée, facteur K, limites, lignes de pli coupées au contour (trous compris).
-`tests/e2e/sheet-metal.spec.ts`, dans l'application : tôle, pli sur un trait, bord plié cliqué
-dans la vue, esquisse sur la face pliée et trou percé après le pli, avertissement de rayon,
-dépliage (lignes et angles), export laser du développé (contour, trou) avec ses lignes de pli.
 
 ## Limites
 

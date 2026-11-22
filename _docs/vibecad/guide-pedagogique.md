@@ -106,7 +106,7 @@ l'historique l'explique en mots simples et propose de la réparer :
 
 ## Faire tester le parcours par une enfant
 
-Les tests automatiques vérifient que tout fonctionne, pas que c'est compréhensible. Pour une
+Un parcours qui fonctionne n'est pas forcément compréhensible. Pour une
 séance d'observation (20 à 30 minutes) :
 
 1. Préparer un ordinateur avec souris, l'application ouverte, un projet vide.
@@ -118,8 +118,7 @@ séance d'observation (20 à 30 minutes) :
    - les moments de satisfaction (aperçu, pièce terminée).
 4. Ensuite seulement, répondre aux questions et demander : « Qu'est-ce qui était facile ?
    difficile ? Qu'aimerais-tu fabriquer ensuite ? »
-5. Reporter les observations : chaque message de l'interface est dans `src/` (recherche du texte
-   exact), modifiable facilement.
+5. Noter les observations : elles servent à reformuler les messages et les étapes du parcours.
 
 ## Points d'attention connus
 

@@ -53,15 +53,4 @@ Un `.FCStd` qui s'ouvre d'un double-clic : une forme exacte par pièce (ou par p
 l'assemblage, rangées par bloc dans un groupe « assemblage »), avec son nom. Pas d'historique :
 c'est l'équivalent du STEP, mais au format de FreeCAD.
 
-## Vérification
-
-`tests/geometry/freecad-export.test.ts` fait exécuter les scripts par FreeCAD (sans écran) et
-compare le volume de chaque pièce reconstruite à celui de VibeCAD ; il ouvre aussi le `.FCStd`
-pour contrôler les formes et leurs places. Il s'active avec une AppImage de FreeCAD :
-
-```bash
-FREECAD_APPIMAGE=~/FreeCAD.AppImage npx vitest run tests/geometry/freecad-export.test.ts
-```
-
-Sans FreeCAD, seule la génération est vérifiée.
 {% endraw %}
