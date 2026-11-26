@@ -4,6 +4,7 @@ title: "Manipulateur à fourches : idée abandonnée"
 date: 2026-11-26
 project: cdr-2027
 description: "En septembre, j'ai imaginé et prototypé un manipulateur à servos qui saisit le mur de pierres par les bouts, sans ventouses. Après les essais, je l'abandonne : peu efficace, trop encombrant, glissement aléatoire. Les fichiers restent disponibles pour qui veut reprendre l'idée."
+image: "/assets/img/projets/cdr-2027/2026-11-26-manipulateur-a-fourches-idee-abandonnee/essai-table.jpg"
 session: ""
 state: "abandonné"
 ---
