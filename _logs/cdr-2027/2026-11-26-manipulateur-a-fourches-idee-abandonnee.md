@@ -13,10 +13,6 @@ state: "abandonné"
 
 En septembre, juste après la sortie du [règlement bêta]({{ '/blog/2026/09/reglement-beta-cdr-2027/' | relative_url }}), j'ai cherché comment prendre le mur de 3 pierres (cartons de 320 × 110 × 110 mm empilés à plat) d'un seul coup. Mon idée : ne pas prendre les pierres par le dessus ou par la face, mais **par les bouts**, avec des doigts qui viennent se refermer de chaque côté du mur, comme une fourche. Et surtout, sans ventouses.
 
-## Le principe
-
-Un servo par pierre et par côté. Chaque servo fait tourner un bras avec un doigt au bout. Bras ouverts, le robot avance autour du mur, puis les bras se referment et les doigts serrent les pierres par les bouts.
-
 ## Le prototype
 
 J'ai prototypé un premier étage : bras, doigts et supports de servo imprimés en 3D, plaques des bras découpées au laser dans du 5 mm. Les fichiers sont dans le dépôt du robot, sous le nom `box-manipulator` :
