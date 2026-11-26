@@ -1,0 +1,1167 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Manipulateur à fourches</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+:root{
+  --bg:#e9edf1; --panel:#f6f8fa; --card:#ffffff; --ink:#17202a; --muted:#576372;
+  --line:#d3dae1; --line-strong:#b4bfca;
+  --accent:#1c5fc4; --accent-ink:#ffffff; --accent-soft:#dbe7f8;
+  --ok:#1b8558; --warn:#a85f00; --bad:#cf3434; --bad-soft:#fbe4e4; --ok-soft:#dcf1e8; --warn-soft:#faecd3;
+  --r1:#2b78de; --r2:#8756d4; --r3:#dd5a35; --chip-ink:#ffffff;
+  --vp1:#f5f7fa; --vp2:#d5dce5; --floor:#e6eaef; --grid:#cad2db; --grid2:#a9b5c2;
+  --plate:#5a7796; --stone:#c8a06a; --stone-edge:#6a4d28; --hud:rgba(255,255,255,.82);
+  --font:'IBM Plex Sans',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#11151a; --panel:#181d23; --card:#1f252c; --ink:#e5eaf0; --muted:#95a2b0;
+    --line:#2c353f; --line-strong:#3d4956;
+    --accent:#5b9bff; --accent-ink:#0c1522; --accent-soft:#1d2f4a;
+    --ok:#4cc38a; --warn:#e3a13a; --bad:#ff6b6b; --bad-soft:#3b1f22; --ok-soft:#173226; --warn-soft:#3a2d14;
+    --r1:#5aa0ff; --r2:#a98af0; --r3:#ff8560; --chip-ink:#0c1522;
+    --vp1:#2a3139; --vp2:#171b20; --floor:#252c34; --grid:#313a44; --grid2:#465260;
+    --plate:#7d9bbd; --stone:#c8a06a; --stone-edge:#3c2b14; --hud:rgba(24,29,35,.82);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#11151a; --panel:#181d23; --card:#1f252c; --ink:#e5eaf0; --muted:#95a2b0;
+  --line:#2c353f; --line-strong:#3d4956;
+  --accent:#5b9bff; --accent-ink:#0c1522; --accent-soft:#1d2f4a;
+  --ok:#4cc38a; --warn:#e3a13a; --bad:#ff6b6b; --bad-soft:#3b1f22; --ok-soft:#173226; --warn-soft:#3a2d14;
+  --r1:#5aa0ff; --r2:#a98af0; --r3:#ff8560; --chip-ink:#0c1522;
+  --vp1:#2a3139; --vp2:#171b20; --floor:#252c34; --grid:#313a44; --grid2:#465260;
+  --plate:#7d9bbd; --stone:#c8a06a; --stone-edge:#3c2b14; --hud:rgba(24,29,35,.82);
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 var(--font);-webkit-font-smoothing:antialiased}
+button,input{font:inherit;color:inherit}
+.app{height:100%;display:flex;flex-direction:column;min-height:0}
+.top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px 20px;padding:10px 16px;background:var(--panel);border-bottom:1px solid var(--line)}
+.top h1{margin:0;font-size:16px;font-weight:600;letter-spacing:.005em}
+.top p{margin:0;font-size:12px;color:var(--muted)}
+.seg{display:flex;border:1px solid var(--line-strong);border-radius:6px;overflow:hidden;background:var(--card)}
+.seg button{border:0;background:transparent;padding:6px 12px;font-size:13px;cursor:pointer;color:var(--muted);border-right:1px solid var(--line)}
+.seg button:last-child{border-right:0}
+.seg button:hover{color:var(--ink);background:var(--accent-soft)}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+.main{flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1fr) 396px;gap:16px;padding:14px 16px 16px}
+.stage{min-height:0;display:flex;flex-direction:column;gap:8px}
+.viewport{position:relative;flex:1;min-height:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:radial-gradient(ellipse at 50% 35%,var(--vp1),var(--vp2))}
+.viewport canvas{display:block;width:100%;height:100%;touch-action:none;outline:none}
+.hud{position:absolute;left:10px;top:10px;right:10px;display:flex;flex-wrap:wrap;gap:6px;pointer-events:none}
+.hud span{background:var(--hud);border:1px solid var(--line);border-radius:5px;padding:3px 8px;font:500 12px/1.4 var(--mono);color:var(--ink);font-variant-numeric:tabular-nums}
+.hud span.bad{background:var(--bad-soft);border-color:var(--bad);color:var(--bad)}
+.hud span.good{background:var(--ok-soft);border-color:var(--ok);color:var(--ok)}
+.hint{position:absolute;left:10px;bottom:8px;font-size:11px;color:var(--muted);pointer-events:none}
+.nogl{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:24px;text-align:center;color:var(--muted)}
+.panel{min-height:0;overflow:auto;display:flex;flex-direction:column;gap:18px;padding-right:2px}
+.sec{display:flex;flex-direction:column;gap:10px}
+.sec[hidden]{display:none}
+.sec>h2{margin:0;font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+.sec>p.note{margin:0;font-size:12px;color:var(--muted)}
+.btns{display:flex;flex-wrap:wrap;gap:6px}
+.btn{border:1px solid var(--line-strong);background:var(--card);border-radius:6px;padding:6px 12px;cursor:pointer;font-size:13px}
+.btn:hover{border-color:var(--accent);color:var(--accent)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
+.btn.primary:hover{filter:brightness(1.08);color:var(--accent-ink)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.status{min-height:18px;margin:0;font-size:12px;color:var(--accent);font-family:var(--mono)}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+.servo{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:8px 10px 8px;display:flex;flex-direction:column;gap:4px}
+.s-head{display:flex;align-items:center;gap:6px}
+.chip{display:inline-flex;align-items:center;justify-content:center;min-width:30px;padding:1px 6px;border-radius:4px;background:var(--c);color:var(--chip-ink);font:600 12px/1.5 var(--mono)}
+.s-row{font-size:11px;color:var(--muted);flex:1}
+.s-val{font:500 13px var(--mono);font-variant-numeric:tabular-nums}
+.servo input[type=range]{width:100%;margin:2px 0}
+.s-foot{display:flex;justify-content:space-between;align-items:center;gap:6px;font:400 11px var(--mono);color:var(--muted);font-variant-numeric:tabular-nums}
+.pill{padding:0 6px;border-radius:9px;font:500 11px/1.6 var(--font);border:1px solid var(--line-strong);color:var(--muted);white-space:nowrap}
+.pill[data-s="contact"]{color:var(--warn);border-color:var(--warn);background:var(--warn-soft)}
+.pill[data-s="serre"]{color:var(--ok);border-color:var(--ok);background:var(--ok-soft)}
+.pill[data-s="collision"],.pill[data-s="sol"]{color:var(--bad);border-color:var(--bad);background:var(--bad-soft)}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:13px}
+.row label{flex:0 0 auto}
+.row output{font:500 13px var(--mono);font-variant-numeric:tabular-nums}
+.field{display:flex;flex-direction:column;gap:2px}
+.field .row{font-size:13px}
+.field input[type=range]{width:100%;accent-color:var(--accent)}
+.check{display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer}
+.check input{accent-color:var(--accent);width:16px;height:16px;margin:0}
+details.fold{border:1px solid var(--line);border-radius:8px;background:var(--card)}
+details.fold>summary{cursor:pointer;padding:9px 12px;font-weight:500;font-size:13px}
+details.fold>.fold-body{padding:2px 12px 12px;display:flex;flex-direction:column;gap:10px}
+.res{margin:0;display:grid;grid-template-columns:1fr auto;gap:5px 12px;font-size:13px}
+.res dt{color:var(--muted)}
+.res dd{margin:0;font:500 13px var(--mono);text-align:right;font-variant-numeric:tabular-nums}
+.res dd.ok{color:var(--ok)} .res dd.warn{color:var(--warn)} .res dd.bad{color:var(--bad)}
+.assume{margin:0;padding-left:18px;font-size:12px;color:var(--muted);display:flex;flex-direction:column;gap:3px}
+.transport{display:flex;align-items:center;gap:6px 10px;flex-wrap:wrap;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 10px}
+.tbtns{display:flex;gap:4px}
+.ib{display:inline-flex;align-items:center;justify-content:center;width:34px;height:32px;border:1px solid var(--line-strong);background:var(--card);border-radius:6px;cursor:pointer;color:var(--ink);padding:0}
+.ib:hover{border-color:var(--accent);color:var(--accent)}
+.ib.play{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);width:40px}
+.ib.play:hover{filter:brightness(1.08);color:var(--accent-ink)}
+.ib:disabled{opacity:.4;cursor:default}
+.ib svg{width:16px;height:16px;fill:currentColor}
+.scrub{flex:1 1 180px;display:flex;flex-direction:column;gap:0;min-width:140px}
+.scrub input{width:100%;accent-color:var(--accent);margin:0}
+.scrub input:disabled{opacity:.45}
+.scrub small{font:400 11px var(--mono);color:var(--muted);display:flex;justify-content:space-between;gap:8px;font-variant-numeric:tabular-nums}
+.tsel{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)}
+.tsel select{font:500 12px var(--mono);color:var(--ink);background:var(--card);border:1px solid var(--line-strong);border-radius:6px;padding:5px 6px}
+.paused-tag{font:600 11px var(--mono);color:var(--warn);letter-spacing:.06em}
+@media (max-width:900px){
+  .app{height:auto}
+  .main{display:flex;flex-direction:column;padding-bottom:24px}
+  .viewport{height:58vh;min-height:340px;flex:none}
+  .stage{flex:none}
+  .panel{overflow:visible}
+}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style>
+
+<div class="app">
+  <header class="top">
+    <div>
+      <h1>Manipulateur à fourches</h1>
+      <p>Mur de 3 pierres · 6 servomoteurs · pierres 320 × 110 × 110 mm (Camelot 2027)</p>
+    </div>
+    <div class="seg" role="group" aria-label="Points de vue">
+      <button type="button" data-view="face">Face</button>
+      <button type="button" data-view="iso">3/4</button>
+      <button type="button" data-view="front">Croquis</button>
+      <button type="button" data-view="top">Dessus</button>
+      <button type="button" data-view="side">Côté</button>
+    </div>
+  </header>
+
+  <div class="main">
+    <div class="stage">
+    <section class="viewport" id="vp" aria-label="Vue 3D du manipulateur">
+      <canvas id="c" tabindex="0"></canvas>
+      <div class="hud" id="hud"></div>
+      <div class="hint">Glisser : tourner · molette : zoom · clic droit : déplacer · espace : pause · ← → : pas à pas</div>
+    </section>
+    <div class="transport" role="group" aria-label="Lecture de la simulation">
+      <div class="tbtns">
+        <button type="button" class="ib" id="tStart" title="Début de la phase physique"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 2h2v12H3zM14 2v12L6 8z"/></svg></button>
+        <button type="button" class="ib" id="tBack" title="Un pas en arrière (1/60 s)"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2h2v12H4zM13 2v12L7 8z"/></svg></button>
+        <button type="button" class="ib play" id="tPlay" title="Lecture / pause (espace)"><svg viewBox="0 0 16 16" aria-hidden="true"><path id="tPlayIco" d="M4 2h3v12H4zM9 2h3v12H9z"/></svg></button>
+        <button type="button" class="ib" id="tFwd" title="Un pas en avant (1/60 s)"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 2v12l6-6zM10 2h2v12h-2z"/></svg></button>
+      </div>
+      <div class="scrub">
+        <input type="range" id="tScrub" min="0" max="0" step="1" value="0" aria-label="Position dans l’historique de la phase physique" disabled>
+        <small><span id="tLabel">Historique disponible pendant la phase physique</span><span id="tTime"></span></small>
+      </div>
+      <label class="tsel" for="tSpeed">Vitesse
+        <select id="tSpeed"><option value="1" selected>×1</option><option value="0.5">×0,5</option><option value="0.25">×0,25</option><option value="0.1">×0,1</option></select>
+      </label>
+    </div>
+    </div>
+
+    <aside class="panel">
+      <section class="sec">
+        <h2>Séquence</h2>
+        <div class="btns">
+          <button type="button" class="btn" id="bOpen">Ouvrir</button>
+          <button type="button" class="btn" id="bApproach">Approcher</button>
+          <button type="button" class="btn" id="bClose">Serrer</button>
+          <button type="button" class="btn" id="bBack">Reculer</button>
+        </div>
+        <div class="row"><span>Pierre à redresser</span>
+          <div class="seg" role="group" aria-label="Pierre à redresser">
+            <button type="button" data-target="2" aria-pressed="true">Haut (mur de 3)</button>
+            <button type="button" data-target="1" aria-pressed="false">Milieu (mur de 2)</button>
+          </div>
+        </div>
+        <div class="btns">
+          <button type="button" class="btn primary" id="bFull">1 · Saisir le mur</button>
+          <button type="button" class="btn primary" id="bFlip">2 · Saisir, déposer, dresser la pierre</button>
+          <button type="button" class="btn primary" id="bSand">3 · Bac à sable physique</button>
+          <button type="button" class="btn" id="bReset">Réinitialiser</button>
+        </div>
+        <p class="status" id="status" aria-live="polite"></p>
+      </section>
+
+      <section class="sec">
+        <h2>Servomoteurs</h2>
+        <p class="note">Gauche et droite vus face aux pierres, en regardant le robot (vue « Face »). 0° : bras à l'horizontale vers l'extérieur. Angle positif : le doigt descend et se referme vers l'intérieur. Course −75° … +105° (servo 180° monté décalé de 15°).</p>
+        <div class="cols"><span>Gauche</span><span>Droite</span></div>
+        <div class="grid2" id="servoGrid"></div>
+        <label class="check" for="link"><input type="checkbox" id="link"> Lier gauche et droite</label>
+        <div class="field">
+          <div class="row"><label for="all">Tous les servos</label><output id="allOut">0°</output></div>
+          <input type="range" id="all" min="-75" max="105" step="0.5" value="0">
+        </div>
+      </section>
+
+      <section class="sec">
+        <h2>Position</h2>
+        <div class="field">
+          <div class="row"><label for="gap">Distance robot - mur</label><output id="gapOut"></output></div>
+          <input type="range" id="gap" min="20" max="320" step="1" value="150">
+        </div>
+        <div class="field">
+          <div class="row"><label for="wx">Décalage latéral du mur</label><output id="wxOut"></output></div>
+          <input type="range" id="wx" min="-40" max="40" step="1" value="0">
+        </div>
+      </section>
+
+      <section class="sec">
+        <h2>Serrage</h2>
+        <dl class="res" id="res"></dl>
+      </section>
+
+      <section class="sec" id="secTop" hidden>
+        <h2 id="secTopTitle">Pierre du haut (mode libre)</h2>
+        <dl class="res" id="resTop"></dl>
+      </section>
+
+      <details class="fold">
+        <summary>Géométrie</summary>
+        <div class="fold-body" id="params"></div>
+      </details>
+
+      <details class="fold">
+        <summary>Affichage et hypothèses</summary>
+        <div class="fold-body">
+          <label class="check" for="tArcs"><input type="checkbox" id="tArcs" checked> Trajectoires des doigts</label>
+          <label class="check" for="tPlate"><input type="checkbox" id="tPlate" checked> Façade et châssis du robot</label>
+          <ul class="assume">
+            <li>Pierres : boîtes 320 × 110 × 110 mm empilées à plat, mur de 320 × 330 mm.</li>
+            <li>Axe des servos à 70 mm du bout des pierres et 60 mm au-dessus du centre de chaque pierre, d'après ton croquis.</li>
+            <li>Servos de 40 × 20 mm avec oreilles de 54,5 mm (dimensions déduites des lignes pointillées du croquis).</li>
+            <li>Le robot s'arrête à 20 mm du mur (bras de la rangée 3 en avant) et les doigts font 150 mm depuis la façade.</li>
+            <li>Séquence 1 : les pierres glissent sans frottement, le mur saisi est traîné au sol quand le robot recule.</li>
+            <li>Séquence 2 : après le recul, la pierre du haut est simulée seule comme un solide rigide dans le plan de la façade (gravité, inertie, frottement carton-doigt et carton-sol de 0,5, effort maximal d’un doigt ≈ 12 fois le poids de la pierre, prudent pour une pierre de 70 g et un servo de 20 kg·cm qui en donnerait ~45 fois). Les doigts sont rigides, les servos tournent à 100 °/s et tiennent leur position : un servo ne recule que s’il est écrasé (pierre coincée entre deux doigts qui serrent), jamais sous le seul poids de la pierre.</li>
+            <li>Les bras sont sur trois plans décalés de 10 mm en Z (rangée 1 contre la façade). Sans cela le doigt du servo 2 percute le moyeu du servo 1 en passant à 90°.</li>
+            <li>Gauche / droite : vus face aux pierres, en regardant le robot (vue « Face », pierres translucides). Dans la vue « Croquis », prise depuis l’arrière du robot, G est donc à droite.</li>
+            <li>Bac à sable : la pierre du haut est tenue par G3 et D3, robot reculé. Les curseurs pilotent les servos en direct et la physique calcule la réponse. En pause, règle les curseurs puis avance pas à pas ; revenir en arrière et bouger un curseur repart de cet instant (l’ancienne suite est effacée).</li>
+            <li>Pierre du milieu : la pierre du haut est supposée retirée avant, le robot saisit un mur de 2. Le redressement est lent (moins de 0,1 m/s) : la pierre bascule sur un coin posé au sol puis les doigts la poussent jusqu’à la verticale, sans chute, donc moins dépendant de la modélisation des chocs que la pierre du haut.</li>
+            <li>Choix de la séquence 2 calibré pour la géométrie par défaut, un décalage latéral du mur de plus de ~8 mm peut la faire échouer.</li>
+            <li>Effort de serrage estimé = couple du servo divisé par le bras de levier, sans frottement au contact.</li>
+          </ul>
+        </div>
+      </details>
+    </aside>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script>
+// Planar rigid-body engine for the free (top) stone: sequential impulses (Box2D style) + Coulomb friction.
+// Units: mm, s, degrees for servo angles. Stone: box L x H, unit mass. Fingers: kinematic circles (servo-driven,
+// force-limited: contact impulse capped at FMAX weights = servo stall torque, and fingers "yield" beyond 2 mm overlap).
+(function(root){
+const D2R=Math.PI/180;
+const CFG={L:320,H:110,R:10,ARM:100,INSET:70,DY:60,AW:16,MU:0.5,MUF:0.5,SPEED:100,AMIN:-75,AMAX:105,G:9810,SUB:8,
+  ITER:14,E:0,BETA:0.2,SLOP:0.05,MARGIN:1.5,FMAX:12,YIELD:2.0,DAMP:0.15};
+const inertia=()=> (CFG.L*CFG.L+CFG.H*CFG.H)/12;
+function servoXY(i){const side=i<3?-1:1,row=i%3;return{x:side*(CFG.L/2-CFG.INSET),y:CFG.H*(row+0.5)+CFG.DY};}
+function fpos(i,a){const s=servoXY(i),side=i<3?-1:1;return{x:s.x+side*CFG.ARM*Math.cos(a*D2R),y:s.y-CFG.ARM*Math.sin(a*D2R)};}
+function cOBB(p,c){
+  const ct=Math.cos(p.t),st=Math.sin(p.t),L=CFG.L,H=CFG.H,R=CFG.R;
+  const dx=c.x-p.x,dy=c.y-p.y,lx=dx*ct+dy*st,ly=-dx*st+dy*ct;
+  const qx=Math.max(-L/2,Math.min(L/2,lx)),qy=Math.max(-H/2,Math.min(H/2,ly));
+  const ex=lx-qx,ey=ly-qy,d=Math.hypot(ex,ey);let nlx,nly,pen;
+  if(d>1e-9){nlx=ex/d;nly=ey/d;pen=R-d;}
+  else{const a=[L/2-lx,lx+L/2,H/2-ly,ly+H/2];let m=1e9,k=0;for(let j=0;j<4;j++)if(a[j]<m){m=a[j];k=j;}
+    const nn=[[1,0],[-1,0],[0,1],[0,-1]][k];nlx=nn[0];nly=nn[1];pen=R+m;}
+  return{pen,n:{x:nlx*ct-nly*st,y:nlx*st+nly*ct},q:{x:p.x+qx*ct-qy*st,y:p.y+qx*st+qy*ct}};
+}
+function corners(p){const ct=Math.cos(p.t),st=Math.sin(p.t),L=CFG.L,H=CFG.H;return[[-1,-1],[1,-1],[1,1],[-1,1]].map(([a,b])=>({x:p.x+a*L/2*ct-b*H/2*st,y:p.y+a*L/2*st+b*H/2*ct}));}
+function segDist(a,b,c,d){
+  const pd=(p,a,b)=>{const abx=b.x-a.x,aby=b.y-a.y,l2=abx*abx+aby*aby;let t=l2?((p.x-a.x)*abx+(p.y-a.y)*aby)/l2:0;t=Math.max(0,Math.min(1,t));return Math.hypot(p.x-(a.x+t*abx),p.y-(a.y+t*aby));};
+  const o=(p,q,r)=>(q.x-p.x)*(r.y-p.y)-(q.y-p.y)*(r.x-p.x);
+  if(o(a,b,c)*o(a,b,d)<0&&o(c,d,a)*o(c,d,b)<0)return 0;
+  return Math.min(pd(a,c,d),pd(b,c,d),pd(c,a,b),pd(d,a,b));}
+function ptSeg(p,a,b){const abx=b.x-a.x,aby=b.y-a.y,l2=abx*abx+aby*aby;let t=((p.x-a.x)*abx+(p.y-a.y)*aby)/l2;t=Math.max(0,Math.min(1,t));return Math.hypot(p.x-(a.x+t*abx),p.y-(a.y+t*aby));}
+// Arms sit in 3 staggered z-planes (row 1 nearest the façade, row 3 farthest). A finger (Z-cylinder going forward)
+// therefore hits the arms/hubs of rows >= its own row, never those of lower rows. Arms of the same row (left/right) share a plane.
+function armsOK(act,i,ang){
+  const P=[],S=[];for(let j=0;j<6;j++){P[j]=fpos(j,j===i?ang:act[j]);S[j]=servoXY(j);}
+  const row=j=>j%3;
+  for(let j=0;j<6;j++){if(j===i)continue;
+    if(Math.hypot(P[i].x-P[j].x,P[i].y-P[j].y)<2*CFG.R+1)return false;
+    if(row(i)===row(j)&&segDist(S[i],P[i],S[j],P[j])<CFG.AW+1)return false;
+    if(row(j)>=row(i)&&ptSeg(P[i],S[j],P[j])<CFG.R+CFG.AW/2)return false;
+    if(row(i)>=row(j)&&ptSeg(P[j],S[i],P[i])<CFG.R+CFG.AW/2)return false;}
+  return true;}
+function newState(y0){return{p:{x:0,y:y0==null?275:y0,t:0},v:{x:0,y:0,w:0},act:[0,0,0,0,0,0],time:0,stall:[0,0,0,0,0,0],why:[null,null,null,null,null,null],lam:{}};}
+function fingersOf(act){return act.map((a,j)=>fpos(j,a));}
+// one substep: fingers move kinematically from f0 to f1
+function subStep(S,f0,f1,h){
+  const p=S.p,v=S.v,I=inertia(),mu=CFG.MU,cap=CFG.FMAX*CFG.G*h;
+  v.y-=CFG.G*h;
+  // ---- build contacts at current pose
+  const cts=[];
+  for(let i=0;i<6;i++){
+    const c=cOBB(p,f1[i]);
+    if(c.pen>-CFG.MARGIN){
+      cts.push({id:'f'+i,kin:true,n:c.n,q:c.q,pen:c.pen,vfx:(f1[i].x-f0[i].x)/h,vfy:(f1[i].y-f0[i].y)/h,mu,cap});
+    }
+  }
+  const cr=corners(p);
+  for(let ci=0;ci<4;ci++){
+    if(cr[ci].y<CFG.MARGIN)cts.push({id:'c'+ci,kin:false,n:{x:0,y:-1},q:cr[ci],pen:-cr[ci].y,vfx:0,vfy:0,mu:CFG.MUF,cap:1e12});
+  }
+  // NOTE: for floor contacts n points from the stone toward the floor (0,-1); for fingers from stone toward finger.
+  for(const c of cts){
+    const rx=c.q.x-p.x,ry=c.q.y-p.y;c.rx=rx;c.ry=ry;
+    c.rn=rx*c.n.y-ry*c.n.x;c.kn=1+c.rn*c.rn/I;
+    c.tx=-c.n.y;c.ty=c.n.x;c.rt=rx*c.ty-ry*c.tx;c.kt=1+c.rt*c.rt/I;
+    const s=-c.pen;c.bias=s>=0?s/h:CFG.BETA*Math.min(0,s+CFG.SLOP)/h;
+    if(CFG.E>0){const vx0=v.x-v.w*ry-c.vfx,vy0=v.y+v.w*rx-c.vfy,vn0=vx0*c.n.x+vy0*c.n.y;if(vn0>150)c.bias=Math.min(c.bias,-CFG.E*vn0);}
+    const w=S.lam[c.id];c.ln=w?w.n:0;c.lt=w?w.t:0;
+  }
+  // warm start
+  const applyP=(c,px,py)=>{v.x+=px;v.y+=py;v.w+=(c.rx*py-c.ry*px)/I;};
+  for(const c of cts){ // impulse on stone = -ln*n + lt*t
+    applyP(c,-c.ln*c.n.x+c.lt*c.tx,-c.ln*c.n.y+c.lt*c.ty);
+  }
+  for(let it=0;it<CFG.ITER;it++){
+    for(const c of cts){
+      // friction
+      let vx=v.x-v.w*c.ry-c.vfx,vy=v.y+v.w*c.rx-c.vfy;
+      let vt=vx*c.tx+vy*c.ty;
+      let dl=-vt/c.kt;const mx=c.mu*c.ln;const nl=Math.max(-mx,Math.min(mx,c.lt+dl));dl=nl-c.lt;c.lt=nl;
+      applyP(c,dl*c.tx,dl*c.ty);
+      // normal
+      vx=v.x-v.w*c.ry-c.vfx;vy=v.y+v.w*c.rx-c.vfy;
+      const vn=vx*c.n.x+vy*c.n.y;
+      let dn=(vn-c.bias)/c.kn;const nn=Math.max(0,Math.min(c.cap,c.ln+dn));dn=nn-c.ln;c.ln=nn;
+      applyP(c,-dn*c.n.x,-dn*c.n.y);
+    }
+  }
+  S.lam={};for(const c of cts)S.lam[c.id]={n:c.ln,t:c.lt};
+  p.x+=v.x*h;p.y+=v.y*h;p.t+=v.w*h;
+  const dmp=1-CFG.DAMP*h;v.x*=dmp;v.y*=dmp;v.w*=dmp;
+}
+function maxPen(S,fs){let m=-1e9;for(let i=0;i<6;i++)m=Math.max(m,cOBB(S.p,fs[i]).pen);return m;}
+// advance one frame (dt)
+function step(S,cmd,dt,opts){
+  opts=opts||{};const sp=(opts.speed||CFG.SPEED)*dt;const f0=fingersOf(S.act);
+  const nxt=S.act.slice();
+  for(let i=0;i<6;i++){
+    const tg=Math.max(CFG.AMIN,Math.min(CFG.AMAX,cmd[i])),cur=S.act[i];S.stall[i]=0;S.why[i]=null;if(Math.abs(tg-cur)<1e-9)continue;
+    const nx=cur+Math.max(-sp,Math.min(sp,tg-cur));
+    if(!armsOK(nxt,i,nx)){S.stall[i]=1;S.why[i]='arm';continue;}
+    if(fpos(i,nx).y-CFG.R<0){S.stall[i]=1;S.why[i]='floor';continue;}
+    // servo torque limit: do not push deeper than YIELD mm into the stone
+    const penAt=a=>cOBB(S.p,fpos(i,a)).pen,p0=penAt(cur),p1=penAt(nx);
+    if(p1>CFG.YIELD&&p1>p0){
+      let lo=0,hi=1;for(let b=0;b<7;b++){const m=(lo+hi)/2;if(penAt(cur+(nx-cur)*m)<=CFG.YIELD)lo=m;else hi=m;}
+      nxt[i]=cur+(nx-cur)*lo;S.stall[i]=1;S.why[i]='force';continue;
+    }
+    nxt[i]=nx;
+  }
+  const f1=fingersOf(nxt);const n=CFG.SUB,h=dt/n;
+  for(let k=0;k<n;k++){
+    const fa=f0.map((a,i)=>({x:a.x+(f1[i].x-a.x)*k/n,y:a.y+(f1[i].y-a.y)*k/n}));
+    const fb=f0.map((a,i)=>({x:a.x+(f1[i].x-a.x)*(k+1)/n,y:a.y+(f1[i].y-a.y)*(k+1)/n}));
+    subStep(S,fa,fb,h);
+  }
+  // servo yield: a finger that is pushed into the stone deeper than YIELD mm backs off (limited torque / compliance)
+  for(let i=0;i<6;i++){
+    const moved=Math.abs(nxt[i]-S.act[i])>1e-12;
+    let pen=cOBB(S.p,fpos(i,nxt[i])).pen;
+    if(pen>CFG.YIELD+1.5){
+      // back off opposite to where it came from (toward previous angle), else opposite to its commanded direction
+      let dir=S.act[i]-nxt[i];if(Math.abs(dir)<1e-12)dir=(cmd[i]>nxt[i])?-1:1;dir=Math.sign(dir);
+      for(let k=0;k<80&&pen>CFG.YIELD+1.5;k++){nxt[i]+=dir*0.05;pen=cOBB(S.p,fpos(i,nxt[i])).pen;}
+      S.stall[i]=1;S.why[i]='force';
+    }
+  }
+  S.act=nxt;S.time+=dt;return S;
+}
+const api={CFG,servoXY,fpos,cOBB,corners,step,newState,fingersOf,armsOK,D2R,inertia,subStep,maxPen};
+if(typeof module!=='undefined')module.exports=api;else root.PHYS=api;
+})(typeof window!=='undefined'?window:globalThis);
+
+</script>
+<script>
+(function(){
+'use strict';
+
+/* ---------- utilitaires ---------- */
+var $ = function(s){ return document.querySelector(s); };
+var clamp = function(v,a,b){ return Math.max(a,Math.min(b,v)); };
+var D2R = Math.PI/180;
+function fmt(x,d){ if(d===undefined) d=1; return Number.isFinite(x) ? x.toFixed(d).replace('.',',').replace('-','−') : '-'; }
+function css(v){ return getComputedStyle(document.documentElement).getPropertyValue(v).trim(); }
+/* horloge de simulation : s'arrête en pause, ralentie par le sélecteur de vitesse */
+var CLOCK = { t:0, paused:false, scale:1 }, TIMERS = [];
+var sleepP = function(ms){ return new Promise(function(r){ TIMERS.push({ t:CLOCK.t + ms/1000, r:r }); }); };
+function runTimers(){ var due = TIMERS.filter(function(x){ return x.t <= CLOCK.t; }); TIMERS = TIMERS.filter(function(x){ return x.t > CLOCK.t; }); due.forEach(function(x){ x.r(); }); }
+
+/* ---------- modèle ---------- */
+var STONE = { L:320, H:110, D:110 };
+var P = { arm:100, inset:70, dy:60, fd:20, fl:150, torque:20, armT:6, plateGap:8 };
+var SERVO = { len:40.7, w:19.7, depth:36.5, ear:54.5, earT:2.5, outer:10, earOut:20, earIn:34.5, bodyIn:30.7 };
+var SPEED_DEFAULT = 260, SPEED_SEQ = 75, OVERTRAVEL = 8, EPS = 1e-3;
+var GAP0 = 150;
+var APPROACH_GAP = 20;                /* le robot s'arrête 20 mm en arrière : les bras de la rangée 3 sont 20 mm plus en avant */
+var LAYER = 10;                       /* décalage en Z entre les plans des bras (rangée 1 : contre la façade) */
+function armZ(row){ return P.armT/2 - row*LAYER; }
+
+/* gauche / droite vus en se plaçant face aux pierres (côté mur, en regardant le robot) : x > 0 = gauche */
+var NAMES = ['D1','D2','D3','G1','G2','G3'];
+var ROWNAMES = ['bas','milieu','haut'];
+var servos = NAMES.map(function(n,i){
+  return { i:i, name:n, side:(i<3?-1:1), row:i%3, touch:-1, collide:false, floor:false, blockedBy:null };
+});
+var stones = [0,1,2].map(function(r){
+  return { row:r, y:STONE.H*(r+0.5), xoff:0, zoff:0, carried:false, dz:0 };
+});
+var state = { gap:GAP0, cmd:[0,0,0,0,0,0], act:[0,0,0,0,0,0], link:false, speed:SPEED_DEFAULT, wx:0 };
+stones.forEach(function(st){ st.th = 0; st.free = false; });
+
+/* ---------- mode libre de la pierre du haut (physique 2D dans le plan de la façade) ---------- */
+var FIXED_DT = 1/60;
+var FREE = { on:false, S:null, acc:0, script:null, scale:1, onDone:null, contacts:0, speed:0 };
+var SCRIPTS = {"2":{"K":8,"SEG":0.5,"T1":3.0,"CLOSE":1.6,"HOLD":0.6,"AC":104.5,"P":[1.736,3.55,55.223,-1.22,2.652,78.708,1.865,-17.961,-75,-4.96,4.166,66.917,-0.985,-75,0.152,-5.071,15.765,77.379,0.666,4.035,9.34,11.875,19.137,1.161,4.38,6.661,32.393,62.779,29.971,75.851,13.925,24.914,74.296,68.009,34.564,79.976,17.03,68.877,81.808,69.217,41.183,85.033,48.369,93.078,90.304,73.494,49.027,88.623]},"1":{"K":8,"SEG":0.5,"T1":4.0,"CLOSE":1.6,"HOLD":0.6,"AC":104.5,"P":[0.755,105,-0.79,0.283,39.301,-2.957,1.89,35.936,3.158,0.665,40.873,-5.0,1.82,15.435,4.33,1.306,105,-8.923,-11.416,-3.743,6.027,1.231,48.601,-15.268,-30.871,-12.371,10.217,5.271,68.608,-22.597,-63.679,-18.178,17.369,6.156,77.912,-22.044,-65.985,-18.582,38.099,7.811,105,-21.502,-6.126,38.364,86.367,20.268,105,-21.773]}};
+/* pierre à redresser : 2 = haut (mur de 3), 1 = milieu (la pierre du haut est retirée avant : mur de 2) */
+var TARGET = 2;
+var SCRIPT = SCRIPTS[TARGET];
+var ROWLABEL = { 1:'du milieu', 2:'du haut' };
+function nStones(){ return stones.filter(function(s){ return !s.gone; }).length; }
+function scriptCmd(t){
+  var T1 = SCRIPT.T1, out = [], i;
+  if(t >= T1){ for(i=0;i<6;i++) out.push(SCRIPT.AC); return out; }
+  var f = Math.min(SCRIPT.K-1, t/SCRIPT.SEG), k = Math.floor(f), u = f-k, b = Math.min(SCRIPT.K-1,k+1);
+  for(i=0;i<6;i++) out.push(SCRIPT.P[k*6+i]*(1-u) + SCRIPT.P[b*6+i]*u);
+  return out;
+}
+function syncPhysCfg(){
+  var C = PHYS.CFG;
+  C.L = STONE.L; C.H = STONE.H; C.R = P.fd/2; C.ARM = P.arm; C.INSET = P.inset; C.DY = P.dy;
+  C.SUB = 8; C.ITER = 14; C.MU = 0.5;   /* 8 sous-pas, 14 itérations : pincement stable indéfiniment (4/8 dérivait après ~8 s) */ C.MUF = 0.5; C.E = 0;
+}
+function geometryIsDefault(){ return P.arm===100 && P.inset===70 && P.dy===60 && P.fd===20; }
+function enterFree(){
+  syncPhysCfg();
+  var st = stones[TARGET], S = PHYS.newState(st.y), i;
+  S.p.x = st.xoff; S.p.t = 0;
+  for(i=0;i<6;i++){ S.act[i] = state.act[i]; if(Math.abs(S.act[i])<0.5) S.act[i] = 0; }
+  S.act[TARGET] = Math.max(S.act[TARGET],38.7); S.act[TARGET+3] = Math.max(S.act[TARGET+3],38.7);   /* précharge du pincement, ~2 mm */
+  FREE.S = S; FREE.on = true; FREE.acc = 0; FREE.script = null; FREE.dropped = false;
+  HIST.frames = []; HIST.idx = -1; histPush();
+  st.free = true; st.th = 0; state.speed = 100;
+  for(i=0;i<6;i++) state.act[i] = S.act[i];
+  $('#secTop').hidden = false;
+}
+function leaveFree(){
+  FREE.on = false; FREE.script = null; FREE.S = null; HIST.frames = []; HIST.idx = -1;
+  if(FREE.onDone){ var f = FREE.onDone; FREE.onDone = null; f(); }
+  stones.forEach(function(x){ x.free = false; x.th = 0; });
+  $('#secTop').hidden = true;
+}
+function freeCopyBack(){
+  var S = FREE.S, st = stones[TARGET], i;
+  for(i=0;i<6;i++){ state.act[i] = S.act[i]; servos[i].blockedBy = S.stall[i] ? 2 : null; }
+  st.xoff = S.p.x; st.y = S.p.y; st.th = S.p.t;
+  st.zoff = state.gap + st.dz;
+}
+function freeContacts(){
+  var S = FREE.S, n = 0, fs = PHYS.fingersOf(S.act);
+  servos.forEach(function(s){
+    var c = PHYS.cOBB(S.p,fs[s.i]);
+    s.touch = c.pen > -0.6 ? 2 : -1; s.pen = c.pen;
+    s.collide = S.why[s.i]==='arm'; s.floor = S.why[s.i]==='floor';
+    if(c.pen > -0.6) n++;
+  });
+  FREE.contacts = n; FREE.speed = Math.hypot(S.v.x,S.v.y);
+  stones[TARGET].carried = n >= 2;
+}
+/* historique de la phase physique : un instantané par pas de 1/60 s */
+var HIST = { frames:[], idx:-1, MAX:7200 };
+function snap(){
+  var S = FREE.S, lam = {}, k;
+  for(k in S.lam) lam[k] = { n:S.lam[k].n, t:S.lam[k].t };
+  return { time:S.time, p:{ x:S.p.x, y:S.p.y, t:S.p.t }, v:{ x:S.v.x, y:S.v.y, w:S.v.w }, act:S.act.slice(), stall:S.stall.slice(),
+    why:S.why.slice(), lam:lam, cmd:state.cmd.slice(), st:FREE.script ? FREE.script.t : -1, total:FREE.script ? FREE.script.total : 0, dropped:!!FREE.dropped };
+}
+function histPush(){
+  if(HIST.idx < HIST.frames.length-1) HIST.frames.length = HIST.idx+1;
+  HIST.frames.push(snap());
+  if(HIST.frames.length > HIST.MAX) HIST.frames.shift();
+  HIST.idx = HIST.frames.length-1;
+}
+function histRestore(i){
+  i = clamp(i,0,HIST.frames.length-1); var f = HIST.frames[i], S = FREE.S, k, j;
+  if(!f) return;
+  S.time = f.time; S.p = { x:f.p.x, y:f.p.y, t:f.p.t }; S.v = { x:f.v.x, y:f.v.y, w:f.v.w };
+  S.act = f.act.slice(); S.stall = f.stall.slice(); S.why = f.why.slice(); S.lam = {};
+  for(k in f.lam) S.lam[k] = { n:f.lam[k].n, t:f.lam[k].t };
+  for(j=0;j<6;j++){ state.cmd[j] = f.cmd[j]; sliderEls[j].value = f.cmd[j]; }
+  FREE.script = f.st >= 0 ? { t:f.st, total:f.total } : null; FREE.dropped = f.dropped;
+  HIST.idx = i; FREE.acc = 0;
+  freeCopyBack(); freeContacts();
+}
+/* l'utilisateur change une consigne en regardant le passé : la suite enregistrée est abandonnée */
+function histBranch(){ if(FREE.on && HIST.idx < HIST.frames.length-1) HIST.frames.length = HIST.idx+1; }
+function freeAdvance(){
+  if(FREE.script){
+    var sc = FREE.script, cmd = scriptCmd(sc.t), i;
+    for(i=0;i<6;i++) state.cmd[i] = cmd[i];
+    sc.t += FIXED_DT;
+    if(sc.t >= sc.total){ FREE.script = null; if(FREE.onDone){ var f = FREE.onDone; FREE.onDone = null; f(); } }
+  }
+  PHYS.step(FREE.S, state.cmd, FIXED_DT, { speed:state.speed });
+  histPush();
+}
+function freeStep(dt){
+  if(FREE.paused){ freeCopyBack(); freeContacts(); return; }
+  FREE.acc += dt;
+  var n = 0;
+  while(FREE.acc >= FIXED_DT && n < 8){ freeAdvance(); FREE.acc -= FIXED_DT; n++; }
+  if(n >= 8) FREE.acc = 0;
+  freeCopyBack(); freeContacts();
+  if(FREE.script && FREE.seqId === seqId){
+    var tt = FREE.script.t, msg;
+    if(tt >= SCRIPT.T1) msg = 'Serrage de la pierre par les 6 doigts';
+    else if(TARGET===2 && (FREE.dropped || FREE.S.v.y < -250)){ FREE.dropped = true; msg = 'Pierre lâchée : elle tombe et se redresse'; }
+    else if(TARGET===1 && Math.abs(FREE.S.p.t) > 0.45){ msg = 'Coin posé au sol : les doigts poussent la pierre jusqu’à la verticale'; }
+    else msg = TARGET===1 ? 'Inclinaison de la pierre (pincement décalé), un coin descend vers le sol' : 'Inclinaison de la pierre entre les doigts (pincement décalé)';
+    if(msg !== FREE.msg){ FREE.msg = msg; setStatus(msg); }
+  }
+}
+
+
+function servoXY(s){ return { x: s.side*(STONE.L/2 - P.inset), y: STONE.H*(s.row+0.5) + P.dy }; }
+function fingerXY(s,a){
+  var c = servoXY(s), r = a*D2R;
+  return { x: c.x + s.side*P.arm*Math.cos(r), y: c.y - P.arm*Math.sin(r) };
+}
+function rectOf(st){ return { x0:st.xoff-STONE.L/2, x1:st.xoff+STONE.L/2, y0:st.y-STONE.H/2, y1:st.y+STONE.H/2 }; }
+function zOverlap(st){
+  var fz0 = state.gap - P.fl, fz1 = state.gap + P.armT/2;
+  return fz0 < st.zoff && fz1 > st.zoff - STONE.D;
+}
+function circRect(cx,cy,r,x0,x1,y0,y1){
+  var qx = Math.max(x0,Math.min(cx,x1)), qy = Math.max(y0,Math.min(cy,y1));
+  var dx = cx-qx, dy = cy-qy, d = Math.hypot(dx,dy);
+  if(d>0) return { pen:r-d, nx:dx/d, ny:dy/d };
+  var l=cx-x0, rr=x1-cx, b=cy-y0, t=y1-cy, m=Math.min(l,rr,b,t);
+  if(m===l) return { pen:r+l, nx:-1, ny:0 };
+  if(m===rr) return { pen:r+rr, nx:1, ny:0 };
+  if(m===b) return { pen:r+b, nx:0, ny:-1 };
+  return { pen:r+t, nx:0, ny:1 };
+}
+
+/* Essaye de placer le servo i à l'angle a. Retourne {ok, by, pushes}. */
+function tryPose(i,a){
+  var s = servos[i], p = fingerXY(s,a), r = P.fd/2, pushes = [];
+  if(p.y - r < 0){
+    if(fingerXY(s,state.act[i]).y - r >= 0) return { ok:false, by:-2 };
+  }
+  for(var k=0;k<stones.length;k++){
+    var st = stones[k];
+    if(st.gone || !zOverlap(st)) continue;
+    var R = rectOf(st);
+    var c = circRect(p.x,p.y,r,R.x0,R.x1,R.y0,R.y1);
+    if(c.pen <= EPS) continue;
+    var cur = fingerXY(s,state.act[i]);
+    var c0 = circRect(cur.x,cur.y,r,R.x0,R.x1,R.y0,R.y1);
+    if(c0.pen > 0.6 && c.pen <= c0.pen + 1e-6) continue; /* déjà en pénétration : on autorise à sortir */
+    if(Math.abs(c.nx) > 0.75){
+      var dx = -Math.sign(c.nx) * c.pen / Math.abs(c.nx);
+      var feasible = true;
+      for(var j=0;j<servos.length && feasible;j++){
+        if(j===i) continue;
+        var pj = fingerXY(servos[j],state.act[j]);
+        var cc = circRect(pj.x,pj.y,r,R.x0+dx,R.x1+dx,R.y0,R.y1);
+        if(cc.pen > 0.05) feasible = false;
+      }
+      if(!feasible) return { ok:false, by:st.row };
+      pushes.push({ st:st, dx:dx });
+    } else {
+      return { ok:false, by:st.row };
+    }
+  }
+  return { ok:true, pushes:pushes };
+}
+function applyPushes(list){ list.forEach(function(p){ p.st.xoff += p.dx; }); }
+
+function stepServo(i,dt){
+  var s = servos[i], target = state.cmd[i], cur = state.act[i];
+  s.blockedBy = null;
+  if(target === cur) return;
+  var maxStep = state.speed*dt;
+  var next = cur + clamp(target-cur,-maxStep,maxStep);
+  var r = tryPose(i,next);
+  if(r.ok){ state.act[i] = next; applyPushes(r.pushes); return; }
+  var lo = cur, hi = next;
+  for(var k=0;k<14;k++){ var mid=(lo+hi)/2; if(tryPose(i,mid).ok) lo=mid; else hi=mid; }
+  var rr = tryPose(i,lo);
+  if(rr.ok){ state.act[i] = lo; applyPushes(rr.pushes); }
+  s.blockedBy = r.by;
+}
+
+function computeContacts(){
+  servos.forEach(function(s){
+    var p = fingerXY(s,state.act[s.i]), r = P.fd/2;
+    s.touch = -1; s.collide = false;
+    stones.forEach(function(st){
+      if(st.gone || !zOverlap(st)) return;
+      var R = rectOf(st);
+      var c = circRect(p.x,p.y,r,R.x0,R.x1,R.y0,R.y1);
+      if(c.pen > 0.8) s.collide = true;
+      if(c.pen > -0.6 && Math.abs(c.nx) > 0.75) s.touch = st.row;
+    });
+    s.floor = (p.y - r) < 0.6;
+  });
+}
+function isPressing(s,row){ if(FREE.on) return s.touch>=0 && s.pen > 0.4; return s.touch===row && state.cmd[s.i]-state.act[s.i] > 0.3; }
+function updateGrip(){
+  stones.forEach(function(st){
+    if(st.gone){ st.carried = false; return; }
+    var g = isPressing(servos[st.row],st.row) && isPressing(servos[3+st.row],st.row);
+    if(g && !st.carried){ st.carried = true; st.dz = st.zoff - state.gap; }
+    else if(!g && st.carried){ st.carried = false; }
+    if(st.carried) st.zoff = state.gap + st.dz;
+  });
+}
+
+/* ---------- résultats analytiques ---------- */
+function analysis(){
+  var r = P.fd/2, xs = STONE.L/2 - P.inset;
+  var c = (P.inset + r)/P.arm;
+  var ok = c <= 1 && c >= -1;
+  var ac = ok ? Math.acos(c)/D2R : NaN;
+  var lever = ok ? P.arm*Math.sin(ac*D2R) : NaN;
+  return {
+    ok:ok, ac:ac, lever:lever,
+    dev: ok ? (P.dy - lever) : NaN,
+    force: ok ? (P.torque*98.0665)/lever : NaN,
+    clearance: (xs + P.arm - r) - STONE.L/2,
+    widthOpen: 2*(xs + P.arm + r),
+    topY: STONE.H*2.5 + P.dy + SERVO.w/2
+  };
+}
+function closeCmd(){ var a = analysis(); return a.ok ? Math.min(90, a.ac + OVERTRAVEL) : 45; }
+
+/* ---------- Three.js ---------- */
+var vp = $('#vp'), canvas = $('#c');
+var renderer, scene, camera, controls, floorGroup, robot, stoneMeshes = [];
+var fingerMats = [], armMats = [], armGroups = [], arcLines = [], plateGroup;
+var showArcs = true, showPlate = true, camTw = null;
+var COL = {};
+function readColors(){ COL = { r:[css('--r1'),css('--r2'),css('--r3')], bad:css('--bad'), accent:css('--accent'), edge:css('--stone-edge') }; }
+var rowColor = function(row){ return COL.r[row]; };
+
+try{
+  renderer = new THREE.WebGLRenderer({ canvas:canvas, antialias:true, alpha:true });
+}catch(e){
+  var m = document.createElement('div'); m.className='nogl';
+  m.textContent = 'WebGL n’est pas disponible dans ce navigateur : la vue 3D ne peut pas s’afficher.';
+  vp.appendChild(m); renderer = null;
+}
+
+function setupScene(){
+  readColors();
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  scene = new THREE.Scene();
+  camera = new THREE.PerspectiveCamera(32,1,5,7000);
+  controls = new THREE.OrbitControls(camera,canvas);
+  controls.enableDamping = true; controls.dampingFactor = 0.09;
+  controls.maxPolarAngle = Math.PI*0.495; controls.minDistance = 150; controls.maxDistance = 2800;
+  controls.addEventListener('start',function(){ camTw = null; });
+
+  scene.add(new THREE.HemisphereLight(0xffffff,0x8894a2,1.0));
+  var sun = new THREE.DirectionalLight(0xffffff,0.55);
+  sun.position.set(320,700,520); sun.castShadow = true;
+  sun.shadow.mapSize.set(2048,2048);
+  var sc = sun.shadow.camera; sc.left=-650; sc.right=650; sc.top=650; sc.bottom=-650; sc.near=100; sc.far=1800;
+  sun.shadow.bias = -0.0006;
+  scene.add(sun);
+
+  buildFloor();
+  buildStones();
+  buildRobot();
+  resize();
+  applyView('iso',true);
+}
+
+function buildFloor(){
+  if(floorGroup){ scene.remove(floorGroup); floorGroup.traverse(function(o){ if(o.geometry) o.geometry.dispose(); if(o.material) o.material.dispose(); }); }
+  floorGroup = new THREE.Group();
+  var plane = new THREE.Mesh(new THREE.PlaneGeometry(1500,1500), new THREE.MeshStandardMaterial({ color:css('--floor'), roughness:1, metalness:0 }));
+  plane.rotation.x = -Math.PI/2; plane.receiveShadow = true; plane.position.z = 100;
+  floorGroup.add(plane);
+  var g = new THREE.GridHelper(1500,30,new THREE.Color(css('--grid2')),new THREE.Color(css('--grid')));
+  g.position.set(0,0.4,100);
+  floorGroup.add(g);
+  scene.add(floorGroup);
+}
+
+function buildStones(){
+  stoneMeshes.forEach(function(m){ scene.remove(m.mesh); });
+  stoneMeshes = [];
+  var tones = ['#c9a36c','#cfaa73','#c29a62'];
+  stones.forEach(function(st){
+    var geo = new THREE.BoxGeometry(STONE.L,STONE.H-0.6,STONE.D);
+    var mat = new THREE.MeshStandardMaterial({ color:tones[st.row], roughness:0.92, metalness:0 });
+    var mesh = new THREE.Mesh(geo,mat); mesh.castShadow = true; mesh.receiveShadow = true;
+    var edges = new THREE.LineSegments(new THREE.EdgesGeometry(geo), new THREE.LineBasicMaterial({ color:css('--stone-edge') }));
+    mesh.add(edges);
+    scene.add(mesh);
+    stoneMeshes.push({ mesh:mesh, edges:edges, mat:mat });
+  });
+}
+
+function cyl(rTop,rBot,h,mat,seg){
+  var g = new THREE.CylinderGeometry(rTop,rBot,h,seg||32); g.rotateX(Math.PI/2);
+  return new THREE.Mesh(g,mat);
+}
+
+function buildRobot(){
+  if(robot){
+    scene.remove(robot);
+    robot.traverse(function(o){ if(o.geometry) o.geometry.dispose(); if(o.material){ (Array.isArray(o.material)?o.material:[o.material]).forEach(function(m){ m.dispose(); }); } });
+  }
+  robot = new THREE.Group(); scene.add(robot);
+  fingerMats = []; armMats = []; armGroups = []; arcLines = [];
+  var xs = STONE.L/2 - P.inset, topY = STONE.H*2.5 + P.dy + 40;
+  var W = Math.max(2*(xs + P.arm + P.fd/2 + 14), 2*(xs+70));
+  var zPlate = P.armT + P.plateGap;
+  var bodyMat = new THREE.MeshStandardMaterial({ color:0x2b323b, roughness:0.6, metalness:0.25 });
+  var shaftMat = new THREE.MeshStandardMaterial({ color:0xb9c0c8, roughness:0.4, metalness:0.7 });
+
+  plateGroup = new THREE.Group(); robot.add(plateGroup);
+  var plate = new THREE.Mesh(new THREE.BoxGeometry(W,topY-8,4),
+    new THREE.MeshStandardMaterial({ color:css('--plate'), transparent:true, opacity:0.3, roughness:0.8, depthWrite:false }));
+  plate.position.set(0,(topY+8)/2,zPlate+2);
+  plateGroup.add(plate);
+  var pe = new THREE.LineSegments(new THREE.EdgesGeometry(plate.geometry), new THREE.LineBasicMaterial({ color:css('--plate') }));
+  pe.position.copy(plate.position); plateGroup.add(pe);
+  var chassis = new THREE.Mesh(new THREE.BoxGeometry(W,30,260),
+    new THREE.MeshStandardMaterial({ color:css('--plate'), transparent:true, opacity:0.4, roughness:0.8, depthWrite:false }));
+  chassis.position.set(0,23,zPlate+4+130);
+  plateGroup.add(chassis);
+  plateGroup.visible = showPlate;
+
+  servos.forEach(function(s){
+    var c = servoXY(s), inward = -s.side, col = rowColor(s.row);
+    /* corps du servo, derrière la façade */
+    var body = new THREE.Mesh(new THREE.BoxGeometry(SERVO.len,SERVO.w,SERVO.depth),bodyMat);
+    body.position.set(c.x + inward*((-SERVO.outer + SERVO.bodyIn)/2), c.y, zPlate+4+SERVO.earT+SERVO.depth/2);
+    body.castShadow = true; robot.add(body);
+    var ears = new THREE.Mesh(new THREE.BoxGeometry(SERVO.ear,SERVO.w,SERVO.earT),bodyMat);
+    ears.position.set(c.x + inward*((-SERVO.earOut + SERVO.earIn)/2), c.y, zPlate+4+SERVO.earT/2);
+    robot.add(ears);
+    var az = armZ(s.row), zEar = zPlate+4+SERVO.earT;
+    var shaft = cyl(3,3,zEar-(az+P.armT/2)+2,shaftMat,16);
+    shaft.position.set(c.x,c.y,(az+P.armT/2+zEar)/2); robot.add(shaft);
+
+    /* bras + doigt */
+    var am = new THREE.MeshStandardMaterial({ color:col, roughness:0.5, metalness:0.1 });
+    var fm = new THREE.MeshStandardMaterial({ color:col, roughness:0.45, metalness:0.1, emissive:0x000000 });
+    armMats[s.i] = am; fingerMats[s.i] = fm;
+    var ag = new THREE.Group(); ag.position.set(c.x,c.y,az); robot.add(ag); armGroups[s.i] = ag;
+    var bar = new THREE.Mesh(new THREE.BoxGeometry(P.arm,16,P.armT),am); bar.position.x = P.arm/2; bar.castShadow = true; ag.add(bar);
+    var hub = cyl(8,8,P.armT,am,28); ag.add(hub);
+    var boss = cyl(P.fd/2+1,P.fd/2+1,P.armT,am,28); boss.position.x = P.arm; ag.add(boss);
+    var tipZ = -P.fl - az;                 /* pointe du doigt (z absolu = -fl pour tous), repère local du bras */
+    var r = P.fd/2, len = (P.armT/2) - tipZ - r;
+    var fing = cyl(r,r,len,fm,32); fing.position.set(P.arm,0,(P.armT/2 + tipZ + r)/2); fing.castShadow = true; ag.add(fing);
+    var cap = new THREE.Mesh(new THREE.SphereGeometry(r,24,16),fm); cap.position.set(P.arm,0,tipZ+r); cap.castShadow = true; ag.add(cap);
+
+    /* trajectoire du centre du doigt */
+    var pts = [];
+    for(var a=-75;a<=105;a+=3){ var q = fingerXY(s,a); pts.push(new THREE.Vector3(q.x,q.y,az)); }
+    var lg = new THREE.BufferGeometry().setFromPoints(pts);
+    var line = new THREE.Line(lg,new THREE.LineDashedMaterial({ color:col, dashSize:6, gapSize:5, transparent:true, opacity:0.75 }));
+    line.computeLineDistances(); line.visible = showArcs; robot.add(line); arcLines.push(line);
+  });
+}
+
+/* ---------- vues ---------- */
+var VIEWS = {
+  iso:  { pos:[640,470,880],  tgt:[0,150,40] },
+  front:{ pos:[0,168,1350],   tgt:[0,168,0] },
+  face: { pos:[0,168,-1350],  tgt:[0,168,0] },
+  top:  { pos:[0,1350,60],    tgt:[0,0,50] },
+  side: { pos:[1350,170,50],  tgt:[0,170,50] }
+};
+function applyView(name,instant){
+  var v = VIEWS[name]; if(!v || !camera) return;
+  var k = camera.aspect < 1.3 ? Math.min(2.1, 1.3/camera.aspect) : 1;   /* recule sur écran étroit */
+  var p = [ v.tgt[0]+(v.pos[0]-v.tgt[0])*k, v.tgt[1]+(v.pos[1]-v.tgt[1])*k, v.tgt[2]+(v.pos[2]-v.tgt[2])*k ];
+  if(instant){ camera.position.set(p[0],p[1],p[2]); controls.target.set(v.tgt[0],v.tgt[1],v.tgt[2]); controls.update(); camTw=null; return; }
+  camTw = { t:0, p0:camera.position.clone(), t0:controls.target.clone(), p1:new THREE.Vector3(p[0],p[1],p[2]), t1:new THREE.Vector3(v.tgt[0],v.tgt[1],v.tgt[2]) };
+}
+document.querySelectorAll('[data-view]').forEach(function(b){ b.addEventListener('click',function(){ applyView(b.getAttribute('data-view')); }); });
+
+function resize(){
+  if(!renderer) return;
+  var w = vp.clientWidth, h = vp.clientHeight; if(!w||!h) return;
+  renderer.setSize(w,h,false); camera.aspect = w/h; camera.updateProjectionMatrix();
+}
+if(window.ResizeObserver) new ResizeObserver(resize).observe(vp); else window.addEventListener('resize',resize);
+
+/* ---------- synchro 3D ---------- */
+function syncMeshes(){
+  robot.position.z = state.gap;
+  var bad = COL.bad;
+  servos.forEach(function(s){
+    var a = state.act[s.i]*D2R;
+    armGroups[s.i].rotation.z = s.side<0 ? Math.PI + a : -a;
+    var fm = fingerMats[s.i], col = rowColor(s.row), pressing = s.touch>=0 && isPressing(s,s.touch);
+    if(s.collide || s.floor){ fm.color.set(bad); fm.emissive.set(bad); fm.emissiveIntensity = 0.35; }
+    else { fm.color.set(col); fm.emissive.set(col); fm.emissiveIntensity = pressing ? 0.45 : 0; }
+  });
+  stones.forEach(function(st,k){
+    var sm = stoneMeshes[k];
+    sm.mesh.visible = !st.gone;
+    sm.mesh.position.set(st.xoff,st.y,st.zoff-STONE.D/2); sm.mesh.rotation.z = st.th || 0;
+    sm.edges.material.color.set(st.carried ? COL.accent : COL.edge);
+    sm.mat.emissive.set(st.carried ? 0x2a1c05 : 0x000000);
+    var see = camera && camera.position.z < -60;   /* vue côté pierres : pierres translucides pour voir les doigts */
+    if(sm.mat.transparent !== see){ sm.mat.transparent = see; sm.mat.opacity = see ? 0.45 : 1; sm.mat.depthWrite = !see; sm.mat.needsUpdate = true; sm.mesh.castShadow = true; }
+  });
+}
+
+/* ---------- interface ---------- */
+var gridEl = $('#servoGrid'), sliderEls = [], valEls = [], realEls = [], pillEls = [];
+function servoCard(i){
+  var s = servos[i], row = s.row;
+  var d = document.createElement('div'); d.className = 'servo';
+  d.innerHTML =
+    '<div class="s-head"><span class="chip" style="--c:var(--r'+(row+1)+')">'+s.name+'</span><span class="s-row">'+ROWNAMES[row]+'</span><output class="s-val" id="v'+i+'">0°</output></div>'+
+    '<input type="range" id="sv'+i+'" min="-75" max="105" step="0.5" value="0" aria-label="Servo '+s.name+' ('+ROWNAMES[row]+')" style="accent-color:var(--r'+(row+1)+')">'+
+    '<div class="s-foot"><span id="r'+i+'">réel 0,0°</span><span class="pill" id="p'+i+'" data-s="libre">libre</span></div>';
+  return d;
+}
+[2,1,0].forEach(function(row){ [3,0].forEach(function(off){ gridEl.appendChild(servoCard(row+off)); }); });
+servos.forEach(function(s){
+  var i = s.i;
+  sliderEls[i] = $('#sv'+i); valEls[i] = $('#v'+i); realEls[i] = $('#r'+i); pillEls[i] = $('#p'+i);
+  sliderEls[i].addEventListener('input',function(){
+    manual(); histBranch();
+    var v = parseFloat(sliderEls[i].value); state.cmd[i] = v;
+    if(state.link){ var m = (i<3)? i+3 : i-3; state.cmd[m] = v; sliderEls[m].value = v; }
+  });
+});
+$('#link').addEventListener('change',function(e){
+  state.link = e.target.checked;
+  if(state.link){ manual(); histBranch(); }
+  if(state.link){ for(var i=0;i<3;i++){ state.cmd[i+3] = state.cmd[i]; sliderEls[i+3].value = state.cmd[i]; } }
+});
+$('#all').addEventListener('input',function(e){
+  manual(); histBranch(); var v = parseFloat(e.target.value); setAllCmd(v);
+});
+function setAllCmd(v){ for(var i=0;i<6;i++){ state.cmd[i] = v; sliderEls[i].value = v; } $('#all').value = v; }
+
+var gapEl = $('#gap'), wxEl = $('#wx');
+gapEl.addEventListener('input',function(){ manual(); state.gap = parseFloat(gapEl.value); if(FREE.on) state.gap = Math.max(state.gap,150); });
+wxEl.addEventListener('input',function(){
+  manual(); state.wx = parseFloat(wxEl.value);
+  stones.forEach(function(st){ if(!st.free) st.xoff = state.wx; });
+});
+$('#tArcs').addEventListener('change',function(e){ showArcs = e.target.checked; arcLines.forEach(function(l){ l.visible = showArcs; }); });
+$('#tPlate').addEventListener('change',function(e){ showPlate = e.target.checked; plateGroup.visible = showPlate; });
+
+/* paramètres de géométrie */
+var PARAMS = [
+  { key:'arm',    label:'Longueur du bras (centre à centre)', min:60, max:160, step:1, unit:'mm' },
+  { key:'inset',  label:'Axe du servo, en retrait du bout de pierre', min:30, max:120, step:1, unit:'mm' },
+  { key:'dy',     label:'Axe du servo au-dessus du centre de la pierre', min:0, max:110, step:1, unit:'mm' },
+  { key:'fd',     label:'Diamètre du doigt', min:10, max:36, step:1, unit:'mm' },
+  { key:'fl',     label:'Longueur du doigt vers l’avant', min:40, max:220, step:1, unit:'mm' },
+  { key:'torque', label:'Couple du servo', min:5, max:40, step:1, unit:'kg·cm' }
+];
+var parEl = $('#params');
+PARAMS.forEach(function(p){
+  var d = document.createElement('div'); d.className = 'field';
+  d.innerHTML = '<div class="row"><label for="p_'+p.key+'">'+p.label+'</label><output id="po_'+p.key+'"></output></div>'+
+    '<input type="range" id="p_'+p.key+'" min="'+p.min+'" max="'+p.max+'" step="'+p.step+'" value="'+P[p.key]+'">';
+  parEl.appendChild(d);
+});
+var autoBtn = document.createElement('button');
+autoBtn.type='button'; autoBtn.className='btn'; autoBtn.id='bAuto';
+autoBtn.textContent = 'Centrer le contact sur la pierre';
+parEl.appendChild(autoBtn);
+PARAMS.forEach(function(p){
+  var el = $('#p_'+p.key);
+  el.addEventListener('input',function(){
+    P[p.key] = parseFloat(el.value); geometryChanged();
+  });
+});
+autoBtn.addEventListener('click',function(){
+  var a = analysis();
+  if(a.ok){ P.dy = Math.round(a.lever*10)/10; $('#p_dy').value = clamp(P.dy,0,110); geometryChanged(); }
+});
+function geometryChanged(){
+  manual();
+  if(renderer) buildRobot();
+  PARAMS.forEach(function(p){ $('#po_'+p.key).textContent = fmt(P[p.key], p.step<1?1:0)+' '+p.unit; });
+  renderResults();
+}
+
+/* résultats */
+function resRow(dt,dd,cls){ return '<dt>'+dt+'</dt><dd class="'+(cls||'')+'">'+dd+'</dd>'; }
+function renderResults(){
+  var a = analysis(), h = '';
+  if(a.ok){
+    h += resRow('Angle de contact', fmt(a.ac)+'°');
+    var inFace = Math.abs(a.dev) <= STONE.H/2 - 2;
+    h += resRow('Contact sur la pierre', (a.dev>=0?'+':'')+fmt(a.dev,0)+' mm du centre', inFace?'ok':'bad');
+    h += resRow('Bras de levier', fmt(a.lever,0)+' mm');
+    h += resRow('Effort par doigt', fmt(a.force,0)+' N');
+  } else {
+    h += resRow('Angle de contact','aucun','bad');
+    h += resRow('Cause','bras trop court','bad');
+  }
+  h += resRow('Jeu latéral, doigts ouverts', '± '+fmt(a.clearance,0)+' mm', a.clearance>=15?'ok':'warn');
+  h += resRow('Largeur hors tout, ouvert', fmt(a.widthOpen,0)+' mm');
+  h += resRow('Hauteur du haut des servos', fmt(a.topY,0)+' mm');
+  $('#res').innerHTML = h;
+}
+
+function updateUI(){
+  if(FREE.on && FREE.script){ for(var q=0;q<6;q++) sliderEls[q].value = state.cmd[q]; $('#all').value = 0; }
+  servos.forEach(function(s){
+    var i = s.i;
+    valEls[i].textContent = fmt(state.cmd[i])+'°';
+    realEls[i].textContent = 'réel '+fmt(state.act[i])+'°';
+    var st = 'libre';
+    if(s.collide) st = 'collision';
+    else if(s.floor) st = 'sol';
+    else if(s.touch>=0 && isPressing(s,s.touch)) st = 'serre';
+    else if(s.touch>=0) st = 'contact';
+    pillEls[i].textContent = st; pillEls[i].setAttribute('data-s',st);
+  });
+  $('#allOut').textContent = fmt(parseFloat($('#all').value))+'°';
+  gapEl.value = state.gap;
+  $('#gapOut').textContent = fmt(state.gap,0)+' mm';
+  $('#wxOut').textContent = (state.wx>0?'+':'')+fmt(state.wx,0)+' mm';
+  if(FREE.on){
+    var S3 = stones[TARGET], deg = S3.th/D2R, up = Math.abs(Math.sin(S3.th)) > 0.98;
+    $('#resTop').innerHTML =
+      resRow('Inclinaison', fmt(deg,0)+'° '+(up?'(debout)':''), up?'ok':'') +
+      resRow('Hauteur du centre', fmt(S3.y,0)+' mm') +
+      resRow('Écart latéral', (S3.xoff>0?'+':'')+fmt(S3.xoff,0)+' mm') +
+      resRow('Doigts au contact', FREE.contacts+' / 6', FREE.contacts===6?'ok':'') +
+      resRow('Vitesse de la pierre', fmt(FREE.speed,0)+' mm/s');
+  }
+  var held = stones.filter(function(s){ return s.carried; }).length;
+  var bads = servos.filter(function(s){ return s.collide || s.floor; }).map(function(s){ return s.name; });
+  var h = '<span>écart '+fmt(state.gap,0)+' mm</span>';
+  if(FREE.on){
+    var S3b = stones[TARGET], upb = Math.abs(Math.sin(S3b.th)) > 0.98;
+    h += '<span class="'+(upb&&FREE.contacts===6?'good':'')+'">pierre '+ROWLABEL[TARGET]+' '+fmt(S3b.th/D2R,0)+'° · '+FREE.contacts+'/6 doigts</span>';
+  } else h += '<span class="'+(held===nStones()?'good':'')+'">pierres saisies '+held+'/'+nStones()+'</span>';
+  if(bads.length) h += '<span class="bad">collision '+bads.join(' ')+'</span>';
+  $('#hud').innerHTML = h;
+}
+
+/* ---------- séquences ---------- */
+var seqId = 0;
+function alive(id){ return id === seqId; }
+function manual(){ seqId++; state.speed = FREE.on ? 100 : SPEED_DEFAULT; setStatus(FREE.on ? 'Contrôle manuel : les servos suivent les curseurs, la physique répond' : ''); if(FREE.on){ FREE.script = null; if(FREE.onDone){ var f = FREE.onDone; FREE.onDone = null; f(); } } }
+function setStatus(t){ $('#status').textContent = t; }
+function tweenGap(to,ms,id){
+  return new Promise(function(res){
+    var from = state.gap, t0 = CLOCK.t;
+    (function step(){
+      if(!alive(id)) return res();
+      var k = Math.min(1,(CLOCK.t-t0)*1000/ms), e = k<0.5 ? 2*k*k : 1-Math.pow(-2*k+2,2)/2;
+      state.gap = from + (to-from)*e;
+      if(k<1) requestAnimationFrame(step); else res();
+    })();
+  });
+}
+function waitServos(id,timeout){
+  var t0 = CLOCK.t; timeout = timeout||5000;
+  return (async function(){
+    await sleepP(80);
+    while(alive(id) && (CLOCK.t-t0)*1000 < timeout){
+      var settled = true;
+      for(var i=0;i<6;i++){ if(Math.abs(state.cmd[i]-state.act[i])>0.2 && servos[i].blockedBy===null) settled = false; }
+      if(settled) return;
+      await sleepP(30);
+    }
+  })();
+}
+function begin(){ setPaused(false); var id = ++seqId; state.speed = SPEED_SEQ; return id; }
+function finish(id,msg){ if(alive(id)){ state.speed = SPEED_DEFAULT; setStatus(msg||''); } }
+async function doOpen(id){ setStatus('Ouverture des fourches'); setAllCmd(0); await waitServos(id); }
+async function doApproach(id){ setStatus('Approche du mur'); await tweenGap(FREE.on?150:APPROACH_GAP,1900,id); }
+async function doClose(id){ setStatus('Serrage des pierres'); setAllCmd(closeCmd()); await waitServos(id); }
+async function doBack(id){ setStatus('Recul avec le mur'); await tweenGap(270,2200,id); }
+function resetAll(){
+  seqId++; TIMERS = []; state.speed = SPEED_DEFAULT; state.gap = GAP0;
+  if(FREE.on) leaveFree();
+  setAllCmd(0); for(var i=0;i<6;i++) state.act[i] = 0;
+  stones.forEach(function(st){ st.xoff = state.wx; st.y = STONE.H*(st.row+0.5); st.zoff = 0; st.carried = false; st.dz = 0; st.th = 0; st.free = false; st.gone = (TARGET===1 && st.row===2); });
+  setStatus('');
+}
+$('#bOpen').addEventListener('click',async function(){ var id = begin(); await doOpen(id); finish(id,'Fourches ouvertes'); });
+$('#bApproach').addEventListener('click',async function(){ var id = begin(); await doApproach(id); finish(id,'Robot contre le mur'); });
+$('#bClose').addEventListener('click',async function(){ var id = begin(); await doClose(id); finish(id,'Fourches serrées'); });
+$('#bBack').addEventListener('click',async function(){ var id = begin(); await doBack(id); finish(id,'Robot reculé'); });
+$('#bReset').addEventListener('click',resetAll);
+$('#bFull').addEventListener('click',async function(){
+  resetAll(); var id = begin();
+  await sleepP(350); if(!alive(id)) return;
+  await doOpen(id); if(!alive(id)) return;
+  await doApproach(id); if(!alive(id)) return; await sleepP(300);
+  await doClose(id); if(!alive(id)) return; await sleepP(500);
+  await doBack(id);
+  var held = stones.filter(function(s){ return s.carried; }).length;
+  var ns = nStones();
+  finish(id, held===ns ? 'Mur de '+ns+' pierres saisi et emporté' : 'Saisie incomplète : '+held+' pierre(s) sur '+ns);
+});
+
+async function flipSequence(){
+  resetAll(); var id = begin();
+  await sleepP(350); if(!alive(id)) return;
+  await doOpen(id); if(!alive(id)) return;
+  await doApproach(id); if(!alive(id)) return; await sleepP(300);
+  await doClose(id); if(!alive(id)) return; await sleepP(500);
+  var held = stones.filter(function(s){ return s.carried; }).length;
+  var ns = nStones();
+  if(held < ns){ finish(id,'Saisie incomplète : '+held+' pierre(s) sur '+ns); return; }
+  /* 1. on dépose les pierres du dessous ; seule la paire de la pierre à redresser reste fermée */
+  setStatus(TARGET===2 ? 'Dépose des deux pierres du bas' : 'Dépose de la pierre du bas');
+  [0,1,2,3,4,5].forEach(function(i){ if(i%3 !== TARGET){ state.cmd[i] = 0; sliderEls[i].value = 0; } });
+  await waitServos(id); if(!alive(id)) return; await sleepP(450);
+  /* 2. recul avec la pierre du haut seule */
+  await doBack(id); if(!alive(id)) return; await sleepP(400);
+  if(!stones[TARGET].carried){ finish(id,'La pierre '+ROWLABEL[TARGET]+' n’est pas tenue : séquence interrompue'); return; }
+  /* 3. la pierre du haut passe en mode libre (physique 2D) : retournement puis serrage à 6 doigts */
+  setStatus('Retournement de la pierre '+ROWLABEL[TARGET]);
+  enterFree(); FREE.seqId = id; FREE.dropped = false; FREE.msg = '';
+  FREE.script = { t:0, total:SCRIPT.T1 + SCRIPT.CLOSE + SCRIPT.HOLD };
+  await new Promise(function(r){ FREE.onDone = r; });
+  if(!alive(id)) return;
+  var S3 = stones[TARGET], up = Math.abs(Math.sin(S3.th)) > 0.98;
+  finish(id, (up && FREE.contacts===6) ? 'Pierre dressée et serrée par les 6 doigts'
+           : 'Séquence terminée : pierre à '+fmt(S3.th/D2R,0)+'°, '+FREE.contacts+'/6 doigts au contact');
+}
+$('#bFlip').addEventListener('click',flipSequence);
+
+/* bac à sable : pierre du haut tenue par G3/D3, robot reculé, servos pilotés à la main */
+function sandbox(){
+  resetAll(); setPaused(false);
+  state.gap = 270;
+  var st = stones[TARGET]; st.carried = true; st.dz = -APPROACH_GAP; st.zoff = state.gap + st.dz;   /* même position qu'après la saisie réelle : la pierre touche la façade des doigts, pas les bras */
+  var c = closeCmd();
+  for(var i=0;i<6;i++){ state.act[i] = (i%3===TARGET) ? 36.9 : 0; state.cmd[i] = (i%3===TARGET) ? c : 0; sliderEls[i].value = state.cmd[i]; }
+  enterFree();
+  setStatus('Bac à sable : bouge les curseurs, la pierre '+ROWLABEL[TARGET]+' obéit à la physique');
+}
+$('#bSand').addEventListener('click',sandbox);
+function setTarget(t){
+  TARGET = t; SCRIPT = SCRIPTS[t]; if(window.__sim) window.__sim.SCRIPT = SCRIPT;
+  document.querySelectorAll('[data-target]').forEach(function(b){ b.setAttribute('aria-pressed', String(+b.getAttribute('data-target')===t)); });
+  $('#secTopTitle').textContent = 'Pierre '+ROWLABEL[t]+' (mode libre)';
+  resetAll();
+  setStatus(t===1 ? 'Pierre du haut retirée : mur de 2 pierres, on redresse celle du milieu' : 'Mur de 3 pierres, on redresse celle du haut');
+}
+document.querySelectorAll('[data-target]').forEach(function(b){ b.addEventListener('click',function(){ setTarget(+b.getAttribute('data-target')); }); });
+
+/* ---------- lecture : pause, pas à pas, historique ---------- */
+var PLAY_D = 'M4 2h3v12H4zM9 2h3v12H9z', PAUSE_D = 'M4 2v12l10-6z';
+function setPaused(v){
+  CLOCK.paused = v; FREE.paused = v;
+  $('#tPlayIco').setAttribute('d', v ? PAUSE_D : PLAY_D);
+  $('#tPlay').title = v ? 'Lecture (espace)' : 'Pause (espace)';
+  $('#tPlay').setAttribute('aria-label', v ? 'Lecture' : 'Pause');
+}
+function stepOnce(dir){
+  setPaused(true);
+  if(dir < 0){ if(FREE.on && HIST.idx > 0) histRestore(HIST.idx-1); return; }
+  if(FREE.on){
+    if(HIST.idx < HIST.frames.length-1) histRestore(HIST.idx+1);
+    else { freeAdvance(); freeCopyBack(); freeContacts(); }
+    CLOCK.t += FIXED_DT; runTimers();
+  } else {
+    CLOCK.t += FIXED_DT;
+    for(var i=0;i<6;i++) stepServo(i,FIXED_DT);
+    computeContacts(); updateGrip(); runTimers();
+  }
+}
+var scrubEl = $('#tScrub'), scrubbing = false;
+$('#tPlay').addEventListener('click',function(){ setPaused(!CLOCK.paused); });
+$('#tBack').addEventListener('click',function(){ stepOnce(-1); });
+$('#tFwd').addEventListener('click',function(){ stepOnce(1); });
+$('#tStart').addEventListener('click',function(){ if(FREE.on){ setPaused(true); histRestore(0); } });
+$('#tSpeed').addEventListener('change',function(e){ CLOCK.scale = parseFloat(e.target.value); });
+scrubEl.addEventListener('pointerdown',function(){ scrubbing = true; });
+window.addEventListener('pointerup',function(){ scrubbing = false; });
+scrubEl.addEventListener('input',function(){ if(!FREE.on) return; setPaused(true); histRestore(parseInt(scrubEl.value,10)); });
+/* un bouton cliqué à la souris rend le focus : espace et flèches restent des raccourcis de lecture */
+document.querySelectorAll('button').forEach(function(bt){ bt.addEventListener('pointerup',function(){ setTimeout(function(){ bt.blur(); },0); }); });
+document.addEventListener('keydown',function(e){
+  var tg = e.target && e.target.tagName, isRange = tg === 'INPUT' && e.target.type === 'range';
+  if(e.ctrlKey || e.metaKey || e.altKey) return;
+  if(isRange && e.key === ' '){ e.preventDefault(); setPaused(!CLOCK.paused); return; }
+  if(tg === 'INPUT' || tg === 'SELECT' || tg === 'TEXTAREA' || tg === 'BUTTON') return;
+  if(e.key === ' '){ e.preventDefault(); setPaused(!CLOCK.paused); }
+  else if(e.key === 'ArrowRight'){ e.preventDefault(); stepOnce(1); }
+  else if(e.key === 'ArrowLeft'){ e.preventDefault(); stepOnce(-1); }
+});
+function updateTransport(){
+  var n = HIST.frames.length, on = FREE.on && n > 0;
+  scrubEl.disabled = !on; $('#tBack').disabled = !(on && HIST.idx > 0); $('#tStart').disabled = !(on && HIST.idx > 0);
+  if(on){
+    scrubEl.max = n-1; if(!scrubbing) scrubEl.value = HIST.idx;
+    var f = HIST.frames[HIST.idx], fe = HIST.frames[n-1];
+    $('#tLabel').textContent = (CLOCK.paused ? 'En pause · ' : '') + 'phase physique, pas ' + HIST.idx + ' / ' + (n-1);
+    $('#tTime').textContent = 't = ' + fmt(f.time,2) + ' / ' + fmt(fe.time,2) + ' s';
+  } else {
+    scrubEl.max = 0; scrubEl.value = 0;
+    $('#tLabel').textContent = (CLOCK.paused ? 'En pause · ' : '') + 'historique disponible pendant la phase physique';
+    $('#tTime').textContent = '';
+  }
+}
+
+/* ---------- thème ---------- */
+function themeChanged(){ if(!renderer) return; readColors(); buildFloor(); buildStones(); buildRobot(); }
+if(window.matchMedia){ var mq = matchMedia('(prefers-color-scheme: dark)'); (mq.addEventListener ? mq.addEventListener('change',themeChanged) : mq.addListener(themeChanged)); }
+new MutationObserver(themeChanged).observe(document.documentElement,{ attributes:true, attributeFilter:['data-theme'] });
+
+/* ---------- boucle ---------- */
+var last = performance.now(), frameN = 0;
+function frame(now){
+  var rdt = Math.min(0.05,(now-last)/1000); last = now; frameN++;
+  var dt = CLOCK.paused ? 0 : rdt*CLOCK.scale;
+  CLOCK.t += dt;
+  if(FREE.on){ freeStep(dt); }
+  else { if(dt > 0) for(var i=0;i<6;i++) stepServo(i,dt); computeContacts(); updateGrip(); }
+  runTimers();
+  if(renderer){
+    if(camTw){
+      camTw.t = Math.min(1,camTw.t + dt/0.55);
+      var k = camTw.t<0.5 ? 2*camTw.t*camTw.t : 1-Math.pow(-2*camTw.t+2,2)/2;
+      camera.position.lerpVectors(camTw.p0,camTw.p1,k); controls.target.lerpVectors(camTw.t0,camTw.t1,k);
+      if(camTw.t>=1) camTw = null;
+    }
+    syncMeshes(); controls.update(); renderer.render(scene,camera);
+  }
+  if(frameN%4===0){ updateUI(); updateTransport(); }
+  requestAnimationFrame(frame);
+}
+
+/* ---------- démarrage ---------- */
+PARAMS.forEach(function(p){ $('#po_'+p.key).textContent = fmt(P[p.key],0)+' '+p.unit; });
+if(renderer){ setupScene(); resize(); }
+renderResults(); updateUI(); setPaused(false); updateTransport();
+requestAnimationFrame(frame);
+
+/* accès pour les tests */
+window.__sim = { state:state, servos:servos, stones:stones, P:P, analysis:analysis, resetAll:resetAll, FREE:FREE, SCRIPT:SCRIPT, flip:flipSequence, enterFree:enterFree, HIST:HIST, CLOCK:CLOCK, setPaused:setPaused, stepOnce:stepOnce, histRestore:histRestore, sandbox:sandbox, setTarget:setTarget,
+  stepFree:function(n){ for(var k=0;k<n;k++) freeAdvance(); freeCopyBack(); freeContacts(); } };
+})();
+</script>
+
+</body></html>
